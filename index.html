@@ -1,0 +1,471 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2566">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="id" class="dark"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Aruba Wireless Troubleshooting Toolkit (AOS 8 &amp; AOS 10)&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Tailwind CSS CDN --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>tailwind.config = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>darkMode: 'class',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>theme: {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>extend: {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>colors: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>aruba: {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>orange: '#FF8300',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>darkorange: '#E06D00',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>dark: '#0F172A',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>card: '#1E293B',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>border: '#334155'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* Custom scrollbar */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>::-webkit-scrollbar { width: 6px; height: 6px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>::-webkit-scrollbar-track { background: #0f172a; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>::-webkit-scrollbar-thumb:hover { background: #ff8300; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-aruba-orange selection:text-white"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- TOP NAVIGATION HEADER --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50 px-6 py-3.5 flex items-center justify-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="flex items-center space-x-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="w-9 h-9 rounded-lg bg-aruba-orange flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-orange-500/20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>A</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 class="text-base font-bold text-slate-100 flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>Aruba Wireless Troubleshooting Toolkit</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="text-xs bg-orange-500/10 text-aruba-orange border border-orange-500/30 px-2 py-0.5 rounded-full font-medium"&gt;AOS 8 &amp;bull; AOS 10&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="text-xs text-slate-400"&gt;Enterprise platform troubleshooting &amp; field diagnostic reference&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="flex items-center space-x-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="searchInput" placeholder="Cari command, gejala, log..."<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-3 py-1.5 w-64 focus:outline-none focus:border-aruba-orange text-slate-200 placeholder-slate-500 transition-all"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="absolute right-2.5 top-1.5 text-slate-500 text-xs"&gt;/&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;a href="https://github.com" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>GitHub Repo</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- MAIN WRAPPER: SIDEBAR + CONTENT --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="flex-1 flex max-w-7xl w-full mx-auto"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- LEFT SIDEBAR NAVIGATION --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;aside class="w-64 border-r border-slate-800/80 p-4 space-y-6 shrink-0 hidden md:block"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase mb-2"&gt;Platform Overview&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;ul class="space-y-1 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#overview" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;&amp;bull;&lt;/span&gt; Arsitektur &amp; Tingkat Validasi</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase mb-2"&gt;AP Lifecycle &amp; Provisioning&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;ul class="space-y-1 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#ap-join-flow" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-aruba-orange bg-orange-500/10 font-medium border border-orange-500/20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="w-1.5 h-1.5 rounded-full bg-aruba-orange"&gt;&lt;/span&gt; AP Discovery &amp; Join Flow</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#ap-db-flags" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/60"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;&amp;bull;&lt;/span&gt; AOS 8 AP Database Flags</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#aos10-ztp" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/60"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;&amp;bull;&lt;/span&gt; AOS 10 ZTP &amp; Activate</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#symptom-tree" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/60"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;&amp;bull;&lt;/span&gt; Symptom Decision Tree</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="text-[11px] font-semibold tracking-wider text-slate-500 uppercase mb-2 flex items-center justify-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span&gt;AAA &amp; Security&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded"&gt;Next Stage&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;ul class="space-y-1 text-sm opacity-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li class="px-3 py-1.5 text-slate-400"&gt;802.1X &amp; ClearPass CPPM&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li class="px-3 py-1.5 text-slate-400"&gt;CoA / RFC 3576 Port Conflict&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li class="px-3 py-1.5 text-slate-400"&gt;Auth-tracebuf Analysis&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="text-[11px] font-semibold tracking-wider text-slate-500 uppercase mb-2 flex items-center justify-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span&gt;Interactive Calculators&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded"&gt;Next Stage&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;ul class="space-y-1 text-sm opacity-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li class="px-3 py-1.5 text-slate-400"&gt;DHCP Option 43 / 60 Generator&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li class="px-3 py-1.5 text-slate-400"&gt;Wi-Fi Bufferbloat Speed Test&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/aside&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- MAIN CONTENT AREA --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;main class="flex-1 p-6 md:p-8 space-y-10 overflow-y-auto"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- SECTION: INTRO &amp; BADGE LEGEND --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;section id="overview" class="border-b border-slate-800 pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-2xl font-bold tracking-tight text-white mb-2"&gt;HPE Aruba Wireless Troubleshooting Toolkit&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="text-slate-400 text-sm leading-relaxed max-w-3xl mb-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>Referensi implementasi teknis dan diagnosa operasional jaringan wireless Aruba. Didesain khusus untuk membedah perbedaan arsitektur on-premise controller (&lt;strong class="text-slate-200"&gt;ArubaOS 8&lt;/strong&gt;) dan cloud-native (&lt;strong class="text-slate-200"&gt;Aruba Central AOS 10&lt;/strong&gt;).</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Status Badges Info --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 border border-slate-800 p-3 rounded-lg flex items-start gap-2.5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0 mt-0.5"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="font-semibold text-emerald-400"&gt;Documented / TAC Verified&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-slate-400 mt-0.5"&gt;Divalidasi langsung dari User Guide Aruba TAC atau RFC resmi.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 border border-slate-800 p-3 rounded-lg flex items-start gap-2.5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0 mt-0.5"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="font-semibold text-amber-400"&gt;Field Inference&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-slate-400 mt-0.5"&gt;Hasil observasi implementasi lapangan &amp; best-practice migrasi.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 border border-slate-800 p-3 rounded-lg flex items-start gap-2.5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0 mt-0.5"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="font-semibold text-cyan-400"&gt;Architectural Shift&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-slate-400 mt-0.5"&gt;Perubahan fundamental dari AOS 8 controller-centric ke AOS 10.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- SECTION: AP JOIN &amp; PROVISIONING FLOW --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;section id="ap-join-flow" class="space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="flex items-center gap-2 mb-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xs font-semibold px-2 py-0.5 rounded bg-orange-500/20 text-aruba-orange border border-orange-500/30 uppercase"&gt;Core Topic&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xs text-slate-500"&gt;AP Lifecycle&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-xl font-bold text-white"&gt;AP Discovery &amp; Join Flow: AOS 8 vs AOS 10&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-sm text-slate-400 mt-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Tahapan booting access point hingga berhasil mendapatkan status UP dan melayani SSID.</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- TAB NAVIGATION --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex border-b border-slate-800 space-x-6 text-sm font-medium"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button onclick="switchTab('aos8')" id="tab-btn-aos8" class="border-b-2 border-aruba-orange text-aruba-orange pb-3 px-1 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ArubaOS 8 (Campus AP / Controller)</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button onclick="switchTab('aos10')" id="tab-btn-aos10" class="border-b-2 border-transparent text-slate-400 hover:text-slate-200 pb-3 px-1 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Aruba Central (AOS 10 Cloud-Native)</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- TAB CONTENT 1: AOS 8 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="tab-content-aos8" class="space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 class="text-sm font-semibold text-slate-200 flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="text-aruba-orange"&gt;1.&lt;/span&gt; Urutan Discovery Controller (Discovery Order Hierarchy)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs text-slate-300 leading-relaxed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>Saat AP booting dan mendapatkan IP DHCP, AP mencari Mobility Conductor (MC) atau Local Controller dengan urutan berikut:</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ol class="list-decimal list-inside text-xs text-slate-400 space-y-2 pl-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;Static Environment:&lt;/strong&gt; Variabel NVRAM tersimpan di AP (`master=&amp;lt;ip&amp;gt;`).&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;DHCP Option 43:&lt;/strong&gt; Vendor specific string berisi IP Controller.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;ADP (Aruba Discovery Protocol):&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;ul class="list-disc list-inside pl-5 mt-1 text-slate-400"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;li&gt;Multicast: Mengirim frame ke IP &lt;code class="text-amber-400 bg-slate-950 px-1 py-0.5 rounded"&gt;239.0.82.11&lt;/code&gt;.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;li&gt;Broadcast: Mengirim UDP packet ke port &lt;code class="text-amber-400 bg-slate-950 px-1 py-0.5 rounded"&gt;UDP 8211&lt;/code&gt;.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;DNS Resolution:&lt;/strong&gt; Resolve query default: &lt;code class="text-cyan-400 bg-slate-950 px-1 py-0.5 rounded"&gt;aruba-master.&amp;lt;domain-name-dari-dhcp&amp;gt;&lt;/code&gt;.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ol&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- CPsec &amp; Tunneling Card --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 class="text-sm font-semibold text-slate-200 flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="text-aruba-orange"&gt;2.&lt;/span&gt; Control Plane Security (CPsec) &amp; Port Firewall</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs text-slate-300 leading-relaxed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>Setelah IP Controller ditemukan, komunikasi control-plane wajib melewati enkripsi IPsec (CPsec). Jika CPsec aktif dan sertifikat/MAC AP belum disetujui (Approved), AP akan masuk status &lt;code class="text-rose-400 font-mono"&gt;I (Inactive)&lt;/code&gt; atau &lt;code class="text-amber-400 font-mono"&gt;U (Unprovisioned)&lt;/code&gt;.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1 overflow-x-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-slate-500"&gt;# Verifikasi IPsec SA dan Status CPsec di Mobility Conductor / Controller:&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-emerald-400"&gt;(MC-01) # show crypto ipsec sa&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-emerald-400"&gt;(MC-01) # show whitelist-db cpsec&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-emerald-400"&gt;(MC-01) # show ap database-summary&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-xs text-slate-400"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;strong class="text-slate-300"&gt;Port Firewall yang Wajib Terbuka antara AP dan Controller:&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2 font-mono text-[11px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-slate-950 border border-slate-800 p-2 rounded text-center"&gt;&lt;span class="text-slate-400"&gt;UDP 4500&lt;/span&gt;&lt;br&gt;&lt;span class="text-orange-400"&gt;IPsec NAT-T&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-slate-950 border border-slate-800 p-2 rounded text-center"&gt;&lt;span class="text-slate-400"&gt;UDP 8211&lt;/span&gt;&lt;br&gt;&lt;span class="text-orange-400"&gt;PAPI Control&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-slate-950 border border-slate-800 p-2 rounded text-center"&gt;&lt;span class="text-slate-400"&gt;GRE (IP 47)&lt;/span&gt;&lt;br&gt;&lt;span class="text-orange-400"&gt;User Datapath&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-slate-950 border border-slate-800 p-2 rounded text-center"&gt;&lt;span class="text-slate-400"&gt;TFTP/FTP&lt;/span&gt;&lt;br&gt;&lt;span class="text-orange-400"&gt;Image Sync&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- TAB CONTENT 2: AOS 10 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="tab-content-aos10" class="space-y-6 hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 class="text-sm font-semibold text-slate-200 flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="text-cyan-400"&gt;1.&lt;/span&gt; Alur Zero Touch Provisioning (ZTP) Cloud</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs text-slate-300 leading-relaxed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>Pada AOS 10, tidak ada Mobility Master lokal. Seluruh AP bertindak sebagai cloud-managed device dan berkomunikasi langsung ke Aruba Central menggunakan enkripsi WebSocket/TLS.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ol class="list-decimal list-inside text-xs text-slate-400 space-y-2 pl-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;DHCP Initialization:&lt;/strong&gt; AP wajib menerima IP, Default Gateway, DNS Server, dan resolusi NTP time yang valid.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;Koneksi ke Aruba Activate:&lt;/strong&gt; AP melakukan HTTPS GET request ke &lt;code class="text-cyan-400 bg-slate-950 px-1 py-0.5 rounded"&gt;activate.arubanetworks.com&lt;/code&gt; (Port 443).&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;Mutual TLS via TPM Chip:&lt;/strong&gt; AP melakukan handshake menggunakan sertifikat hardware pabrik yang tersimpan di chip TPM.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;Redirect ke Central Cluster:&lt;/strong&gt; Activate merespons dengan URL cluster Central tempat tenant berada (contoh: &lt;code class="text-cyan-400 bg-slate-950 px-1 py-0.5 rounded"&gt;app-ap1.central.arubanetworks.com&lt;/code&gt;).&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;&lt;strong class="text-slate-200"&gt;Image Upgrade &amp; Config Pull:&lt;/strong&gt; Jika AP masih menjalankan AOS 8/Instant, Central memerintahkan upgrade ke image AOS 10 dan mengunduh konfigurasi Group.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ol&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 class="text-sm font-semibold text-slate-200 flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="text-rose-400"&gt;2.&lt;/span&gt; Titik Kegagalan Paling Sering (Common Failure Points AOS 10)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="bg-slate-950 p-3 rounded-lg border border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="font-semibold text-rose-400 mb-1"&gt;NTP Desynchronization (Clock Skew)&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-slate-400"&gt;Jika jam AP selisih &gt; 5 menit dari waktu UTC, handshake TLS ke Activate atau Central akan di-drop secara otomatis (Certificate Date Invalid).&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="bg-slate-950 p-3 rounded-lg border border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="font-semibold text-rose-400 mb-1"&gt;Unassigned License / Group&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-slate-400"&gt;AP sudah muncul di *GreenLake Device Inventory*, tetapi belum diberi *Foundation/Advanced License* atau belum dimasukkan ke Group AOS 10.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="bg-slate-950 p-3 rounded-lg border border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="font-semibold text-rose-400 mb-1"&gt;Egress Firewall Blocking Outbound 443&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-slate-400"&gt;Firewall kantor/cabang memblokir HTTPS Inspection atau membatasi port outbound TCP 443 ke subnet cloud Aruba.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="bg-slate-950 p-3 rounded-lg border border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="font-semibold text-rose-400 mb-1"&gt;Stuck in Conversion Loop&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-slate-400"&gt;AP gagal download image AOS 10 karena MTU bottleneck atau drop saat transfer image dari Cloud Repository.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-slate-500"&gt;# Diagnostic Command melalui AP Console / Central Console:&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-cyan-400"&gt;AP# show central status&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-cyan-400"&gt;AP# show activate status&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="text-cyan-400"&gt;AP# show ap-env&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- SECTION: AP DATABASE FLAGS DECODER --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;section id="ap-db-flags" class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="flex items-center gap-2 mb-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase"&gt;CLI Reference&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xs text-slate-500"&gt;ArubaOS 8&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-xl font-bold text-white"&gt;Decoder Flags: `show ap database`&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-sm text-slate-400"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Karakter status satu huruf pada kolom Flags controller menentukan diagnosa kegagalan AP.</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="overflow-x-auto border border-slate-800 rounded-xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;table class="w-full text-left text-xs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;thead class="bg-slate-900 border-b border-slate-800 text-slate-400 font-semibold uppercase tracking-wider"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;th class="p-3 w-16 text-center"&gt;Flag&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;th class="p-3 w-40"&gt;Arti Status&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;th class="p-3"&gt;Penyebab Masalah (Root Cause)&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;th class="p-3"&gt;Tindakan Mitigasi&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;tbody class="divide-y divide-slate-800 bg-slate-950/60 font-mono"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr class="hover:bg-slate-900/50 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-center text-rose-400 font-bold text-sm"&gt;I&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-semibold"&gt;Inactive&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-400 font-sans"&gt;AP terputus atau gagal melewati CPsec whitelist authentication. Heartbeat miss.&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-mono text-[11px]"&gt;whitelist-db cpsec add mac-address &amp;lt;mac&amp;gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr class="hover:bg-slate-900/50 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-center text-amber-400 font-bold text-sm"&gt;D&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-semibold"&gt;Dirty&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-400 font-sans"&gt;Konfigurasi AP tidak sinkron dengan database Controller / Mobility Conductor.&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-mono text-[11px]"&gt;ap-regroup ap-name &amp;lt;name&amp;gt; &amp;lt;group&amp;gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr class="hover:bg-slate-900/50 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-center text-amber-400 font-bold text-sm"&gt;U&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-semibold"&gt;Unprovisioned&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-400 font-sans"&gt;AP baru terdeteksi dengan nama default dan belum di-assign AP-Name atau AP-Group.&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-mono text-[11px]"&gt;provision-ap ap-name &amp;lt;mac&amp;gt; ...&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr class="hover:bg-slate-900/50 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-center text-cyan-400 font-bold text-sm"&gt;R&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-semibold"&gt;RAP&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-400 font-sans"&gt;AP beroperasi sebagai Remote Access Point melalui tunnel IPsec eksternal.&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-mono text-[11px]"&gt;Normal flag untuk deployment RAP.&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr class="hover:bg-slate-900/50 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-center text-emerald-400 font-bold text-sm"&gt;2&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-semibold"&gt;Using 802.11a&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-400 font-sans"&gt;Radio 5GHz aktif dan beroperasi normal.&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td class="p-3 text-slate-300 font-sans font-mono text-[11px]"&gt;Normal operation status.&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- SECTION: INTERACTIVE SYMPTOM DECISION TREE --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;section id="symptom-tree" class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="flex items-center gap-2 mb-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xs font-semibold px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30 uppercase"&gt;Interactive Diagnostics&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xs text-slate-500"&gt;Quick Triage&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-xl font-bold text-white"&gt;Troubleshoot by Symptom (Pilih Gejala)&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-sm text-slate-400"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Klik gejala yang sedang dihadapi di lapangan untuk melihat langkah penanganan instan.</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button onclick="showSymptom('symptom1')" class="text-left bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-aruba-orange p-4 rounded-xl transition group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-aruba-orange font-semibold text-xs mb-1 group-hover:translate-x-0.5 transition-transform"&gt;&amp;rarr; Gejala 1&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-slate-200 font-medium text-sm"&gt;AP LED Berkedip Amber / Merah Terus Menerus&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-slate-500 text-xs mt-1"&gt;AP boot loop atau tidak mendapatkan IP Address.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/button&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button onclick="showSymptom('symptom2')" class="text-left bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-aruba-orange p-4 rounded-xl transition group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-aruba-orange font-semibold text-xs mb-1 group-hover:translate-x-0.5 transition-transform"&gt;&amp;rarr; Gejala 2&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-slate-200 font-medium text-sm"&gt;AP Berstatus Down / Flag "I" di Controller AOS 8&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-slate-500 text-xs mt-1"&gt;AP gagal handshake CPsec atau IPsec tunnel terputus.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button onclick="showSymptom('symptom3')" class="text-left bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-aruba-orange p-4 rounded-xl transition group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-aruba-orange font-semibold text-xs mb-1 group-hover:translate-x-0.5 transition-transform"&gt;&amp;rarr; Gejala 3&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-slate-200 font-medium text-sm"&gt;AP Tidak Pernah Muncul di Aruba Central (AOS 10)&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-slate-500 text-xs mt-1"&gt;Kegagalan resolusi Activate, DNS, atau lisensi cloud.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SYMPTOM DETAIL DISPLAY BOX --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="symptom-display" class="bg-slate-900 border border-slate-800 rounded-xl p-5 transition-all"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h4 id="symptom-title" class="text-sm font-semibold text-aruba-orange mb-2"&gt;Pilih salah satu gejala di atas untuk melihat langkah isolasi.&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div id="symptom-steps" class="text-xs text-slate-300 space-y-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Panduan troubleshoot langkah demi langkah akan dirender di sini.</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- JAVASCRIPT LOGIC --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Tab Switching Logic (AOS 8 vs AOS 10)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function switchTab(platform) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const btnAos8 = document.getElementById('tab-btn-aos8');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const btnAos10 = document.getElementById('tab-btn-aos10');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const contentAos8 = document.getElementById('tab-content-aos8');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const contentAos10 = document.getElementById('tab-content-aos10');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (platform === 'aos8') {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btnAos8.className = 'border-b-2 border-aruba-orange text-aruba-orange pb-3 px-1 transition';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btnAos10.className = 'border-b-2 border-transparent text-slate-400 hover:text-slate-200 pb-3 px-1 transition';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>contentAos8.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>contentAos10.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btnAos10.className = 'border-b-2 border-cyan-400 text-cyan-400 pb-3 px-1 transition';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btnAos8.className = 'border-b-2 border-transparent text-slate-400 hover:text-slate-200 pb-3 px-1 transition';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>contentAos10.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>contentAos8.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Symptom Decision Tree Logic</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const symptoms = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>symptom1: {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Diagnosa: AP LED Amber / Merah Berkedip (Boot Loop &amp; L1/L2 Failure)",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>steps: `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;ol class="list-decimal list-inside space-y-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Cek Power Budget (PoE 802.3af vs 802.3at/bt):&lt;/strong&gt; AP model tinggi (AP-535, AP-555, AP-635) jika hanya menerima PoE 802.3af standar sering mengalami boot-loop atau radio mati. Verifikasi output switch: &lt;code class="text-amber-400 bg-slate-950 px-1 py-0.5 rounded"&gt;show power inline&lt;/code&gt;.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Verifikasi Native VLAN &amp; DHCP DORA:&lt;/strong&gt; Sambungkan laptop ke port switch AP pada VLAN yang sama untuk memastikan DHCP server memberikan IP, Subnet Mask, Gateway, dan DNS.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Console Debugging (Baud 9600):&lt;/strong&gt; Hubungkan kabel console (Type-C / RJ-45). Jika AP restart berulang kali, periksa log: jika muncul &lt;em&gt;"image checksum failed"&lt;/em&gt;, lakukan flash image manual via AP boot prompt (apboot&gt;).&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/ol&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>symptom2: {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Diagnosa: AP Down / Flag 'I' di Controller AOS 8 (CPsec &amp; IPsec Failure)",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>steps: `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;ol class="list-decimal list-inside space-y-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Cek CPsec Whitelist DB:&lt;/strong&gt; Jalankan &lt;code class="text-amber-400 bg-slate-950 px-1 py-0.5 rounded"&gt;show whitelist-db cpsec | include &amp;lt;MAC-AP&amp;gt;&lt;/code&gt; di Conductor. Jika status &lt;em&gt;Unapproved&lt;/em&gt;, AP sengaja ditolak masuk. Approve dengan: &lt;code class="text-emerald-400 bg-slate-950 px-1 py-0.5 rounded"&gt;whitelist-db cpsec modify mac-address &amp;lt;mac&amp;gt; state approved&lt;/code&gt;.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Cek IPsec Tunnel SA:&lt;/strong&gt; Jalankan &lt;code class="text-amber-400 bg-slate-950 px-1 py-0.5 rounded"&gt;show crypto ipsec sa peer &amp;lt;IP-AP&amp;gt;&lt;/code&gt;. Jika SA tidak terbentuk, cek apakah port &lt;strong&gt;UDP 4500 (NAT-T)&lt;/strong&gt; diblokir firewall perantara.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Cek Kesamaan Image Version:&lt;/strong&gt; Jalankan &lt;code class="text-amber-400 bg-slate-950 px-1 py-0.5 rounded"&gt;show log message 50 | include &amp;lt;IP-AP&amp;gt;&lt;/code&gt; untuk melihat apakah ada kegagalan transfer firmware via TFTP/FTP dari controller.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/ol&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>symptom3: {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Diagnosa: AP Tidak Pernah Muncul di Aruba Central AOS 10",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>steps: `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;ol class="list-decimal list-inside space-y-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Verifikasi Resolusi DNS &amp; NTP (Kritis):&lt;/strong&gt; AP AOS 10 membutuhkan jam yang sinkron untuk validasi TLS. Pastikan DHCP memberikan NTP Server publik atau lokal yang bisa dijangkau.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Cek Status Activate di HPE GreenLake:&lt;/strong&gt; Pastikan Serial Number dan MAC AP sudah ditambahkan di akun HPE GreenLake dan telah di-assign ke aplikasi &lt;em&gt;Aruba Central&lt;/em&gt;.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Verifikasi Subscription Lisensi:&lt;/strong&gt; Pastikan perangkat memiliki tier lisensi yang aktif (Foundation AP License). Perangkat tanpa lisensi tidak akan di-provisioning oleh Central.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;&lt;strong&gt;Jalankan Debug CLI di AP Console:&lt;/strong&gt; Buka SSH/Console ke AP lalu ketik &lt;code class="text-cyan-400 bg-slate-950 px-1 py-0.5 rounded"&gt;show central status&lt;/code&gt;. Perhatikan baris &lt;em&gt;"Central Connection Status"&lt;/em&gt; (apakah Failed TLS, Resolving Host, atau Connected).&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/ol&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function showSymptom(key) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const data = symptoms[key];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('symptom-title').innerText = data.title;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('symptom-steps').innerHTML = data.steps;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('symptom-display').classList.add('border-aruba-orange');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>

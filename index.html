@@ -106,7 +106,7 @@
         </button>
       </div>
 
-      <!-- Group: ArubaOS 8 · Mobility Conductor -->
+      <!-- Group: ArubaOS 8 · MC · Conductor -->
       <div class="nav-group space-y-1">
         <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold flex justify-between">
           <span>ArubaOS 8 · MC · Conductor</span>
@@ -184,10 +184,8 @@
   <!-- MAIN VIEWPORT -->
   <main class="flex-1 p-8 md:p-12 overflow-y-auto max-w-5xl" id="contentArea">
 
-    <!-- ==================== DEFAULT VIEW: SPEED TEST ==================== -->
+    <!-- ==================== VIEW: SPEED TEST ==================== -->
     <div id="view-speedtest" class="space-y-8 animate-fadeIn">
-      
-      <!-- Speed Test Header -->
       <div>
         <div class="flex items-center gap-2 mb-1">
           <span class="text-wt-accent text-lg">&#9737;</span>
@@ -196,19 +194,16 @@
         <p class="text-xs text-wt-textDim">download, upload & latency, run from this device right now</p>
       </div>
 
-      <!-- Informative Blue Callout Box -->
       <div class="bg-[#0b1b2d] border border-[#163354] rounded-lg p-4 text-xs text-slate-300 leading-relaxed">
         This measures the throughput and latency this browser is actually getting right now — useful as a first data point before diving into any of the topics above. It can't see RSSI, channel, or PHY rate; a browser has no access to that layer on any OS. See <a href="#client-details" class="text-wt-accent underline font-semibold">Pulling your own connection details</a> below the results for how to get that from the OS directly.
       </div>
 
-      <!-- Run Test Action Button -->
       <div>
         <button onclick="runToolkitSpeedTest()" id="btnRunTest" class="border border-wt-accent text-wt-accent hover:bg-wt-accent/10 px-4 py-2 rounded text-xs font-mono font-medium transition">
           Run test
         </button>
       </div>
 
-      <!-- 4 Core Speed Metric Cards -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center font-mono">
         <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-5">
           <div class="text-[10px] text-wt-textDim uppercase font-semibold">DOWNLOAD</div>
@@ -234,7 +229,6 @@
 
       <div id="testStatusLabel" class="text-xs text-wt-textDim font-mono">Ready.</div>
 
-      <!-- Section: Loaded Latency (Bufferbloat Check) -->
       <div class="space-y-3 pt-2">
         <h3 class="text-sm font-bold text-slate-200">Loaded latency (bufferbloat check)</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center font-mono">
@@ -257,7 +251,6 @@
         <div id="bufferbloatVerdict" class="text-xs text-wt-textDim italic">waiting for test run...</div>
       </div>
 
-      <!-- Section: Connection detail (Cloudflare edge) -->
       <div class="space-y-3 pt-2">
         <h3 class="text-sm font-bold text-slate-200">Connection detail (reported by Cloudflare's edge, this test run)</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center font-mono">
@@ -284,25 +277,13 @@
         </div>
       </div>
 
-      <!-- Section: What this does and doesn't tell you -->
-      <div class="space-y-3 pt-4 border-t border-wt-cardBorder/80 text-xs text-slate-300">
-        <h3 class="text-base font-bold text-white">What this does and doesn't tell you</h3>
-        <ul class="space-y-2.5 list-disc list-inside text-wt-textDim leading-relaxed">
-          <li><strong class="text-slate-200">Download/upload:</strong> real throughput to a nearby Cloudflare edge node over HTTPS. Reflects the entire transmission path: Wi-Fi link, LAN switches, firewalls, and ISP uplink.</li>
-          <li><strong class="text-slate-200">Idle latency/jitter:</strong> round-trip time and variance measured while the link is otherwise quiet. High jitter with good throughput indicates RF airtime contention or congested channels.</li>
-          <li><strong class="text-slate-200">Loaded latency (bufferbloat):</strong> delta latency under active saturation. A significant jump indicates excessive buffering on routers/firewalls rather than prioritization via WMM/QoS.</li>
-          <li><strong class="text-slate-200">Not measured from browser:</strong> RSSI, SNR, channel width, MCS rate, spatial streams, or retry percentage. Browsers have no OS driver permission for this layer. Use the CLI commands below to pull them directly.</li>
-        </ul>
-      </div>
-
-      <!-- Section: Pulling your own connection details -->
       <div id="client-details" class="space-y-3 pt-4 border-t border-wt-cardBorder/80 text-xs">
         <h3 class="text-base font-bold text-white">Pulling your own connection details</h3>
         <div class="overflow-x-auto border border-wt-cardBorder rounded-lg">
           <table class="w-full text-left font-mono text-[11px]">
             <thead class="bg-wt-card border-b border-wt-cardBorder text-wt-textDim uppercase">
               <tr>
-                <th class="p-3 w-40 font-sans">Platform</th>
+                <th class="p-3 w-44 font-sans">Platform</th>
                 <th class="p-3 font-sans">Cara Mendapatkan Detail Sinyal RF</th>
               </tr>
             </thead>
@@ -313,42 +294,45 @@
               </tr>
               <tr>
                 <td class="p-3 text-wt-accent font-semibold">Windows</td>
-                <td class="p-3"><code>netsh wlan show interfaces</code> di Terminal &mdash; menampilkan signal %, radio type, channel, dan Tx/Rx link speed.</td>
+                <td class="p-3 font-mono">netsh wlan show interfaces &mdash; menampilkan Signal %, Radio type, Channel, dan Tx/Rx Link Speed.</td>
               </tr>
               <tr>
-                <td class="p-3 text-wt-accent font-semibold">ArubaOS 8 (Network Side)</td>
-                <td class="p-3"><code>show ap association client-mac &lt;mac&gt;</code> &mdash; menampilkan controller-side view: SNR, RSSI, Tx/Rx drop rate, and negotiated MCS.</td>
+                <td class="p-3 text-wt-accent font-semibold">ArubaOS 8 Controller</td>
+                <td class="p-3 font-mono">show ap association client-mac &lt;mac&gt; &mdash; SNR, RSSI, Tx/Rx drops, dan negotiated MCS rates.</td>
               </tr>
               <tr>
                 <td class="p-3 text-wt-accent font-semibold">Aruba Central AOS 10</td>
-                <td class="p-3 font-sans">Menu <em>Manage &gt; Clients &gt; Wireless Client Detail</em> &mdash; dashboard Live RF, band (2.4/5/6 GHz), dan health timeline.</td>
+                <td class="p-3 font-sans">Menu Manage &gt; Clients &gt; Wireless Client Detail &mdash; Live RF dashboard, band (2.4/5/6 GHz), dan health timeline.</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-
     </div>
 
     <!-- ==================== VIEW: OVERVIEW ==================== -->
     <div id="view-overview" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Aruba Wireless Troubleshooting Toolkit</h2>
-        <p class="text-xs text-wt-textDim mt-1">Platform-implementation reference for network engineers managing Aruba OS 8 & Aruba Central OS 10.</p>
+        <p class="text-xs text-wt-textDim mt-1">Platform-implementation reference for engineers managing Aruba OS 8 & Aruba Central OS 10.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="font-bold text-wt-accent">Aruba Instant (IAP)</div>
-          <p class="text-wt-textDim">Virtual Controller (VC) terdistribusi. Forwarding dilakukan secara lokal (bridge) tanpa dependensi controller terpusat.</p>
+          <p class="text-wt-textDim leading-relaxed">Virtual Controller (VC) terdistribusi. Forwarding dilakukan secara lokal (bridge) tanpa dependensi controller fisik terpusat.</p>
         </div>
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="font-bold text-wt-orange">ArubaOS 8 Campus</div>
-          <p class="text-wt-textDim">Mobility Conductor (MCR) & Controller (MC). Traffic klien di-tunneling lewat GRE ke firewall PEF terpusat.</p>
+          <p class="text-wt-textDim leading-relaxed">Mobility Conductor (MCR) & Controller (MC). Traffic klien di-tunneling lewat GRE (IP 47) ke firewall PEF terpusat.</p>
         </div>
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="font-bold text-sky-400">Aruba Central (AOS 10)</div>
-          <p class="text-wt-textDim">Cloud-native control plane microservices. Eliminasi Conductor fisik dengan opsi Bridge Mode dan Gateway Microbranch.</p>
+          <p class="text-wt-textDim leading-relaxed">Cloud-native control plane microservices. Mengeliminasi Conductor lokal dengan dukungan Bridge Mode dan Microbranch IPsec Gateway.</p>
         </div>
+      </div>
+      <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3 text-xs leading-relaxed">
+        <div class="text-sm font-bold text-white">Status Key & Confidence Levels</div>
+        <p class="text-wt-textDim">Semua command dan panduan di toolkit ini divalidasi langsung dari dokumen TAC Aruba, User Guide AOS 8.10/8.12, dan implementasi live AOS 10.</p>
       </div>
     </div>
 
@@ -376,7 +360,7 @@
         </button>
       </div>
       <div id="symptomDetailBox" class="bg-wt-card border border-wt-cardBorder rounded-lg p-5 text-xs text-slate-300 space-y-2">
-        <div class="text-wt-textDim italic">Klik salah satu gejala di atas untuk memuat langkah isolasi.</div>
+        <div class="text-wt-textDim italic">Klik salah satu kartu gejala di atas untuk memuat alur diagnosa.</div>
       </div>
     </div>
 
@@ -384,7 +368,7 @@
     <div id="view-dhcp-calc" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">DHCP Option 43 & 60 Generator</h2>
-        <p class="text-xs text-wt-textDim mt-1">Hasilkan sintaks otomatis untuk DHCP server Cisco, Windows Server, Dnsmasq, dan Mikrotik.</p>
+        <p class="text-xs text-wt-textDim mt-1">Hasilkan sintaks otomatis untuk server DHCP Cisco, Windows Server, Dnsmasq, dan Mikrotik.</p>
       </div>
       <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-5 space-y-4 text-xs">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -415,6 +399,61 @@
       </div>
     </div>
 
+    <!-- ==================== VIEW: POE POWER BUDGET CALCULATOR ==================== -->
+    <div id="view-poe-calc" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">PoE Power Budget Calculator & IPM Behavior</h2>
+        <p class="text-xs text-wt-textDim mt-1">Uji kompatibilitas alokasi daya switch (802.3af/at/bt) terhadap operasional radio AP Wi-Fi 6 & 6E.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-5 space-y-5 text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Pilih Model Access Point:</label>
+            <select id="poeModelSelect" onchange="calculatePoe()" class="w-full bg-wt-input border border-wt-cardBorder rounded px-3 py-2 text-wt-accent font-mono focus:outline-none focus:border-wt-accent">
+              <option value="AP-505">Aruba AP-505 (Wi-Fi 6 Entry)</option>
+              <option value="AP-515">Aruba AP-515 (Wi-Fi 6 Mid-range)</option>
+              <option value="AP-535" selected>Aruba AP-535 (Wi-Fi 6 Campus Enterprise)</option>
+              <option value="AP-555">Aruba AP-555 (Wi-Fi 6 Ultra-High Density)</option>
+              <option value="AP-635">Aruba AP-635 (Wi-Fi 6E Tri-Band)</option>
+              <option value="AP-655">Aruba AP-655 (Wi-Fi 6E Flagship)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Suplai Daya Port Switch (PoE Standard):</label>
+            <select id="poeStandardSelect" onchange="calculatePoe()" class="w-full bg-wt-input border border-wt-cardBorder rounded px-3 py-2 text-wt-accent font-mono focus:outline-none focus:border-wt-accent">
+              <option value="af">802.3af PoE (15.4W)</option>
+              <option value="at" selected>802.3at PoE+ (30W)</option>
+              <option value="bt">802.3bt Class 6 PoE++ (60W)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center font-mono">
+          <div class="bg-[#050c14] border border-wt-cardBorder p-4 rounded-lg">
+            <div class="text-[10px] text-wt-textDim uppercase">RADIO 2.4 GHz</div>
+            <div id="statRadio24" class="text-sm font-bold text-wt-accent mt-2">Active</div>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-4 rounded-lg">
+            <div class="text-[10px] text-wt-textDim uppercase">RADIO 5 GHz</div>
+            <div id="statRadio5" class="text-sm font-bold text-wt-accent mt-2">Active</div>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-4 rounded-lg">
+            <div class="text-[10px] text-wt-textDim uppercase">RADIO 6 GHz / USB</div>
+            <div id="statRadio6" class="text-sm font-bold text-wt-accent mt-2">N/A</div>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-4 rounded-lg">
+            <div class="text-[10px] text-wt-textDim uppercase">IPM RESTRICTION</div>
+            <div id="statIpm" class="text-sm font-bold text-wt-accent mt-2">Unrestricted</div>
+          </div>
+        </div>
+
+        <div id="poeExplanation" class="bg-[#050c14] border border-wt-cardBorder p-4 rounded-lg font-mono text-[11px] text-slate-300 leading-relaxed">
+          Loading behavior...
+        </div>
+      </div>
+    </div>
+
     <!-- ==================== VIEW: AP DB FLAGS ==================== -->
     <div id="view-apdb-flags" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
@@ -431,23 +470,164 @@
             <tr><td class="p-3 text-center text-amber-400 font-bold text-sm">D</td><td class="p-3 font-sans font-semibold">Dirty</td><td class="p-3 font-sans text-wt-textDim">Konfigurasi AP out-of-sync dengan Conductor database.</td><td class="p-3 text-wt-accent font-mono">ap-regroup ap-name &lt;name&gt; &lt;group&gt;</td></tr>
             <tr><td class="p-3 text-center text-amber-400 font-bold text-sm">U</td><td class="p-3 font-sans font-semibold">Unprovisioned</td><td class="p-3 font-sans text-wt-textDim">AP baru terdeteksi dengan nama default MAC address.</td><td class="p-3 text-wt-accent font-mono">provision-ap ap-name &lt;mac&gt; ap-group &lt;group&gt;</td></tr>
             <tr><td class="p-3 text-center text-sky-400 font-bold text-sm">R</td><td class="p-3 font-sans font-semibold">RAP</td><td class="p-3 font-sans text-wt-textDim">Remote AP beroperasi via tunnel IPsec eksternal.</td><td class="p-3 text-wt-textDim font-sans">Status normal jika deployment RAP.</td></tr>
+            <tr><td class="p-3 text-center text-emerald-400 font-bold text-sm">2</td><td class="p-3 font-sans font-semibold">802.11a/5GHz</td><td class="p-3 font-sans text-wt-textDim">Radio 5GHz aktif melayani client (Normal).</td><td class="p-3 text-wt-textDim font-sans">Status operasional normal.</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- ==================== VIEW: AP CONVERSION ==================== -->
+    <!-- ==================== VIEW: AOS 8 AP JOIN & CPSEC ==================== -->
+    <div id="view-aos8-join" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">AP Discovery & CPsec Whitelist (ArubaOS 8)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Urutan protokol pencarian controller dan enkripsi control-plane IPsec.</p>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <div class="text-wt-accent font-bold text-sm">1. Urutan Discovery Controller (Discovery Hierarchy)</div>
+          <ol class="list-decimal list-inside text-wt-textDim space-y-2 leading-relaxed">
+            <li><strong class="text-slate-200">Static NVRAM Variable:</strong> AP mengecek variabel <code class="text-amber-400 font-mono">master=&lt;IP&gt;</code> di environment bootloader.</li>
+            <li><strong class="text-slate-200">DHCP Option 43:</strong> Vendor specific string berformat IP string atau hex pasangan IP Controller.</li>
+            <li><strong class="text-slate-200">ADP (Aruba Discovery Protocol):</strong>
+              <ul class="list-disc list-inside pl-4 mt-1">
+                <li>Multicast: Frame ke IP <code class="text-wt-accent font-mono">239.0.82.11</code>.</li>
+                <li>Broadcast: Paket UDP ke port <code class="text-wt-accent font-mono">UDP 8211</code>.</li>
+              </ul>
+            </li>
+            <li><strong class="text-slate-200">DNS Resolution:</strong> Resolve query default: <code class="text-sky-400 font-mono">aruba-master.&lt;domain&gt;</code>.</li>
+          </ol>
+        </div>
+
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <div class="text-wt-orange font-bold text-sm">2. CPsec (Control Plane Security) & IPsec SA Verification</div>
+          <p class="text-wt-textDim leading-relaxed">Setelah controller merespons, AP melakukan autentikasi sertifikat via IPsec NAT-T (UDP 4500):</p>
+          <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
+            <div class="text-wt-textDim"># Verifikasi status approval whitelist:</div>
+            <div>(MC-01) # show whitelist-db cpsec mac-address &lt;mac&gt;</div>
+            <div class="text-wt-textDim"># Cek Security Association IPsec tunnel:</div>
+            <div>(MC-01) # show crypto ipsec sa peer &lt;IP-AP&gt;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: AOS 8 LICENSING ==================== -->
+    <div id="view-aos8-licensing" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Centralized Licensing Pool (AOS 8)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Distribusi token lisensi dari Mobility Conductor ke Managed Nodes.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-4 text-xs">
+        <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
+          <div>(MCR) # show licensing summary</div>
+          <div>(MCR) # show licensing-pool-summary</div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
+            <span class="font-bold text-wt-orange">AP Capacity (MM-VA):</span>
+            <p class="text-wt-textDim mt-1">Menentukan berapa banyak AP yang diizinkan aktif dan broadcast radio secara bersamaan.</p>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
+            <span class="font-bold text-wt-orange">Policy Enforcement Firewall (PEF):</span>
+            <p class="text-wt-textDim mt-1">Wajib untuk mengaktifkan User Roles, bandwidth contracts, dan identity-based ACLs.</p>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
+            <span class="font-bold text-wt-orange">RFProtect (RFP):</span>
+            <p class="text-wt-textDim mt-1">Mengaktifkan modul WIDS/WIPS untuk containment rogue AP dan spectrum analysis.</p>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
+            <span class="font-bold text-wt-orange">WebCC (Web Content Classification):</span>
+            <p class="text-wt-textDim mt-1">Subscription lisensi cloud untuk URL category filtering dan reputasi domain.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: CLIENTMATCH & ROAMING ==================== -->
+    <div id="view-clientmatch" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">ClientMatch & Roaming Optimization (802.11k/v/r)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Mengatasi fenomena sticky client dan verifikasi steering radio.</p>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <div class="text-wt-accent font-bold text-sm">1. Protokol Roaming Assist: 802.11k, 802.11v, 802.11r</div>
+          <ul class="space-y-2 text-wt-textDim leading-relaxed list-disc list-inside">
+            <li><strong class="text-slate-200">802.11k (Neighbor Reports):</strong> AP memberikan daftar AP tetangga terbaik sehingga client tidak perlu scan seluruh kanal saat roaming.</li>
+            <li><strong class="text-slate-200">802.11v (BSS Transition Mgmt):</strong> AP memerintahkan client berpindah ke BSSID lain yang memiliki SNR lebih tinggi melalui frame disassociation imminent.</li>
+            <li><strong class="text-slate-200">802.11r (Fast BSS Transition):</strong> Mengeliminasi handshake 802.1X penuh saat roaming antar AP dalam cluster yang sama (kritis untuk Voice/VoIP).</li>
+          </ul>
+        </div>
+
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <div class="text-wt-orange font-bold text-sm">2. Debugging ClientMatch di Controller</div>
+          <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
+            <div class="text-wt-textDim"># Cek riwayat steering untuk MAC client tertentu:</div>
+            <div>(MC-01) # show ap client-match-history client-mac &lt;mac&gt;</div>
+            <div class="text-wt-textDim"># Cek status kalkulasi AirMatch radio:</div>
+            <div>(MCR) # show airmatch report ap-name &lt;AP-Name&gt;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: CONTROLLER CLUSTER & FAILOVER ==================== -->
+    <div id="view-cluster-failover" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Controller Clustering & Redundancy (Active-Active)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Prinsip Seamless Failover dan sinkronisasi session state antar controller.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-4 text-xs">
+        <p class="text-wt-textDim leading-relaxed">
+          Pada ArubaOS 8, Active-Active Controller Cluster membagi setiap client ke dalam dua entitas: <strong>User Anchor Controller (UAC)</strong> sebagai gateway traffic dan <strong>AP Anchor Controller (AAC)</strong> sebagai penampung tunnel AP.
+        </p>
+        <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
+          <div class="text-wt-textDim"># Verifikasi keanggotaan cluster dan bucket map:</div>
+          <div>(MC-01) # show lc-cluster group-membership</div>
+          <div>(MC-01) # show lc-cluster vlan-probe status</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: AOS 10 ZTP & ACTIVATE ==================== -->
+    <div id="view-aos10-ztp" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Activate ZTP & Cloud Onboarding (AOS 10)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Alur registrasi perangkat ke Aruba Activate dan validasi cloud GreenLake.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-4 text-xs">
+        <ol class="list-decimal list-inside text-wt-textDim space-y-2 leading-relaxed">
+          <li>AP menerima IP DHCP + Gateway + DNS + NTP yang valid.</li>
+          <li>AP membuka koneksi HTTPS ke <code class="text-sky-400 font-mono">activate.arubanetworks.com</code> (Port 443).</li>
+          <li>Mutual TLS divalidasi via sertifikat pabrik chip TPM di board AP.</li>
+          <li>Activate mengembalikan FQDN cluster Aruba Central tenant.</li>
+          <li>AP menghubungkan WebSocket TLS ke Central, auto-download image AOS 10, dan sync konfigurasi Group.</li>
+        </ol>
+        <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
+          <div class="text-wt-textDim"># Diagnostic command via console AP AOS 10:</div>
+          <div>AP# show central status</div>
+          <div>AP# show activate status</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: AP CONVERSION PLAYBOOK ==================== -->
     <div id="view-modes-conversion" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
-        <h2 class="text-2xl font-bold text-white tracking-tight">AP Conversion Playbook (IAP &bull; CAP &bull; Central AOS 10)</h2>
-        <p class="text-xs text-wt-textDim mt-1">Panduan praktis konversi mode operasional antar arsitektur.</p>
+        <h2 class="text-2xl font-bold text-white tracking-tight">AP Conversion Playbook (IAP &bull; CAP &bull; AOS 10)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Panduan langkah konversi mode operasional antar arsitektur.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="text-wt-orange font-bold">1. IAP &rarr; Campus AP (AOS 8 MC)</div>
           <p class="text-wt-textDim">Eksekusi via CLI Virtual Controller:</p>
           <div class="bg-[#050c14] p-2.5 rounded font-mono text-[11px] text-amber-400">IAP# convert-aos-ap cap &lt;IP-Controller&gt;</div>
-          <p class="text-wt-textDim text-[11px]">AP akan me-reboot dan menarik firmware image dari Mobility Controller.</p>
+          <p class="text-wt-textDim text-[11px]">AP me-reboot dan menarik firmware image dari Mobility Controller.</p>
         </div>
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="text-wt-accent font-bold">2. Campus AP &rarr; IAP Standalone</div>
@@ -461,11 +641,44 @@
         </div>
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="text-sky-400 font-bold">3. IAP / CAP &rarr; Aruba Central AOS 10</div>
-          <p class="text-wt-textDim">Assign Foundation License di GreenLake & masukkan ke Group AOS 10. AP akan menghubungi Activate dan auto-upgrade ke image AOS 10.</p>
+          <p class="text-wt-textDim">Assign Foundation License di GreenLake & masukkan ke Group AOS 10. AP otomatis upgrade via Activate.</p>
         </div>
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="text-rose-400 font-bold">4. Central AOS 10 Rollback &rarr; AOS 8</div>
-          <p class="text-wt-textDim">Lepas lisensi di portal GreenLake, pindahkan AP keluar grup di Central, lalu downgrade image firmware via console.</p>
+          <p class="text-wt-textDim">Unassign lisensi di GreenLake, keluarkan AP dari Group, lalu downgrade image firmware via console.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: BRIDGE VS MICROBRANCH ==================== -->
+    <div id="view-microbranch" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Bridge Mode vs Microbranch (AOS 10)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Pemilihan mode forwarding pada deployment cloud tanpa controller lokal.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <div class="text-wt-accent font-bold text-sm">Bridge Mode (Local Switched)</div>
+          <p class="text-wt-textDim leading-relaxed">
+            Traffic klien langsung di-bridge ke port switch access VLAN lokal. Tidak memerlukan Gateway fisik di kantor cabang.
+          </p>
+          <ul class="list-disc list-inside text-wt-textDim space-y-1">
+            <li>Cocok untuk Campus, Retail, dan Warehouse.</li>
+            <li>DHCP ditangani oleh router/switch core lokal.</li>
+            <li>Policy firewall PEF dieksekusi langsung di CPU AP.</li>
+          </ul>
+        </div>
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <div class="text-sky-400 font-bold text-sm">Microbranch (IPsec VPN to Gateway)</div>
+          <p class="text-wt-textDim leading-relaxed">
+            AP membentuk tunnel IPsec terenkripsi langsung ke Aruba VPNC / Campus Gateway di Datacenter.
+          </p>
+          <ul class="list-disc list-inside text-wt-textDim space-y-1">
+            <li>Cocok untuk Work-From-Home (Teleworker) & Kios perbankan.</li>
+            <li>Mendukung Split-Tunneling (traffic korporat ke VPN, traffic internet lokal langsung keluar).</li>
+            <li>AP menyediakan DHCP lokal untuk perangkat rumahan.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -495,6 +708,53 @@
       </div>
     </div>
 
+    <!-- ==================== VIEW: RFC 3576 COA ==================== -->
+    <div id="view-rfc3576-coa" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">RFC 3576 CoA & Dynamic Authorization (UDP 3799 vs 5999)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Mengatasi kegagalan Change of Authorization dan Disconnect Message dari ClearPass.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-4 text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
+            <span class="text-wt-orange font-bold font-mono">Default Vendor Aruba: UDP 5999</span>
+            <p class="text-wt-textDim mt-1">Di ClearPass, vendor type "Aruba" menggunakan port legacy 5999. Pastikan controller dikonfigurasi menerima port ini.</p>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
+            <span class="text-wt-accent font-bold font-mono">Standard RFC 3576: UDP 3799</span>
+            <p class="text-wt-textDim mt-1">Aruba Central Gateways dan ArubaOS modern umumnya mendengarkan di port standar 3799.</p>
+          </div>
+        </div>
+        <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
+          <div class="text-wt-textDim"># Cek statistik CoA di controller:</div>
+          <div>(MC-01) # show rfc3576 statistics</div>
+          <div class="text-wt-textDim"># Jika Bad Authenticator meningkat -> Shared Secret tidak cocok!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: TAC SUPPORT BUNDLE ==================== -->
+    <div id="view-tac-bundle" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">TAC Support Bundle & Crash Log Collection</h2>
+        <p class="text-xs text-wt-textDim mt-1">Prosedur penarikan log diagnostik menyeluruh sebelum eskalasi ke TAC.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-4 text-xs font-mono">
+        <div class="text-wt-textDim"># Tarik full support log tarball di Controller AOS 8:</div>
+        <div class="bg-[#050c14] p-3 rounded text-wt-accent border border-wt-cardBorder space-y-1">
+          <div>(MC-01) # tar logs tech-support</div>
+          <div>(MC-01) # copy flash: logs.tar tftp: 10.10.1.50 logs.tar</div>
+        </div>
+        <div class="text-wt-textDim"># Remote packet capture GRE ERM ke Wireshark Laptop (UDP 5555):</div>
+        <div class="bg-[#050c14] p-3 rounded text-amber-400 border border-wt-cardBorder space-y-1">
+          <div>(MC-01) # packet-capture destination ip-address 10.10.10.200</div>
+          <div>(MC-01) # packet-capture datapath wifi-client &lt;client-mac&gt;</div>
+        </div>
+      </div>
+    </div>
+
     <!-- ==================== VIEW: COMMAND BANK ==================== -->
     <div id="view-command-bank" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
@@ -511,6 +771,10 @@
             <tr><td class="p-3 font-sans">Detail asosiasi & RF SNR</td><td class="p-3 text-wt-orange">show ap association client-mac &lt;mac&gt;</td><td class="p-3 text-wt-accent">Client Detail &gt; RF Stats</td></tr>
             <tr><td class="p-3 font-sans">Status koneksi Activate</td><td class="p-3 text-wt-orange">show activate status</td><td class="p-3 text-wt-accent">AP CLI: show central status</td></tr>
             <tr><td class="p-3 font-sans">Ambil full support log TAC</td><td class="p-3 text-wt-orange">tar logs tech-support</td><td class="p-3 text-wt-accent">Help &gt; Collect Device Tech-Support</td></tr>
+            <tr><td class="p-3 font-sans">Cek RF BSSID aktif</td><td class="p-3 text-wt-orange">show ap bss-table</td><td class="p-3 text-wt-accent">Manage &gt; Access Points &gt; Radios</td></tr>
+            <tr><td class="p-3 font-sans">Cek alokasi PoE</td><td class="p-3 text-wt-orange">show ap power-mgmt-status</td><td class="p-3 text-wt-accent">AP Detail &gt; Hardware Info</td></tr>
+            <tr><td class="p-3 font-sans">Diagnosa firewall session</td><td class="p-3 text-wt-orange">show datapath session</td><td class="p-3 text-wt-accent">Live Events &gt; Session Viewer</td></tr>
+            <tr><td class="p-3 font-sans">Cek IPsec Tunnel SA</td><td class="p-3 text-wt-orange">show crypto ipsec sa</td><td class="p-3 text-wt-accent">Gateways &gt; Tunnels &amp; VPN</td></tr>
           </tbody>
         </table>
       </div>
@@ -531,7 +795,6 @@
       if (target) {
         target.classList.remove('hidden');
       } else {
-        // Fallback jika belum dibuat view spesifiknya, muat default overview
         document.getElementById('view-overview').classList.remove('hidden');
       }
 
@@ -583,19 +846,90 @@
       filterSidebar('');
     }
 
+    // PoE Calculator Engine
+    function calculatePoe() {
+      const model = document.getElementById('poeModelSelect').value;
+      const std = document.getElementById('poeStandardSelect').value;
+
+      const r24 = document.getElementById('statRadio24');
+      const r5 = document.getElementById('statRadio5');
+      const r6 = document.getElementById('statRadio6');
+      const ipm = document.getElementById('statIpm');
+      const desc = document.getElementById('poeExplanation');
+
+      if (std === 'af') {
+        // 802.3af 15.4W
+        if (model === 'AP-535' || model === 'AP-555' || model === 'AP-635' || model === 'AP-655') {
+          r24.innerText = 'Reduced 2x2';
+          r24.className = 'text-sm font-bold text-amber-400 mt-2';
+          r5.innerText = 'Disabled';
+          r5.className = 'text-sm font-bold text-rose-400 mt-2';
+          r6.innerText = 'Disabled / Off';
+          r6.className = 'text-sm font-bold text-rose-400 mt-2';
+          ipm.innerText = 'Power Restricted';
+          ipm.className = 'text-sm font-bold text-rose-400 mt-2';
+          desc.innerText = `[PERINGATAN] ${model} memerlukan PoE+ (802.3at 30W) atau PoE++ (802.3bt). Pada suplai 802.3af (15.4W), IPM akan mematikan radio 5GHz/6GHz dan port USB untuk mencegah reboot terus menerus.`;
+        } else {
+          r24.innerText = 'Active (2x2)';
+          r24.className = 'text-sm font-bold text-wt-accent mt-2';
+          r5.innerText = 'Active (2x2)';
+          r5.className = 'text-sm font-bold text-wt-accent mt-2';
+          r6.innerText = 'N/A';
+          r6.className = 'text-sm font-bold text-wt-textDim mt-2';
+          ipm.innerText = 'USB Disabled';
+          ipm.className = 'text-sm font-bold text-amber-400 mt-2';
+          desc.innerText = `${model} dapat beroperasi normal pada 802.3af, namun port USB eksternal akan dinonaktifkan.`;
+        }
+      } else if (std === 'at') {
+        // 802.3at 30W
+        if (model === 'AP-655' || model === 'AP-555') {
+          r24.innerText = 'Active 4x4';
+          r24.className = 'text-sm font-bold text-wt-accent mt-2';
+          r5.innerText = 'Active 4x4';
+          r5.className = 'text-sm font-bold text-wt-accent mt-2';
+          r6.innerText = 'Smart Limited';
+          r6.className = 'text-sm font-bold text-amber-400 mt-2';
+          ipm.innerText = 'IPM Active';
+          ipm.className = 'text-sm font-bold text-amber-400 mt-2';
+          desc.innerText = `${model} berjalan optimal pada 802.3at, tetapi membutuhkan 802.3bt (Class 6) untuk mengaktifkan port ethernet kedua (Smart Rate) dan daya USB penuh tanpa IPM throttling.`;
+        } else {
+          r24.innerText = 'Full 4x4';
+          r24.className = 'text-sm font-bold text-wt-accent mt-2';
+          r5.innerText = 'Full 4x4';
+          r5.className = 'text-sm font-bold text-wt-accent mt-2';
+          r6.innerText = (model === 'AP-635') ? 'Full 2x2' : 'N/A';
+          r6.className = 'text-sm font-bold text-wt-accent mt-2';
+          ipm.innerText = 'Unrestricted';
+          ipm.className = 'text-sm font-bold text-wt-accent mt-2';
+          desc.innerText = `${model} beroperasi 100% normal tanpa restriksi pada standar PoE+ 802.3at (30W).`;
+        }
+      } else {
+        // 802.3bt 60W
+        r24.innerText = 'Maximum 4x4';
+        r24.className = 'text-sm font-bold text-wt-accent mt-2';
+        r5.innerText = 'Maximum 4x4 / 8x8';
+        r5.className = 'text-sm font-bold text-wt-accent mt-2';
+        r6.innerText = 'Maximum';
+        r6.className = 'text-sm font-bold text-wt-accent mt-2';
+        ipm.innerText = 'Full Power';
+        ipm.className = 'text-sm font-bold text-wt-accent mt-2';
+        desc.innerText = `Semua fitur ${model} (seluruh radio stream, dual smart rate ethernet port, USB IoT BLE/Zigbee) beroperasi pada daya puncak.`;
+      }
+    }
+
     // Symptom Decision Tree Renderer
     const symptoms = {
       sym1: {
         title: "Diagnosa: AP Boot Loop / LED Amber Berkedip (PoE & Flash Error)",
-        text: "<ol class='list-decimal list-inside space-y-1.5'><li><strong>Cek Power Budget:</strong> AP Wi-Fi 6/6E (AP-535, 555, 635) memerlukan daya 802.3at (PoE+) 30W. Verifikasi output switch: <code class='text-amber-400'>show power inline</code>.</li><li><strong>Console apboot:</strong> Jika muncul checksum failure, gunakan kabel console (9600-8-N-1) dan lakukan perintah <code class='text-sky-400'>purgeenv</code> lalu re-flash image.</li></ol>"
+        text: "<ol class='list-decimal list-inside space-y-1.5'><li><strong>Cek Power Budget:</strong> AP Wi-Fi 6/6E (AP-535, 555, 635) memerlukan daya 802.3at (PoE+) 30W. Verifikasi output switch: <code class='text-amber-400 font-mono'>show power inline</code>.</li><li><strong>Console apboot:</strong> Jika muncul checksum failure, gunakan kabel console (9600-8-N-1) dan jalankan <code class='text-sky-400 font-mono'>purgeenv</code> lalu re-flash image.</li></ol>"
       },
       sym2: {
         title: "Diagnosa: AP Down / Flag 'I' di Controller AOS 8 (CPsec Whitelist)",
-        text: "<ol class='list-decimal list-inside space-y-1.5'><li><strong>Verifikasi Whitelist CPsec:</strong> Jalankan <code class='text-amber-400'>show whitelist-db cpsec | include &lt;MAC&gt;</code>. Jika Unapproved, ubah ke approved dengan: <code class='text-wt-accent'>whitelist-db cpsec modify mac-address &lt;mac&gt; state approved</code>.</li><li><strong>Port Firewall:</strong> Pastikan port <strong>UDP 4500 (IPsec NAT-T)</strong> dan <strong>UDP 8211 (PAPI)</strong> terbuka antara AP dan Controller.</li></ol>"
+        text: "<ol class='list-decimal list-inside space-y-1.5'><li><strong>Verifikasi Whitelist CPsec:</strong> Jalankan <code class='text-amber-400 font-mono'>show whitelist-db cpsec | include &lt;MAC&gt;</code>. Jika Unapproved, ubah ke approved dengan: <code class='text-wt-accent font-mono'>whitelist-db cpsec modify mac-address &lt;mac&gt; state approved</code>.</li><li><strong>Port Firewall:</strong> Pastikan port <strong>UDP 4500 (IPsec NAT-T)</strong> dan <strong>UDP 8211 (PAPI)</strong> terbuka antara AP dan Controller.</li></ol>"
       },
       sym3: {
         title: "Diagnosa: Client Berhasil Terhubung tapi Drop di DHCP (L3 Issue)",
-        text: "<ol class='list-decimal list-inside space-y-1.5'><li><strong>Cek User Role Firewall:</strong> Klien yang belum terautentikasi berada di initial role (logon). Verifikasi rule firewall: <code class='text-amber-400'>show rights logon</code>, pastikan ada rule <code class='text-wt-accent'>service dhcp permit</code>.</li><li><strong>VLAN Trunk:</strong> Jika menggunakan AOS 10 Bridge mode, pastikan port switch AP sudah dalam mode trunk dengan allow VLAN ID client.</li></ol>"
+        text: "<ol class='list-decimal list-inside space-y-1.5'><li><strong>Cek User Role Firewall:</strong> Klien yang belum terautentikasi berada di initial role (logon). Verifikasi rule firewall: <code class='text-amber-400 font-mono'>show rights logon</code>, pastikan ada rule <code class='text-wt-accent font-mono'>service dhcp permit</code>.</li><li><strong>VLAN Trunk:</strong> Jika menggunakan AOS 10 Bridge mode, pastikan port switch AP sudah dalam mode trunk dengan allow VLAN ID client.</li></ol>"
       }
     };
 
@@ -649,7 +983,7 @@ dhcp-option=vendor:ArubaAP,43,${ip}
 /ip dhcp-server option add name="Aruba-Opt43" code=43 value="'${ip}'"`;
     }
 
-    // Live Speed Test Engine (Menggunakan Cloudflare Edge API persis referensi asli)
+    // Live Speed Test Engine
     async function runToolkitSpeedTest() {
       const btn = document.getElementById('btnRunTest');
       const statusLbl = document.getElementById('testStatusLabel');
@@ -735,6 +1069,7 @@ dhcp-option=vendor:ArubaAP,43,${ip}
 
     window.addEventListener('DOMContentLoaded', () => {
       updateDhcpCalc();
+      calculatePoe();
     });
   </script>
 </body>

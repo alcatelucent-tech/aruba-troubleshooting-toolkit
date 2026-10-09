@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aruba Wireless Field Engineering Toolkit (IAP, AOS 8 & AOS 10)</title>
+  <title>HPE Aruba Networking - Wireless Field Engineering Toolkit</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -12,12 +12,17 @@
       theme: {
         extend: {
           colors: {
+            hpe: {
+              teal: '#01A982',
+              green: '#00C78E',
+              dark: '#080E18',
+              card: '#111928',
+              border: '#1F2A3C',
+              sidebar: '#0C1322'
+            },
             aruba: {
               orange: '#FF8300',
-              darkorange: '#E06D00',
-              dark: '#0B1120',
-              card: '#151F32',
-              border: '#23324D'
+              accent: '#FF9E2C'
             }
           }
         }
@@ -25,728 +30,664 @@
     }
   </script>
   <style>
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0b1120; }
-    ::-webkit-scrollbar-thumb { background: #23324d; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #ff8300; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #080e18; }
+    ::-webkit-scrollbar-thumb { background: #1f2a3c; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #01a982; }
+    .nav-active {
+      border-left: 3px solid #01A982;
+      background-color: rgba(1, 169, 130, 0.1);
+      color: #00C78E !important;
+      font-weight: 600;
+    }
     .mark-highlight { background-color: rgba(255, 131, 0, 0.35); color: #fff; padding: 1px 3px; border-radius: 3px; }
   </style>
 </head>
-<body class="bg-[#080D1A] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-aruba-orange selection:text-white">
+<body class="bg-hpe-dark text-slate-200 min-h-screen flex flex-col font-sans antialiased selection:bg-hpe-teal selection:text-black">
 
-  <!-- TOP APP BAR -->
-  <header class="border-b border-slate-800/80 bg-slate-900/95 backdrop-blur sticky top-0 z-50 px-4 md:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-aruba-orange to-orange-600 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-orange-500/25">
-        A
-      </div>
-      <div>
-        <h1 class="text-sm md:text-base font-bold text-white flex items-center gap-2">
-          Aruba Wireless Field Toolkit
-          <span class="text-[10px] bg-orange-500/10 text-aruba-orange border border-orange-500/30 px-2 py-0.5 rounded-full font-mono">IAP &bull; AOS8 &bull; AOS10</span>
-        </h1>
-        <p class="text-[11px] text-slate-400">Arsitektur, Prosedur Konversi, Day-0/1 Setup, & Triage Lapangan</p>
+  <!-- TOP APP BAR (HPE TECHDOCS STYLE) -->
+  <header class="border-b border-hpe-border bg-hpe-dark/95 backdrop-blur sticky top-0 z-50 px-4 md:px-8 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <!-- HPE BRAND LOGO -->
+      <div class="flex items-center gap-2.5">
+        <div class="h-6 px-2 bg-hpe-teal text-slate-950 font-black text-xs flex items-center justify-center tracking-tighter rounded-sm shadow-md shadow-emerald-500/20">
+          HPE
+        </div>
+        <div class="border-l border-slate-700 pl-2.5">
+          <div class="text-xs font-bold text-white flex items-center gap-1.5">
+            TechDocs
+            <span class="text-[10px] text-hpe-green bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/30">Field-Toolkit</span>
+          </div>
+          <div class="text-[10px] text-slate-400">Aruba Wireless CLI &amp; Architecture Reference</div>
+        </div>
       </div>
     </div>
 
     <!-- LIVE SEARCH BAR -->
-    <div class="flex-1 max-w-md relative">
-      <input type="text" id="globalSearchInput" placeholder="Cari command, gejala, flag, VLAN, CPsec, tracebuf..." 
-        oninput="handleGlobalSearch(this.value)"
-        class="w-full bg-slate-950/80 border border-slate-700/80 text-xs rounded-xl pl-9 pr-8 py-2 focus:outline-none focus:border-aruba-orange text-slate-100 placeholder-slate-500 transition-all shadow-inner">
+    <div class="flex-1 max-w-lg mx-6 relative">
+      <input type="text" id="globalSearchInput" placeholder="Cari topik, command CLI, status flag, VLAN, tracebuf, CoA..." 
+        oninput="handleSearch(this.value)"
+        class="w-full bg-slate-950/90 border border-hpe-border text-xs rounded-lg pl-9 pr-8 py-2 focus:outline-none focus:border-hpe-teal text-slate-100 placeholder-slate-500 transition shadow-inner">
       <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
       </svg>
       <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-2 text-slate-500 hover:text-slate-300 text-xs font-bold px-1">&times;</button>
     </div>
+
+    <!-- REPO LINK -->
+    <div class="flex items-center space-x-3 text-xs">
+      <a href="https://github.com/alcatelucent-tech/aruba-troubleshooting-toolkit" target="_blank" 
+        class="bg-slate-900 hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-hpe-border transition flex items-center gap-1.5">
+        <span>GitHub Repo</span>
+      </a>
+    </div>
   </header>
 
-  <!-- NAVIGATION TABS -->
-  <nav class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur sticky top-[61px] z-40 px-4 md:px-8">
-    <div class="max-w-7xl mx-auto flex space-x-1 md:space-x-2 overflow-x-auto py-2 text-xs font-medium" id="tabBar">
-      <button onclick="setTab('foundation')" id="nav-foundation" class="tab-btn px-3.5 py-2 rounded-lg transition whitespace-nowrap bg-aruba-orange text-slate-950 font-bold shadow-md shadow-orange-500/20">
-        1. Fondasi & Arsitektur
-      </button>
-      <button onclick="setTab('setup')" id="nav-setup" class="tab-btn px-3.5 py-2 rounded-lg transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800">
-        2. Setup Awal (Day-0/1)
-      </button>
-      <button onclick="setTab('conversion')" id="nav-conversion" class="tab-btn px-3.5 py-2 rounded-lg transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800">
-        3. Matriks Konversi Mode
-      </button>
-      <button onclick="setTab('access-lic')" id="nav-access-lic" class="tab-btn px-3.5 py-2 rounded-lg transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800">
-        4. Akses & Lisensi
-      </button>
-      <button onclick="setTab('troubleshooting')" id="nav-troubleshooting" class="tab-btn px-3.5 py-2 rounded-lg transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800">
-        5. Triage Troubleshooting
-      </button>
-      <button onclick="setTab('tools')" id="nav-tools" class="tab-btn px-3.5 py-2 rounded-lg transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800">
-        6. CLI & Kalkulator
-      </button>
-    </div>
-  </nav>
+  <!-- WORKSPACE WRAPPER (SIDEBAR + MAIN CONTENT + ON-THIS-PAGE TOC) -->
+  <div class="flex-1 flex w-full max-w-[1600px] mx-auto">
 
-  <!-- SEARCH STATS BANNER -->
-  <div id="searchBanner" class="hidden bg-orange-500/10 border-b border-orange-500/30 px-6 py-2.5 text-xs text-aruba-orange max-w-7xl mx-auto w-full flex justify-between items-center">
-    <div>Ditemukan <span id="searchResultCount" class="font-bold">0</span> bagian yang cocok dengan kata kunci.</div>
-    <button onclick="clearSearch()" class="underline hover:text-white">Tutup Hasil Pencarian</button>
-  </div>
-
-  <!-- MAIN CONTAINER -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8 space-y-8">
-
-    <!-- ==================== TAB 1: FONDASI & ARSITEKTUR ==================== -->
-    <div id="tab-foundation" class="tab-pane space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <span>&bull;</span> Fondasi Arsitektur Aruba Wireless
-        </h2>
-        <p class="text-xs text-slate-400 mt-1">Perbandingan arsitektur control plane, data plane forwarding, dan model arsitektur di tiga platform utama.</p>
+    <!-- LEFT SIDEBAR NAVIGATION (ACCORDION & CATEGORIES) -->
+    <aside class="w-72 border-r border-hpe-border bg-hpe-sidebar/70 shrink-0 hidden md:block sticky top-[57px] h-[calc(100vh-57px)] overflow-y-auto p-4 space-y-6 text-xs">
+      
+      <div>
+        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
+          <span>TechDocs-Wireless</span>
+          <span class="text-[9px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400 font-mono">v10 / v8</span>
+        </div>
+        <ul class="space-y-0.5">
+          <li>
+            <a href="#topology-simulation" onclick="setActiveNav(this)" class="nav-item nav-active block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              Topologi Visual &amp; Arsitektur
+            </a>
+          </li>
+          <li>
+            <a href="#foundations" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              1. Fondasi (IAP, AOS 8, AOS 10)
+            </a>
+          </li>
+        </ul>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <!-- IAP -->
-        <div class="searchable bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Aruba Instant (IAP)</span>
-            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Controllerless</span>
+      <div>
+        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Deploy &amp; Provisioning</div>
+        <ul class="space-y-0.5">
+          <li>
+            <a href="#day0-setup" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              2. Setup Awal (Day-0 &amp; Day-1)
+            </a>
+          </li>
+          <li>
+            <a href="#ap-conversion" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              3. Matriks Konversi Mode AP
+            </a>
+          </li>
+          <li>
+            <a href="#access-licensing" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              4. Akses Console &amp; Lisensi
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Field Diagnostics</div>
+        <ul class="space-y-0.5">
+          <li>
+            <a href="#troubleshooting-triage" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              5. Triage Troubleshooting Lapangan
+            </a>
+          </li>
+          <li>
+            <a href="#security-dot1x" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              6. 802.1X, ClearPass &amp; CoA
+            </a>
+          </li>
+          <li>
+            <a href="#cli-bank" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              7. CLI Command Translation Bank
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Interactive Helpers</div>
+        <ul class="space-y-0.5">
+          <li>
+            <a href="#dhcp-generator" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              Kalkulator DHCP Option 43 / 60
+            </a>
+          </li>
+          <li>
+            <a href="#latency-test" onclick="setActiveNav(this)" class="nav-item block px-3 py-2 rounded-r-md text-slate-300 hover:bg-slate-800/60 transition">
+              Wi-Fi Latency &amp; Jitter Live Test
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </aside>
+
+    <!-- CENTER DOCUMENTATION WORKSPACE -->
+    <main class="flex-1 p-6 md:p-10 space-y-16 overflow-y-auto max-w-5xl">
+
+      <!-- ==================== TOPOLOGY SIMULATION SECTION (HPE VSG STYLE) ==================== -->
+      <section id="topology-simulation" class="search-target space-y-6">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[10px] bg-emerald-500/10 text-hpe-green px-2 py-0.5 rounded font-mono font-bold uppercase border border-emerald-500/20">Validated Architecture</span>
+            <span class="text-xs text-slate-400">&bull; 12 minute read</span>
           </div>
-          <h3 class="text-sm font-semibold text-slate-100">Virtual Controller (VC) Architecture</h3>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Tidak memerlukan appliance controller fisik. Satu AP dalam satu subnet L2 terpilih secara dinamis sebagai <strong>Virtual Controller (VC)</strong> yang mengelola konfigurasi seluruh AP anggota (Slave).
+          <h2 class="text-2xl font-bold text-white tracking-tight">Topologi Visual &amp; Arsitektur Forwarding</h2>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Representasi diagram interkoneksi perangkat antara Cloud Control Plane (Aruba Central), Gateway / Mobility Controller (AOS 8), Switch Core/Access, dan Access Point.
           </p>
-          <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
-            <li><strong>Master Election:</strong> Berdasarkan AP dengan waktu uptime paling lama, kapasitas CPU tertinggi, atau preference flag.</li>
-            <li><strong>Image Sync:</strong> VC mendistribusikan firmware image ke semua AP anggota secara otomatis.</li>
-            <li><strong>Forwarding:</strong> Bridge lokal langsung ke port switch access.</li>
-          </ul>
         </div>
 
-        <!-- AOS 8 -->
-        <div class="searchable bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-aruba-orange uppercase tracking-wider">ArubaOS 8 (AOS 8)</span>
-            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Controller-Centric</span>
+        <!-- SIMULASI DIAGRAM SVG INTERAKTIF (GAYA HPE VSG) -->
+        <div class="bg-hpe-card border border-hpe-border rounded-2xl p-4 md:p-6 shadow-2xl space-y-4">
+          <div class="flex flex-wrap items-center justify-between border-b border-hpe-border/80 pb-3 gap-2">
+            <div class="text-xs font-semibold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-hpe-green animate-pulse"></span>
+              Simulasi Arsitektur Jaringan Kampus Aruba (Campus &amp; Branch Flow)
+            </div>
+            <div class="flex gap-2 text-[10px] font-mono">
+              <span class="bg-slate-900 border border-slate-700 px-2 py-0.5 rounded text-cyan-400">&mdash; Cloud Control (WSS/TLS)</span>
+              <span class="bg-slate-900 border border-slate-700 px-2 py-0.5 rounded text-amber-400">&bull;&bull;&bull; GRE / IPsec Data Tunnel</span>
+              <span class="bg-slate-900 border border-slate-700 px-2 py-0.5 rounded text-emerald-400">&mdash; Local Switched VLAN</span>
+            </div>
           </div>
-          <h3 class="text-sm font-semibold text-slate-100">Conductor & Controller Hierarchy</h3>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Memisahkan peran manajemen dan forwarding. <strong>Mobility Conductor (MCR)</strong> bertindak sebagai otak konfigurasi terpusat, sedangkan <strong>Mobility Controller (MC)</strong> memproses data plane.
+
+          <!-- PURE SVG NETWORK TOPOLOGY -->
+          <div class="w-full overflow-x-auto bg-[#070C15] p-2 rounded-xl border border-slate-800">
+            <svg viewBox="0 0 920 480" class="w-full min-w-[760px] h-auto font-sans" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0284c7" />
+                  <stop offset="100%" stop-color="#0369a1" />
+                </linearGradient>
+                <linearGradient id="gwGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1e293b" />
+                  <stop offset="100%" stop-color="#0f172a" />
+                </linearGradient>
+              </defs>
+
+              <!-- CLOUD LAYER: ARUBA CENTRAL -->
+              <rect x="340" y="20" width="240" height="60" rx="10" fill="url(#cloudGrad)" stroke="#38bdf8" stroke-width="1.5" />
+              <text x="460" y="45" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">HPE Aruba Central (AOS 10)</text>
+              <text x="460" y="62" text-anchor="middle" fill="#bae6fd" font-size="10">Cloud AI &bull; Activate ZTP &bull; AirMatch</text>
+
+              <!-- INTERNET / WAN CLOUD -->
+              <ellipse cx="140" cy="50" rx="70" ry="30" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+              <text x="140" y="54" text-anchor="middle" fill="#cbd5e1" font-size="11" font-weight="600">Internet / WAN Edge</text>
+
+              <!-- CLEARPASS CPPM -->
+              <rect x="700" y="20" width="180" height="60" rx="8" fill="#1e293b" stroke="#00C78E" stroke-width="1.5" />
+              <text x="790" y="44" text-anchor="middle" fill="#00C78E" font-size="12" font-weight="bold">Aruba ClearPass (CPPM)</text>
+              <text x="790" y="60" text-anchor="middle" fill="#94a3b8" font-size="9">RADIUS &bull; Dynamic Roles &bull; CoA</text>
+
+              <!-- CONTROLLER / GATEWAY LAYER -->
+              <rect x="320" y="140" width="280" height="65" rx="8" fill="url(#gwGrad)" stroke="#FF8300" stroke-width="1.5"/>
+              <text x="460" y="165" text-anchor="middle" fill="#FF8300" font-size="12" font-weight="bold">Mobility Controller (MC) / Gateway</text>
+              <text x="460" y="182" text-anchor="middle" fill="#94a3b8" font-size="10">Stateful PEF Firewall &bull; Clustering &bull; Dynamic Tunnel</text>
+
+              <!-- CORE / AGGREGATION SWITCH LAYER -->
+              <rect x="260" y="245" width="400" height="45" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+              <text x="460" y="272" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Collapsed Core / Aggregation (Aruba-CX 8325 / VSX)</text>
+
+              <!-- ACCESS SWITCH LAYER -->
+              <rect x="110" y="330" width="240" height="40" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+              <text x="230" y="354" text-anchor="middle" fill="#cbd5e1" font-size="10">Wired Access SW1 (Aruba-CX 6300M)</text>
+
+              <rect x="570" y="330" width="240" height="40" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+              <text x="690" y="354" text-anchor="middle" fill="#cbd5e1" font-size="10">Wired Access SW2 (Aruba-CX 6200F)</text>
+
+              <!-- AP LAYER -->
+              <!-- AP-01: AOS 8 Campus AP (Tunnel) -->
+              <rect x="80" y="415" width="140" height="45" rx="6" fill="#0f172a" stroke="#FF8300" stroke-width="1.5"/>
+              <text x="150" y="434" text-anchor="middle" fill="#FF8300" font-size="10" font-weight="bold">AP-535 (Campus AP)</text>
+              <text x="150" y="448" text-anchor="middle" fill="#94a3b8" font-size="8.5">AOS 8 Controller GRE</text>
+
+              <!-- AP-02: IAP Virtual Controller Cluster -->
+              <rect x="250" y="415" width="140" height="45" rx="6" fill="#0f172a" stroke="#00C78E" stroke-width="1.5"/>
+              <text x="320" y="434" text-anchor="middle" fill="#00C78E" font-size="10" font-weight="bold">AP-515 (IAP Cluster)</text>
+              <text x="320" y="448" text-anchor="middle" fill="#94a3b8" font-size="8.5">Virtual Controller VC</text>
+
+              <!-- AP-03 & AP-04: Central AOS 10 Bridge & Microbranch -->
+              <rect x="540" y="415" width="140" height="45" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="610" y="434" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">AP-635 (AOS 10 Bridge)</text>
+              <text x="610" y="448" text-anchor="middle" fill="#94a3b8" font-size="8.5">Cloud Managed &bull; Local VLAN</text>
+
+              <rect x="710" y="415" width="140" height="45" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="780" y="434" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">AP-505H (Microbranch)</text>
+              <text x="780" y="448" text-anchor="middle" fill="#94a3b8" font-size="8.5">Cloud IPsec to Gateway</text>
+
+              <!-- TOPOLOGY CONNECTION LINES -->
+              <!-- Cloud to Gateway & APs -->
+              <path d="M460 80 L460 140" stroke="#38bdf8" stroke-dasharray="4" stroke-width="1.5"/>
+              <path d="M580 50 C640 50, 700 100, 780 415" stroke="#38bdf8" stroke-dasharray="3" stroke-width="1" opacity="0.6"/>
+              
+              <!-- Gateway to Core Switch -->
+              <line x1="460" y1="205" x2="460" y2="245" stroke="#FF8300" stroke-width="2"/>
+              
+              <!-- Core to Access Switches -->
+              <line x1="380" y1="290" x2="230" y2="330" stroke="#64748b" stroke-width="1.5"/>
+              <line x1="540" y1="290" x2="690" y2="330" stroke="#64748b" stroke-width="1.5"/>
+
+              <!-- Access SW1 to APs -->
+              <line x1="180" y1="370" x2="150" y2="415" stroke="#64748b" stroke-width="1.5"/>
+              <line x1="280" y1="370" x2="320" y2="415" stroke="#00C78E" stroke-width="1.5"/>
+
+              <!-- Access SW2 to APs -->
+              <line x1="640" y1="370" x2="610" y2="415" stroke="#64748b" stroke-width="1.5"/>
+              <line x1="740" y1="370" x2="780" y2="415" stroke="#64748b" stroke-width="1.5"/>
+
+              <!-- GRE Tunneling Overlay from AP-535 to Controller -->
+              <path d="M150 415 C120 280, 250 180, 320 170" stroke="#FF8300" stroke-dasharray="5 3" stroke-width="2" fill="none"/>
+              <text x="180" y="240" fill="#FF8300" font-size="9" font-weight="bold">GRE Tunnel (IP 47)</text>
+
+              <!-- RADIUS Path to ClearPass -->
+              <path d="M600 160 C660 160, 720 120, 750 80" stroke="#00C78E" stroke-dasharray="3 3" stroke-width="1.5" fill="none"/>
+              <text x="690" y="140" fill="#00C78E" font-size="9">RADIUS UDP 1812 / CoA</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 1: FOUNDATION ==================== -->
+      <section id="foundations" class="search-target space-y-6 border-t border-hpe-border pt-10">
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-tight">1. Fondasi Arsitektur (IAP vs AOS 8 vs AOS 10)</h3>
+          <p class="text-xs text-slate-400 mt-1">Pemahaman mendalam mengenai arsitektur kontrol dan penanganan data traffic.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <div class="text-hpe-green font-bold text-sm uppercase">Aruba Instant (IAP)</div>
+            <p class="text-slate-300 leading-relaxed">
+              Arsitektur terdistribusi tanpa controller fisik. Satu AP bertindak sebagai <strong>Virtual Controller (VC)</strong> yang mengelola konfigurasi seluruh AP dalam satu segmen L2 yang sama.
+            </p>
+            <ul class="text-slate-400 space-y-1 list-disc list-inside">
+              <li>Maksimal 128 AP per kluster L2.</li>
+              <li>Data traffic di-bridge lokal ke port switch.</li>
+              <li>VC terpilih otomatis via master election.</li>
+            </ul>
+          </div>
+
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <div class="text-aruba-orange font-bold text-sm uppercase">ArubaOS 8 Campus (MC)</div>
+            <p class="text-slate-300 leading-relaxed">
+              Arsitektur terpusat menggunakan <strong>Mobility Conductor (MCR)</strong> untuk manajemen dan <strong>Mobility Controller (MC)</strong> untuk pemrosesan traffic data.
+            </p>
+            <ul class="text-slate-400 space-y-1 list-disc list-inside">
+              <li>Traffic klien di-tunneling lewat GRE (IP 47) ke MC.</li>
+              <li>PEF Stateful Firewall berjalan di controller.</li>
+              <li>Clustering aktif tanpa client disassociation saat failover.</li>
+            </ul>
+          </div>
+
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <div class="text-cyan-400 font-bold text-sm uppercase">Aruba Central AOS 10</div>
+            <p class="text-slate-300 leading-relaxed">
+              Arsitektur cloud-native. Manajemen dan optimasi RF (AirMatch) sepenuhnya dipindahkan ke cloud microservices Aruba Central.
+            </p>
+            <ul class="text-slate-400 space-y-1 list-disc list-inside">
+              <li><strong>Bridge Mode:</strong> AP melakukan local forwarding mandiri.</li>
+              <li><strong>Microbranch:</strong> AP membentuk tunnel IPsec langsung ke WAN Gateway.</li>
+              <li>Eliminasi Mobility Conductor lokal.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 2: DAY-0 & DAY-1 SETUP ==================== -->
+      <section id="day0-setup" class="search-target space-y-6 border-t border-hpe-border pt-10">
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-tight">2. Setup Awal Perangkat (Day-0 &amp; Day-1)</h3>
+          <p class="text-xs text-slate-400 mt-1">Langkah inisialisasi dari perangkat baru di kardus hingga beroperasi normal.</p>
+        </div>
+
+        <div class="space-y-4 text-xs">
+          <!-- Setup IAP -->
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <span class="text-hpe-green font-bold text-sm">A. Setup Kluster Aruba Instant (IAP)</span>
+            <ol class="list-decimal list-inside text-slate-300 space-y-2 leading-relaxed">
+              <li>Nyalakan AP dan sambungkan ke switch access yang memiliki DHCP server.</li>
+              <li>Koneksikan laptop ke SSID default <code class="text-amber-400 bg-slate-950 px-1.5 py-0.5 rounded font-mono">Set-Me-Up-xx:xx:xx</code>.</li>
+              <li>Buka browser ke <code class="text-cyan-400 bg-slate-950 px-1.5 py-0.5 rounded font-mono">https://instant.arubanetworks.com:4343</code> (default login: admin / serial number).</li>
+              <li><strong>Kunci Virtual Controller IP:</strong> Masuk ke <em>System &gt; General &gt; Virtual Controller IP</em>. Masukkan alamat IP statis untuk cluster management.</li>
+              <li>Buat SSID di menu <em>Networks &gt; New</em>: pilih Key Management WPA2/WPA3 Personal atau WPA2-Enterprise dengan server ClearPass.</li>
+            </ol>
+          </div>
+
+          <!-- Setup Controller AOS 8 -->
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <span class="text-aruba-orange font-bold text-sm">B. Setup Initial Mobility Controller (AOS 8 Console)</span>
+            <p class="text-slate-300 leading-relaxed">Hubungkan kabel console serial (9600-8-N-1) ke controller, lalu jawab dialog wizard berikut:</p>
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 font-mono text-slate-300 space-y-1 overflow-x-auto text-[11px]">
+              <div>Auto-provisioning? <span class="text-rose-400">no</span></div>
+              <div>Enter System Name: <span class="text-emerald-400">MC-JKT-CORE01</span></div>
+              <div>Enter Controller Role [standalone | mobility-conductor | managed-node]: <span class="text-emerald-400">managed-node</span></div>
+              <div>Enter Management VLAN ID [1]: <span class="text-emerald-400">100</span></div>
+              <div>Enter IP Address for VLAN 100: <span class="text-emerald-400">10.100.1.10</span></div>
+              <div>Enter Netmask: <span class="text-emerald-400">255.255.255.0</span></div>
+              <div>Enter Default Gateway IP: <span class="text-emerald-400">10.100.1.1</span></div>
+              <div>Enter Conductor IP: <span class="text-emerald-400">10.100.1.5</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 3: CONVERSION MATRIX ==================== -->
+      <section id="ap-conversion" class="search-target space-y-6 border-t border-hpe-border pt-10">
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-tight">3. Matriks Konversi Mode AP (Conversion Playbook)</h3>
+          <p class="text-xs text-slate-400 mt-1">Sintaks dan prosedur konversi antar persona IAP, Campus AP, dan Central AOS 10.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-2">
+            <div class="text-aruba-orange font-bold text-sm">IAP &rarr; Campus AP (AOS 8 MC)</div>
+            <p class="text-slate-300">Eksekusi via CLI Virtual Controller:</p>
+            <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-amber-400">
+              IAP# convert-aos-ap cap &lt;IP-Controller&gt;
+            </div>
+            <p class="text-slate-400 text-[11px]">AP akan me-reboot, menarik image firmware dari controller, dan masuk ke mode tunnel.</p>
+          </div>
+
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-2">
+            <div class="text-hpe-green font-bold text-sm">Campus AP &rarr; IAP Standalone</div>
+            <p class="text-slate-300">Eksekusi via bootloader console AP (<code class="font-mono text-cyan-400">apboot&gt;</code>):</p>
+            <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-cyan-400 space-y-0.5">
+              <div>apboot&gt; purgeenv</div>
+              <div>apboot&gt; clear os</div>
+              <div>apboot&gt; saveenv</div>
+              <div>apboot&gt; reset</div>
+            </div>
+          </div>
+
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-2">
+            <div class="text-cyan-400 font-bold text-sm">IAP / CAP &rarr; Aruba Central (AOS 10)</div>
+            <p class="text-slate-300">Onboarding otomatis via cloud:</p>
+            <ol class="list-decimal list-inside text-slate-400 space-y-1 text-[11px]">
+              <li>Hapus AP dari database controller lama jika sebelumnya berstatus CAP.</li>
+              <li>Assign subscription Foundation License di GreenLake.</li>
+              <li>Pastikan port outbound TCP 443 terbuka ke internet.</li>
+              <li>Reboot AP &rarr; Activate mengarahkan AP ke Central &rarr; Upgrade OS 10 otomatis.</li>
+            </ol>
+          </div>
+
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-2">
+            <div class="text-rose-400 font-bold text-sm">Central AOS 10 Rollback &rarr; AOS 8</div>
+            <p class="text-slate-300">Prosedur pelepasan lisensi cloud:</p>
+            <ol class="list-decimal list-inside text-slate-400 space-y-1 text-[11px]">
+              <li>Unassign lisensi Central dari AP di portal GreenLake.</li>
+              <li>Keluarkan AP dari grup AOS 10 di dashboard Central.</li>
+              <li>Buka console AP dan flash image firmware AOS 8 via command <code class="font-mono text-slate-200">upgrade os</code>.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 4: ACCESS & LICENSING ==================== -->
+      <section id="access-licensing" class="search-target space-y-6 border-t border-hpe-border pt-10">
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-tight">4. Metode Akses &amp; Manajemen Lisensi</h3>
+          <p class="text-xs text-slate-400 mt-1">Konfigurasi baud-rate serial fisik dan alokasi pool lisensi.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <h4 class="font-bold text-white">Parameter Koneksi Fisik &amp; Remote</h4>
+            <table class="w-full text-left font-mono text-[11px]">
+              <tbody class="divide-y divide-slate-800">
+                <tr><td class="py-2 text-slate-400 font-sans">Serial Console</td><td class="text-amber-400">9600, 8, N, 1 (Type-C / RJ-45)</td></tr>
+                <tr><td class="py-2 text-slate-400 font-sans">WebUI HTTPS</td><td class="text-cyan-400">TCP 4343 (https://&lt;IP&gt;:4343)</td></tr>
+                <tr><td class="py-2 text-slate-400 font-sans">SSH CLI</td><td class="text-emerald-400">TCP 22</td></tr>
+                <tr><td class="py-2 text-slate-400 font-sans">Central Cloud CLI</td><td class="text-slate-300">Remote Console via WebSocket</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <h4 class="font-bold text-white">Lisensi AOS 8 Conductor vs Central AOS 10</h4>
+            <div class="bg-slate-950 p-2.5 rounded font-mono text-[11px] text-emerald-400 space-y-0.5">
+              <div>(MCR) # show licensing summary</div>
+              <div>(MCR) # show licensing-pool-summary</div>
+            </div>
+            <p class="text-slate-400 text-[11px] leading-relaxed">
+              Pada AOS 10, lisensi dikelola via <strong>HPE GreenLake</strong>. Tier <strong>Foundation</strong> melayani fungsi provisioning, sedangkan tier <strong>Advanced</strong> mengaktifkan fitur AI Insights dan analitik telemetry mendalam.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 5: FIELD TROUBLESHOOTING TRIAGE ==================== -->
+      <section id="troubleshooting-triage" class="search-target space-y-6 border-t border-hpe-border pt-10">
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-tight">5. Triage Troubleshooting Lapangan (Day-2 Diagnostics)</h3>
+          <p class="text-xs text-slate-400 mt-1">Langkah isolasi masalah daya, AP DB flags, serta penanganan boot-loop.</p>
+        </div>
+
+        <!-- POE POWER BUDGET -->
+        <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white text-sm">A. Negosiasi Daya PoE Switch (LLDP / CDP Power Budget)</span>
+            <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded font-mono">L1 Issue</span>
+          </div>
+          <p class="text-slate-300 leading-relaxed">
+            AP Wi-Fi 6/6E (AP-535, AP-555, AP-635) yang hanya menerima daya standar PoE 802.3af (15.4W) akan menonaktifkan radio 5GHz/6GHz secara otomatis.
           </p>
-          <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
-            <li><strong>Encapsulation:</strong> Traffic client dibungkus tunnel GRE (IP Protocol 47) dari AP ke Controller.</li>
-            <li><strong>Stateful PEF Firewall:</strong> Kebijakan peran (User Roles) dieksekusi di Controller.</li>
-            <li><strong>Clustering:</strong> Mendukung Active-Active clustering untuk Seamless Failover tanpa client drop.</li>
-          </ul>
-        </div>
-
-        <!-- AOS 10 -->
-        <div class="searchable bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Aruba Central (AOS 10)</span>
-            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Cloud-Native</span>
-          </div>
-          <h3 class="text-sm font-semibold text-slate-100">Microservices Cloud Architecture</h3>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Menghilangkan kebutuhan Conductor lokal. Semua konfigurasi, AirMatch RF, dan analitik AI dijalankan langsung dari cloud Aruba Central.
-          </p>
-          <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
-            <li><strong>Bridge Mode:</strong> AP berfungsi seperti IAP tingkat tinggi, bridge langsung ke LAN lokal.</li>
-            <li><strong>Tunnel / Microbranch Mode:</strong> AP membentuk tunnel IPsec langsung ke Aruba Gateway (VPNC/Campus Gateway).</li>
-            <li><strong>ZTP:</strong> Onboarding otomatis melalui Aruba Activate dan TPM chip.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- MATRIKS PERBANDINGAN DESAIN -->
-      <div class="searchable bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-4">
-        <h3 class="text-sm font-bold text-white flex items-center gap-2">
-          <span>&bull;</span> Matriks Perbandingan Desain Arsitektur
-        </h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-950 text-slate-400 uppercase font-mono border-b border-slate-800">
-              <tr>
-                <th class="p-3">Parameter Desain</th>
-                <th class="p-3">Aruba Instant (IAP)</th>
-                <th class="p-3">ArubaOS 8 Campus (MC)</th>
-                <th class="p-3">Aruba Central AOS 10</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800 font-mono text-[11px]">
-              <tr>
-                <td class="p-3 font-sans font-semibold text-slate-300">Control Plane</td>
-                <td class="p-3 text-emerald-400">Virtual Controller Lokal</td>
-                <td class="p-3 text-aruba-orange">Mobility Conductor (MCR)</td>
-                <td class="p-3 text-cyan-400">Cloud Aruba Central</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-sans font-semibold text-slate-300">Data Plane (User Traffic)</td>
-                <td class="p-3 text-slate-400">Local Switched (Bridge)</td>
-                <td class="p-3 text-slate-400">GRE Tunneled ke Controller</td>
-                <td class="p-3 text-slate-400">Local Bridge atau Gateway Tunnel</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-sans font-semibold text-slate-300">Skalabilitas Maksimal</td>
-                <td class="p-3 text-slate-400">Hingga 128 AP per subnet L2</td>
-                <td class="p-3 text-slate-400">Ribuan AP per cluster MC</td>
-                <td class="p-3 text-slate-400">Tanpa batas teoritis (Cloud scale)</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-sans font-semibold text-slate-300">RF Management</td>
-                <td class="p-3 text-slate-400">ARM (Adaptive Radio Mgmt)</td>
-                <td class="p-3 text-slate-400">AirMatch (Dihitung di Conductor)</td>
-                <td class="p-3 text-slate-400">Cloud AI AirMatch</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== TAB 2: SETUP AWAL (DAY-0/1) ==================== -->
-    <div id="tab-setup" class="tab-pane hidden space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <span>&bull;</span> Inisialisasi & Setup Awal (Day-0 & Day-1 Setup)
-        </h2>
-        <p class="text-xs text-slate-400 mt-1">Langkah teknis mengkonfigurasi perangkat dari kardus baru hingga siap melayani klien.</p>
-      </div>
-
-      <div class="space-y-6">
-        <!-- IAP SETUP -->
-        <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <div class="flex items-center gap-2">
-            <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-bold">IAP SETUP</span>
-            <h3 class="text-sm font-bold text-white">Setup Cluster Aruba Instant (IAP)</h3>
-          </div>
-          <ol class="list-decimal list-inside text-xs text-slate-300 space-y-2.5 leading-relaxed">
-            <li>Hubungkan kabel Ethernet AP ke switch yang memiliki DHCP server dengan akses internet.</li>
-            <li>Tunggu LED radio menyala hijau/berkedip. Hubungkan laptop ke SSID default: <code class="text-amber-400 bg-slate-950 px-1 py-0.5 rounded font-mono">Set-Me-Up-xx:xx:xx</code>.</li>
-            <li>Buka browser dan akses <code class="text-cyan-400 bg-slate-950 px-1 py-0.5 rounded font-mono">https://instant.arubanetworks.com:4343</code> atau IP DHCP AP. Login default: user <code class="text-slate-200 font-mono">admin</code>, password: <code class="text-slate-200 font-mono">admin</code> atau serial number AP.</li>
-            <li><strong>Kunci Virtual Controller IP:</strong> Masuk ke <em>System &gt; General &gt; Virtual Controller IP</em>. Masukkan IP statis dalam subnet yang sama agar GUI tidak hilang saat AP master reboot.</li>
-            <li>Buat SSID baru di menu <em>Networks &gt; New</em>: Tentukan SSID Name, pilih Key Management (WPA2/WPA3 Personal atau WPA2-Enterprise dengan server RADIUS ClearPass).</li>
-          </ol>
-        </div>
-
-        <!-- AOS 8 CONTROLLER SETUP -->
-        <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <div class="flex items-center gap-2">
-            <span class="text-xs bg-aruba-orange/10 text-aruba-orange px-2.5 py-0.5 rounded-full border border-aruba-orange/20 font-bold">AOS 8 SETUP</span>
-            <h3 class="text-sm font-bold text-white">Setup Awal Mobility Controller (AOS 8 CLI Setup Wizard)</h3>
-          </div>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Koneksikan kabel serial console (Baud 9600) ke controller. Saat prompt wizard `Auto-provisioning` muncul, ketik <code class="text-rose-400 font-mono">no</code> untuk masuk ke setup manual:
-          </p>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-slate-300 space-y-1 overflow-x-auto">
-            <div class="text-slate-500"># Cuplikan parameter dialog setup awal controller:</div>
-            <div>Enter System Name: <span class="text-emerald-400">MC-JKT-01</span></div>
-            <div>Enter Controller Role [standalone | mobility-conductor | managed-node]: <span class="text-emerald-400">managed-node</span> (atau standalone)</div>
-            <div>Enter Management VLAN ID [1]: <span class="text-emerald-400">100</span></div>
-            <div>Enter IP Address for VLAN 100: <span class="text-emerald-400">10.100.1.10</span></div>
-            <div>Enter Netmask: <span class="text-emerald-400">255.255.255.0</span></div>
-            <div>Enter Default Gateway IP: <span class="text-emerald-400">10.100.1.1</span></div>
-            <div>Enter Conductor IP: <span class="text-emerald-400">10.100.1.5</span> (jika Managed Node)</div>
-            <div>Enter Country Code: <span class="text-emerald-400">ID</span> (Indonesia - 360)</div>
+          <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-emerald-400">
+            (MC-01) # show ap power-mgmt-status ap-name &lt;AP-Name&gt;
           </div>
         </div>
 
-        <!-- AOS 10 CENTRAL SETUP -->
-        <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <div class="flex items-center gap-2">
-            <span class="text-xs bg-cyan-500/10 text-cyan-400 px-2.5 py-0.5 rounded-full border border-cyan-500/20 font-bold">CENTRAL AOS 10</span>
-            <h3 class="text-sm font-bold text-white">Onboarding Perangkat ke Aruba Central Cloud</h3>
-          </div>
-          <ol class="list-decimal list-inside text-xs text-slate-300 space-y-2.5 leading-relaxed">
-            <li>Buka portal <strong>HPE GreenLake</strong> (<code class="text-cyan-400 font-mono">common.cloud.hpe.com</code>), buka menu <em>Device Management</em>.</li>
-            <li>Klik <em>Add Devices</em> &gt; masukkan Serial Number dan MAC Address perangkat atau unggah file manifest pesanan (CSV).</li>
-            <li>Pilih aplikasi <strong>Aruba Central</strong> dan assign subscription token (Foundation AP License).</li>
-            <li>Buka dashboard Aruba Central &gt; Masuk ke <em>Organization &gt; Groups</em> &gt; Buat Group baru dengan tipe arsitektur <strong>AOS 10</strong>.</li>
-            <li>Masukkan AP ke dalam Group tersebut. Saat AP pertama kali terhubung ke internet dan menghubungi Activate, firmware akan otomatis ter-upgrade ke image AOS 10 dan menarik konfigurasi Group.</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== TAB 3: MATRIKS KONVERSI MODE ==================== -->
-    <div id="tab-conversion" class="tab-pane hidden space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <span>&bull;</span> Matriks & Prosedur Konversi Mode AP
-        </h2>
-        <p class="text-xs text-slate-400 mt-1">Panduan langkah demi langkah mengubah persona AP antara IAP, Campus AP (Controller), dan Central Cloud.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <!-- IAP to CAP -->
-        <div class="searchable bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white">1. IAP &rarr; Campus AP (AOS 8 Controller)</h3>
-            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">GUI / CLI</span>
-          </div>
-          <p class="text-xs text-slate-300 leading-relaxed">Mengubah Instant AP agar mencari dan join ke Mobility Controller.</p>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1">
-            <div class="text-slate-500"># Cara CLI dari VC Instant AP:</div>
-            <div class="text-amber-400">IAP# convert-aos-ap cap &lt;IP-Controller&gt;</div>
-            <div class="text-slate-500"># Atau via WebUI IAP:</div>
-            <div class="text-slate-400">Maintenance &gt; Convert &gt; Pilih "Campus AP" &gt; Masukkan IP Controller &gt; Convert Now</div>
-          </div>
-          <p class="text-[11px] text-slate-400">Catatan: AP akan reboot, mengunduh image CAP dari controller, dan membutuhkan persetujuan CPsec whitelist.</p>
-        </div>
-
-        <!-- CAP to IAP -->
-        <div class="searchable bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white">2. Campus AP &rarr; IAP Standalone</h3>
-            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">apboot Console</span>
-          </div>
-          <p class="text-xs text-slate-300 leading-relaxed">Berlaku untuk model Unified AP (seri AP-3xx, AP-5xx, AP-6xx) yang sebelumnya terdaftar di Controller.</p>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1">
-            <div class="text-slate-500"># Hubungkan console, reboot AP, tekan Enter saat hitung mundur:</div>
-            <div class="text-cyan-400">apboot&gt; purgeenv</div>
-            <div class="text-cyan-400">apboot&gt; clear os</div>
-            <div class="text-cyan-400">apboot&gt; saveenv</div>
-            <div class="text-cyan-400">apboot&gt; reset</div>
-          </div>
-          <p class="text-[11px] text-slate-400">Jika image IAP hilang dari partisi flash, siapkan tftp server lalu jalankan <code class="text-amber-400">tftpboot</code> image Instant.</p>
-        </div>
-
-        <!-- IAP/CAP to Central AOS 10 -->
-        <div class="searchable bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white">3. IAP / CAP &rarr; Aruba Central (AOS 10)</h3>
-            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">Activate ZTP</span>
-          </div>
-          <p class="text-xs text-slate-300 leading-relaxed">Proses migrasi otomatis dari controller/IAP lama menuju cloud-managed AOS 10.</p>
-          <ol class="list-decimal list-inside text-xs text-slate-300 space-y-1.5 pl-1">
-            <li>Hapus AP dari database controller lama jika sebelumnya berstatus CAP (<code class="text-rose-400 font-mono">clear ap database ap-name &lt;name&gt;</code>).</li>
-            <li>Assign lisensi Foundation di GreenLake Device Manager.</li>
-            <li>Pastikan port firewall outbound TCP 443 terbuka ke cloud Activate.</li>
-            <li>Reboot AP. AP akan kontak Activate &rarr; redirect ke Central &rarr; download firmware AOS 10.</li>
-          </ol>
-        </div>
-
-        <!-- Central AOS 10 Rollback to AOS 8 -->
-        <div class="searchable bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white">4. Central AOS 10 &rarr; Rollback ke AOS 8</h3>
-            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">Downgrade Recovery</span>
-          </div>
-          <p class="text-xs text-slate-300 leading-relaxed">Mengembalikan AP dari kontrol Central kembali ke mode Instant AP atau Controller lokal.</p>
-          <ol class="list-decimal list-inside text-xs text-slate-300 space-y-1.5 pl-1">
-            <li><strong>Unassign Lisensi:</strong> Lepaskan lisensi Central dari AP di portal GreenLake (agar Activate tidak menariknya kembali).</li>
-            <li>Di dashboard Central, pindahkan AP keluar dari Group AOS 10.</li>
-            <li>Buka console AP, lakukan factory reset atau downgrade image via CLI:
-              <div class="bg-slate-950 p-2 rounded mt-1 font-mono text-[11px] text-amber-400"># upgrade os &lt;url-image-aos8&gt;</div>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== TAB 4: AKSES & LISENSI ==================== -->
-    <div id="tab-access-lic" class="tab-pane hidden space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <span>&bull;</span> Metode Akses Perangkat & Manajemen Lisensi
-        </h2>
-        <p class="text-xs text-slate-400 mt-1">Konfigurasi console fisik, port manajemen jaringan, dan verifikasi alokasi lisensi kapasitas.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <!-- METODE AKSES -->
-        <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <span>&bull;</span> Parameter Akses Console & Jaringan
-          </h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs font-mono">
-              <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
-                <tr>
-                  <th class="p-2.5">Tipe Akses</th>
-                  <th class="p-2.5">Port / Parameter</th>
-                  <th class="p-2.5">Keterangan</th>
-                </tr>
+        <!-- AP DATABASE FLAGS DECODER -->
+        <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3 text-xs">
+          <span class="font-bold text-white text-sm">B. Decoder Flags: `show ap database`</span>
+          <div class="overflow-x-auto border border-hpe-border rounded-lg">
+            <table class="w-full text-left font-mono text-[11px]">
+              <thead class="bg-slate-950 text-slate-400 border-b border-hpe-border">
+                <tr><th class="p-2.5 w-12 text-center">Flag</th><th class="p-2.5 w-32 font-sans">Status</th><th class="p-2.5 font-sans">Akar Masalah</th><th class="p-2.5 font-sans">Perintah Perbaikan</th></tr>
               </thead>
-              <tbody class="divide-y divide-slate-800 text-[11px]">
-                <tr>
-                  <td class="p-2.5 text-slate-200">Serial Console</td>
-                  <td class="p-2.5 text-amber-400">9600, 8, N, 1</td>
-                  <td class="p-2.5 text-slate-400">Flow control: None. Kabel Type-C / Micro-USB / RJ-45.</td>
-                </tr>
-                <tr>
-                  <td class="p-2.5 text-slate-200">WebUI Controller</td>
-                  <td class="p-2.5 text-cyan-400">TCP 4343</td>
-                  <td class="p-2.5 text-slate-400">HTTPS (https://&lt;IP-MC&gt;:4343)</td>
-                </tr>
-                <tr>
-                  <td class="p-2.5 text-slate-200">SSH Controller / IAP</td>
-                  <td class="p-2.5 text-cyan-400">TCP 22</td>
-                  <td class="p-2.5 text-slate-400">CLI remote terminal access</td>
-                </tr>
-                <tr>
-                  <td class="p-2.5 text-slate-200">Central Cloud Console</td>
-                  <td class="p-2.5 text-emerald-400">Cloud WebSocket</td>
-                  <td class="p-2.5 text-slate-400">Tools &gt; Commands &gt; Device Console di Central</td>
-                </tr>
+              <tbody class="divide-y divide-slate-800">
+                <tr><td class="p-2.5 text-center text-rose-400 font-bold">I</td><td class="p-2.5 font-sans">Inactive</td><td class="p-2.5 font-sans text-slate-400">CPsec whitelist belum di-approve atau port UDP 4500 drop.</td><td class="p-2.5 text-emerald-400">whitelist-db cpsec modify mac-address &lt;mac&gt; state approved</td></tr>
+                <tr><td class="p-2.5 text-center text-amber-400 font-bold">D</td><td class="p-2.5 font-sans">Dirty</td><td class="p-2.5 font-sans text-slate-400">Konfigurasi AP tidak sinkron dengan Conductor.</td><td class="p-2.5 text-emerald-400">ap-regroup ap-name &lt;name&gt; &lt;group&gt;</td></tr>
+                <tr><td class="p-2.5 text-center text-amber-400 font-bold">U</td><td class="p-2.5 font-sans">Unprovisioned</td><td class="p-2.5 font-sans text-slate-400">AP baru terdeteksi dengan nama default MAC.</td><td class="p-2.5 text-emerald-400">provision-ap ap-name &lt;mac&gt; ap-group &lt;group&gt;</td></tr>
               </tbody>
             </table>
           </div>
         </div>
+      </section>
 
-        <!-- LISENSI AOS 8 -->
-        <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <span>&bull;</span> Manajemen Lisensi AOS 8 (Conductor Pool)
-          </h3>
-          <p class="text-xs text-slate-300">
-            AOS 8 menggunakan model terpusat (Centralized Licensing). Lisensi diinstal di Mobility Conductor lalu dibagikan ke controller anak.
-          </p>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1">
-            <div class="text-slate-500"># Verifikasi status lisensi di Conductor:</div>
-            <div class="text-emerald-400">(MCR) # show licensing summary</div>
-            <div class="text-emerald-400">(MCR) # show licensing-pool-summary</div>
-          </div>
-          <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <span class="text-aruba-orange font-bold">AP Capacity (MM-VA):</span> Jumlah kuota AP yang boleh join.
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <span class="text-aruba-orange font-bold">PEF (Policy Firewall):</span> User role, bandwidth contract, ACL.
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <span class="text-aruba-orange font-bold">RFProtect (RFP):</span> WIDS/WIPS rogue AP detection.
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <span class="text-aruba-orange font-bold">WebCC:</span> Web Content Classification filter.
-            </div>
-          </div>
+      <!-- ==================== SECTION 6: 802.1X & CLEARPASS ==================== -->
+      <section id="security-dot1x" class="search-target space-y-6 border-t border-hpe-border pt-10">
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-tight">6. 802.1X, ClearPass CPPM &amp; Dynamic Authorization (CoA)</h3>
+          <p class="text-xs text-slate-400 mt-1">Isolasi handshake EAP/RADIUS dan penanganan konflik port RFC 3576.</p>
         </div>
-      </div>
 
-      <!-- LISENSI CENTRAL GREENLAKE -->
-      <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-        <h3 class="text-sm font-bold text-white flex items-center gap-2">
-          <span>&bull;</span> Manajemen Lisensi Aruba Central AOS 10 (HPE GreenLake Tiers)
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-            <span class="font-bold text-cyan-400 uppercase tracking-wide">Foundation License (AP &amp; Gateway)</span>
-            <p class="text-slate-400 leading-relaxed">
-              Mencakup semua fitur operasional standar: manajemen cloud, firmware upgrade otomatis, basic monitoring, configuration group, guest captive portal, dan basic troubleshooting.
+        <div class="space-y-4 text-xs">
+          <!-- Auth-tracebuf Decoder -->
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white text-sm">A. Decoder `show auth-tracebuf`</span>
+              <span class="font-mono text-[10px] text-hpe-green bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">CLI Trace</span>
+            </div>
+            <div class="bg-slate-950 p-2.5 rounded font-mono text-[11px] text-emerald-400">
+              (MC-01) # show auth-tracebuf mac 48:2a:e3:11:22:33
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                <span class="font-bold text-rose-400 font-mono">server-timeout</span>
+                <p class="text-slate-400 mt-1">RADIUS Server mati, port UDP 1812 diblokir, atau Shared Secret mismatch.</p>
+              </div>
+              <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                <span class="font-bold text-rose-400 font-mono">eap-failure</span>
+                <p class="text-slate-400 mt-1">Kredensial AD salah, akun terkunci, atau Policy di ClearPass tidak cocok.</p>
+              </div>
+              <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                <span class="font-bold text-amber-400 font-mono">client-timeout</span>
+                <p class="text-slate-400 mt-1">Klien Android/iOS menolak CA Certificate ClearPass atau prompt trust di-cancel.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Port CoA Conflict -->
+          <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-3">
+            <span class="font-bold text-white text-sm">B. Konflik Port RFC 3576 CoA: UDP 3799 vs 5999</span>
+            <p class="text-slate-300 leading-relaxed">
+              ArubaOS legacy menggunakan port proprietary <strong>UDP 5999</strong>, sedangkan standar RFC adalah <strong>UDP 3799</strong>. Jika fitur Disconnect atau Role Change ClearPass gagal, verifikasi dengan command:
             </p>
-          </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-            <span class="font-bold text-aruba-orange uppercase tracking-wide">Advanced License (AP &amp; Gateway)</span>
-            <p class="text-slate-400 leading-relaxed">
-              Membuka fitur machine learning: <strong>AI Insights</strong> mendalam, Client Insights (device profiling bertenaga AI), streaming telemetry analitik, dan integrasi security tingkat lanjut.
-            </p>
+            <div class="bg-slate-950 p-2.5 rounded font-mono text-[11px] text-emerald-400">
+              (MC-01) # show rfc3576 statistics
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <!-- ==================== TAB 5: TRIAGE TROUBLESHOOTING ==================== -->
-    <div id="tab-troubleshooting" class="tab-pane hidden space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <span>&bull;</span> Triage & Troubleshooting Lapangan (Day-2 Diagnostics)
-        </h2>
-        <p class="text-xs text-slate-400 mt-1">Alur isolasi masalah daya, penemuan AP, kegagalan asosiasi klien, sertifikat 802.1X, hingga roaming RF.</p>
-      </div>
-
-      <!-- POE ISSUES -->
-      <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm font-bold text-white">1. Daya &amp; Negosiasi PoE Switch (LLDP / CDP Power Budget)</h3>
-          <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded font-mono border border-amber-500/20">L1 / Power</span>
+      <!-- ==================== SECTION 7: CLI BANK ==================== -->
+      <section id="cli-bank" class="search-target space-y-6 border-t border-hpe-border pt-10">
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-tight">7. CLI Command Translation Bank (AOS 8 vs AOS 10)</h3>
+          <p class="text-xs text-slate-400 mt-1">Pemetaan sintaks antara Controller CLI dan menu Aruba Central Cloud.</p>
         </div>
-        <p class="text-xs text-slate-300 leading-relaxed">
-          AP generasi Wi-Fi 6/6E (AP-535, AP-555, AP-635) membutuhkan daya standar PoE+ (802.3at / 30W) atau PoE++ (802.3bt). Jika switch hanya menyuplai 802.3af (15.4W), radio 5GHz/6GHz akan otomatis mati (*Power Restricted Mode*).
-        </p>
-        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1">
-          <div class="text-slate-500"># Verifikasi daya yang diterima AP dari switch:</div>
-          <div class="text-emerald-400">(MC-01) # show ap power-mgmt-status ap-name &lt;AP-Name&gt;</div>
-          <div class="text-slate-500"># Di sisi switch Aruba-CX:</div>
-          <div class="text-slate-400">switch# show power-over-ethernet &lt;port&gt;</div>
-        </div>
-      </div>
 
-      <!-- AP DB FLAGS DECODER -->
-      <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-        <h3 class="text-sm font-bold text-white">2. Decoder Flags: `show ap database` (AOS 8)</h3>
-        <div class="overflow-x-auto border border-slate-800 rounded-xl">
+        <div class="overflow-x-auto border border-hpe-border rounded-xl">
           <table class="w-full text-left text-xs font-mono">
-            <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+            <thead class="bg-slate-950 text-slate-400 border-b border-hpe-border">
               <tr>
-                <th class="p-2.5 w-14 text-center">Flag</th>
-                <th class="p-2.5 w-32 font-sans">Status</th>
-                <th class="p-2.5 font-sans">Akar Masalah</th>
-                <th class="p-2.5 font-sans">Perintah Perbaikan</th>
+                <th class="p-3 w-1/3">Tindakan Diagnosa</th>
+                <th class="p-3 w-1/3">ArubaOS 8 (Controller CLI)</th>
+                <th class="p-3 w-1/3">Aruba Central AOS 10</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-800 text-[11px]">
-              <tr>
-                <td class="p-2.5 text-center text-rose-400 font-bold">I</td>
-                <td class="p-2.5 font-sans text-slate-300 font-semibold">Inactive</td>
-                <td class="p-2.5 font-sans text-slate-400">AP ditolak whitelist CPsec atau tunnel UDP 4500 drop.</td>
-                <td class="p-2.5 text-emerald-400">whitelist-db cpsec modify mac-address &lt;mac&gt; state approved</td>
-              </tr>
-              <tr>
-                <td class="p-2.5 text-center text-amber-400 font-bold">D</td>
-                <td class="p-2.5 font-sans text-slate-300 font-semibold">Dirty</td>
-                <td class="p-2.5 font-sans text-slate-400">Konfigurasi AP tidak sinkron dengan database Conductor.</td>
-                <td class="p-2.5 text-emerald-400">ap-regroup ap-name &lt;name&gt; &lt;group&gt;</td>
-              </tr>
-              <tr>
-                <td class="p-2.5 text-center text-amber-400 font-bold">U</td>
-                <td class="p-2.5 font-sans text-slate-300 font-semibold">Unprovisioned</td>
-                <td class="p-2.5 font-sans text-slate-400">AP baru terdeteksi dengan nama default dan belum di-provisioning.</td>
-                <td class="p-2.5 text-emerald-400">provision-ap ap-name &lt;mac&gt; ap-group &lt;group&gt;</td>
-              </tr>
-              <tr>
-                <td class="p-2.5 text-center text-cyan-400 font-bold">R</td>
-                <td class="p-2.5 font-sans text-slate-300 font-semibold">RAP</td>
-                <td class="p-2.5 font-sans text-slate-400">Remote AP aktif via tunnel IPsec eksternal.</td>
-                <td class="p-2.5 text-slate-400">Operasi normal untuk RAP.</td>
-              </tr>
+              <tr><td class="p-3 font-sans text-slate-300">Lihat Daftar Klien Terhubung</td><td class="p-3 text-aruba-orange">show user-table</td><td class="p-3 text-cyan-400">Clients View &gt; Wireless Clients</td></tr>
+              <tr><td class="p-3 font-sans text-slate-300">Asosiasi Detail Klien &amp; RF</td><td class="p-3 text-aruba-orange">show ap association client-mac &lt;mac&gt;</td><td class="p-3 text-cyan-400">Client Detail &gt; RF Stats</td></tr>
+              <tr><td class="p-3 font-sans text-slate-300">Status Koneksi Cloud ZTP</td><td class="p-3 text-aruba-orange">show activate status</td><td class="p-3 text-cyan-400">AP Console: show central status</td></tr>
+              <tr><td class="p-3 font-sans text-slate-300">Tarik Full Tech-Support TAC</td><td class="p-3 text-aruba-orange">tar logs tech-support</td><td class="p-3 text-cyan-400">Help &gt; Collect Device Tech-Support</td></tr>
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
-      <!-- 802.1X & CLEARPASS TRACEBUF -->
-      <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm font-bold text-white">3. 802.1X &amp; ClearPass CPPM Troubleshooting</h3>
-          <span class="text-[10px] bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded font-mono border border-cyan-500/20">Security Triage</span>
-        </div>
-        <p class="text-xs text-slate-300 leading-relaxed">
-          Isolasi titik putus autentikasi Enterprise menggunakan <code class="text-amber-400 font-mono">show auth-tracebuf</code> di controller:
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <span class="font-bold text-rose-400 font-mono">server-timeout</span>
-            <p class="text-slate-400 mt-1">RADIUS Server mati, port UDP 1812/1813 terblokir firewall, atau RADIUS Secret tidak cocok.</p>
-          </div>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <span class="font-bold text-rose-400 font-mono">eap-failure / rad-reject</span>
-            <p class="text-slate-400 mt-1">Password user salah, akun Active Directory terkunci, atau Policy di ClearPass tidak match.</p>
-          </div>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <span class="font-bold text-amber-400 font-mono">client-timeout</span>
-            <p class="text-slate-400 mt-1">HP Android/iOS menolak trust sertifikat EAP ClearPass, atau user membatalkan prompt popup.</p>
-          </div>
+      <!-- ==================== INTERACTIVE HELPERS ==================== -->
+      <section id="dhcp-generator" class="search-target space-y-6 border-t border-hpe-border pt-10">
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-tight">Kalkulator DHCP Option 43 &amp; 60 (Aruba AP Discovery)</h3>
+          <p class="text-xs text-slate-400 mt-1">Hasilkan sintaks siap pakai untuk berbagai DHCP Server.</p>
         </div>
 
-        <!-- COA PORT MISMATCH & ANDROID 11+ TRAP -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 text-xs">
-          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-            <span class="text-aruba-orange font-bold font-mono">Trap RFC 3576 / CoA: UDP 3799 vs 5999</span>
-            <p class="text-slate-400 mt-1">ClearPass default NAD Aruba menggunakan port lama <strong>UDP 5999</strong>, sedangkan standar RFC adalah <strong>UDP 3799</strong>. Cek di controller: <code class="text-emerald-400 font-mono">show rfc3576 statistics</code>.</p>
+        <div class="bg-hpe-card border border-hpe-border p-5 rounded-xl space-y-4 text-xs">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">IPv4 Mobility Controller / Conductor:</label>
+              <input type="text" id="calcIp" value="10.10.20.10" oninput="calculateDhcp()" 
+                class="w-full bg-slate-950 border border-slate-700 text-sm font-mono text-emerald-400 rounded-lg px-3 py-2 focus:outline-none focus:border-hpe-teal">
+            </div>
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Option 60 Vendor Class Identifier (VCI):</label>
+              <input type="text" value="ArubaAP" readonly class="w-full bg-slate-950/60 border border-slate-800 text-sm font-mono text-slate-400 rounded-lg px-3 py-2 cursor-not-allowed">
+            </div>
           </div>
-          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-            <span class="text-cyan-400 font-bold font-mono">Trap Android 11+ &amp; iOS CA Trust</span>
-            <p class="text-slate-400 mt-1">Klien modern tidak mengizinkan opsi "Do not validate" CA Certificate. Domain FQDN ClearPass (misal: <code class="font-mono text-slate-300">cppm.domain.com</code>) wajib diisi di supplicant perangkat.</p>
+          <div class="space-y-3 pt-2">
+            <div>
+              <div class="text-[11px] font-semibold text-slate-400 mb-1">Cisco IOS Switch / Router:</div>
+              <pre id="outCisco" class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-amber-400 overflow-x-auto"></pre>
+            </div>
+            <div>
+              <div class="text-[11px] font-semibold text-slate-400 mb-1">Microsoft Windows Server DHCP (Binary Hex):</div>
+              <pre id="outWin" class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-cyan-400 overflow-x-auto"></pre>
+            </div>
+            <div>
+              <div class="text-[11px] font-semibold text-slate-400 mb-1">Linux Dnsmasq &amp; Mikrotik RouterOS:</div>
+              <pre id="outOther" class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-emerald-400 overflow-x-auto"></pre>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- RF & ROAMING (CLIENTMATCH & AIRMATCH) -->
-      <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm font-bold text-white">4. RF Optimization &amp; Roaming (ClientMatch &amp; AirMatch)</h3>
-          <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded font-mono border border-purple-500/20">RF Triage</span>
-        </div>
-        <p class="text-xs text-slate-300 leading-relaxed">
-          Mengatasi masalah <em>sticky client</em> (perangkat tetap terhubung ke AP jauh dengan RSSI buruk meskipun ada AP dekat):
-        </p>
-        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1">
-          <div class="text-slate-500"># Cek histori steering ClientMatch untuk MAC tertentu:</div>
-          <div class="text-emerald-400">(MC-01) # show ap client-match-history client-mac &lt;mac-address&gt;</div>
-          <div class="text-slate-500"># Cek kalkulasi kanal dan daya pancar radio dari AirMatch:</div>
-          <div class="text-emerald-400">(MCR) # show airmatch report ap-name &lt;AP-Name&gt;</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== TAB 6: CLI & TOOLS ==================== -->
-    <div id="tab-tools" class="tab-pane hidden space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <span>&bull;</span> Cheat Sheet CLI &amp; Kalkulator Lapangan
-        </h2>
-        <p class="text-xs text-slate-400 mt-1">Pemetaan perintah AOS 8 ke Central AOS 10, generator sintaks DHCP, dan uji koneksi.</p>
-      </div>
-
-      <!-- COMMAND MAPPING TABLE -->
-      <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-        <h3 class="text-sm font-bold text-white">Tabel Pemetaan Perintah: CLI AOS 8 vs Central AOS 10</h3>
-        <div class="overflow-x-auto border border-slate-800 rounded-xl">
-          <table class="w-full text-left text-xs font-mono">
-            <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
-              <tr>
-                <th class="p-2.5 w-1/3">Kebutuhan Diagnosa</th>
-                <th class="p-2.5 w-1/3">CLI ArubaOS 8 (Controller)</th>
-                <th class="p-2.5 w-1/3">Aruba Central AOS 10 (Cloud GUI / Console)</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800 text-[11px]">
-              <tr>
-                <td class="p-2.5 font-sans text-slate-300">Melihat daftar client aktif</td>
-                <td class="p-2.5 text-aruba-orange">show user-table</td>
-                <td class="p-2.5 text-cyan-400">Clients View &gt; Wireless Clients Table</td>
-              </tr>
-              <tr>
-                <td class="p-2.5 font-sans text-slate-300">Mengecek asosiasi detail client</td>
-                <td class="p-2.5 text-aruba-orange">show ap association client-mac &lt;mac&gt;</td>
-                <td class="p-2.5 text-cyan-400">Client Detail &gt; Summary &amp; RF Stats</td>
-              </tr>
-              <tr>
-                <td class="p-2.5 font-sans text-slate-300">Status koneksi cloud / ZTP</td>
-                <td class="p-2.5 text-aruba-orange">show activate status</td>
-                <td class="p-2.5 text-cyan-400">AP Remote CLI: show central status</td>
-              </tr>
-              <tr>
-                <td class="p-2.5 font-sans text-slate-300">Tarik Full TAC Tech-Support Log</td>
-                <td class="p-2.5 text-aruba-orange">tar logs tech-support</td>
-                <td class="p-2.5 text-cyan-400">Help (?) &gt; Collect Device Tech-Support Dump</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- DHCP OPTION CALCULATOR -->
-      <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm font-bold text-white">Generator DHCP Option 43 &amp; 60 (Aruba AP Discovery)</h3>
-          <span class="text-[10px] bg-aruba-orange/10 text-aruba-orange px-2 py-0.5 rounded font-mono border border-aruba-orange/20">Interactive Helper</span>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">IPv4 Mobility Controller / Conductor:</label>
-            <input type="text" id="calcIp" value="10.10.20.10" oninput="calculateDhcp()" 
-              class="w-full bg-slate-950 border border-slate-700 text-sm font-mono text-emerald-400 rounded-xl px-3 py-2 focus:outline-none focus:border-aruba-orange">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Option 60 Vendor Class Identifier (VCI):</label>
-            <input type="text" value="ArubaAP" readonly 
-              class="w-full bg-slate-950/60 border border-slate-800 text-sm font-mono text-slate-400 rounded-xl px-3 py-2 cursor-not-allowed">
-          </div>
-        </div>
-        <div class="space-y-3 pt-2">
-          <div>
-            <div class="text-[11px] font-semibold text-slate-400 mb-1">Cisco IOS Switch / Router:</div>
-            <pre id="outCisco" class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-amber-400 overflow-x-auto"></pre>
-          </div>
-          <div>
-            <div class="text-[11px] font-semibold text-slate-400 mb-1">Microsoft Windows Server DHCP (Binary Hex):</div>
-            <pre id="outWin" class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-cyan-400 overflow-x-auto"></pre>
-          </div>
-          <div>
-            <div class="text-[11px] font-semibold text-slate-400 mb-1">Linux Dnsmasq &amp; Mikrotik RouterOS:</div>
-            <pre id="outOther" class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-emerald-400 overflow-x-auto"></pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- SPEED BENCHMARK -->
-      <div class="searchable bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+      <!-- LATENCY BENCHMARK -->
+      <section id="latency-test" class="search-target space-y-6 border-t border-hpe-border pt-10 pb-16">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h3 class="text-sm font-bold text-white">Browser Latency &amp; Jitter Live Benchmark</h3>
-            <p class="text-xs text-slate-400">Pengujian responsivitas dan stabilitas transmisi TCP/HTTP dari browser teknisi ke edge node.</p>
+            <h3 class="text-xl font-bold text-white tracking-tight">Wi-Fi Latency &amp; Jitter Live Benchmark</h3>
+            <p class="text-xs text-slate-400 mt-1">Uji round-trip latency langsung dari browser untuk mendeteksi saturasi RF.</p>
           </div>
-          <button onclick="runSpeedTest()" id="btnTest" class="bg-aruba-orange hover:bg-aruba-darkorange text-slate-950 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-lg shadow-orange-500/20">
-            Mulai Uji Jitter &amp; Latency
+          <button onclick="runLatencyTest()" id="btnTest" class="bg-hpe-teal hover:bg-emerald-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg transition shadow-lg shadow-emerald-500/20">
+            Mulai Uji Latency
           </button>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-          <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
-            <div class="text-[10px] text-slate-500 uppercase font-bold">Min Latency</div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+          <div class="bg-hpe-card border border-hpe-border p-4 rounded-xl">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Min RTT</div>
             <div id="resMin" class="text-lg font-bold font-mono text-white mt-1">—</div>
           </div>
-          <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
-            <div class="text-[10px] text-slate-500 uppercase font-bold">Avg Latency</div>
-            <div id="resAvg" class="text-lg font-bold font-mono text-aruba-orange mt-1">—</div>
+          <div class="bg-hpe-card border border-hpe-border p-4 rounded-xl">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Avg Latency</div>
+            <div id="resAvg" class="text-lg font-bold font-mono text-hpe-green mt-1">—</div>
           </div>
-          <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
-            <div class="text-[10px] text-slate-500 uppercase font-bold">Jitter Variasi</div>
+          <div class="bg-hpe-card border border-hpe-border p-4 rounded-xl">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Jitter Variasi</div>
             <div id="resJitter" class="text-lg font-bold font-mono text-cyan-400 mt-1">—</div>
           </div>
-          <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
-            <div class="text-[10px] text-slate-500 uppercase font-bold">Kualitas Wi-Fi</div>
+          <div class="bg-hpe-card border border-hpe-border p-4 rounded-xl">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Status Wi-Fi</div>
             <div id="resQuality" class="text-xs font-bold font-mono text-slate-400 mt-2">Standby</div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
 
-  </main>
+    </main>
+  </div>
 
   <!-- JAVASCRIPT CONTROLLER -->
   <script>
-    let activeTab = 'foundation';
-
-    function setTab(tabId) {
-      activeTab = tabId;
-      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.className = 'tab-btn px-3.5 py-2 rounded-lg transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800';
+    function setActiveNav(el) {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('nav-active');
       });
-
-      const selectedPane = document.getElementById('tab-' + tabId);
-      const selectedBtn = document.getElementById('nav-' + tabId);
-      if (selectedPane) selectedPane.classList.remove('hidden');
-      if (selectedBtn) {
-        selectedBtn.className = 'tab-btn px-3.5 py-2 rounded-lg transition whitespace-nowrap bg-aruba-orange text-slate-950 font-bold shadow-md shadow-orange-500/20';
-      }
+      el.classList.add('nav-active');
     }
 
-    function handleGlobalSearch(keyword) {
+    // Live Global Search across all sections
+    function handleSearch(keyword) {
       const q = keyword.trim().toLowerCase();
       const clearBtn = document.getElementById('clearSearchBtn');
-      const searchBanner = document.getElementById('searchBanner');
-      const countEl = document.getElementById('searchResultCount');
-      const cards = document.querySelectorAll('.searchable');
+      const targets = document.querySelectorAll('.search-target');
 
       if (q === '') {
         clearBtn.classList.add('hidden');
-        searchBanner.classList.add('hidden');
-        setTab(activeTab);
-        cards.forEach(card => {
-          card.classList.remove('hidden');
-          removeHighlights(card);
+        targets.forEach(t => {
+          t.classList.remove('hidden');
+          removeHighlights(t);
         });
         return;
       }
 
       clearBtn.classList.remove('hidden');
-      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('hidden'));
-
-      let matchCount = 0;
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
+      targets.forEach(t => {
+        const text = t.textContent.toLowerCase();
         if (text.includes(q)) {
-          card.classList.remove('hidden');
-          matchCount++;
-          highlightCard(card, q);
+          t.classList.remove('hidden');
+          highlightElement(t, q);
         } else {
-          card.classList.add('hidden');
-          removeHighlights(card);
+          t.classList.add('hidden');
+          removeHighlights(t);
         }
       });
-
-      searchBanner.classList.remove('hidden');
-      countEl.innerText = matchCount;
     }
 
     function clearSearch() {
       const input = document.getElementById('globalSearchInput');
       input.value = '';
-      handleGlobalSearch('');
+      handleSearch('');
     }
 
-    function highlightCard(element, keyword) {
+    function highlightElement(element, keyword) {
       removeHighlights(element);
       if (!keyword) return;
       const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
@@ -760,7 +701,7 @@
             span.innerHTML = node.data.replace(regex, '<mark class="mark-highlight">$1</mark>');
             node.parentNode.replaceChild(span, node);
           }
-        } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA'].includes(node.tagName)) {
+        } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'INPUT', 'SVG', 'PRE'].includes(node.tagName)) {
           Array.from(node.childNodes).forEach(walk);
         }
       }
@@ -774,6 +715,7 @@
       });
     }
 
+    // DHCP Option 43 / 60 Calculator
     function ipToHex(ip) {
       const parts = ip.trim().split('.');
       if (parts.length !== 4) return null;
@@ -816,7 +758,8 @@ dhcp-option=vendor:ArubaAP,43,${ip}
 /ip dhcp-server option add name="Aruba-Option43" code=43 value="'${ip}'"`;
     }
 
-    async function runSpeedTest() {
+    // Wi-Fi Latency Test
+    async function runLatencyTest() {
       const btn = document.getElementById('btnTest');
       const minEl = document.getElementById('resMin');
       const avgEl = document.getElementById('resAvg');
@@ -862,7 +805,7 @@ dhcp-option=vendor:ArubaAP,43,${ip}
           qualEl.innerText = "Normal / Stabil";
           qualEl.className = "text-xs font-bold font-mono text-cyan-400 mt-2";
         } else {
-          qualEl.innerText = "Jitter Tinggi (RF Contention)";
+          qualEl.innerText = "Jitter Tinggi";
           qualEl.className = "text-xs font-bold font-mono text-rose-400 mt-2";
         }
       }

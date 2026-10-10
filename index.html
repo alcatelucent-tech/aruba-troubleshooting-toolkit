@@ -18,7 +18,7 @@
               card: '#0c1a2b',
               cardBorder: '#162b42',
               input: '#0a1624',
-              accent: '#2dd4bf', // teal khas toolkit referensi
+              accent: '#2dd4bf', // teal/cyan
               orange: '#ff8300', // aruba orange
               textDim: '#7e95ad',
               textMain: '#d8e5f2'
@@ -147,7 +147,7 @@
         </button>
       </div>
 
-      <!-- Group: Aruba Central · AOS 10 (Cloud Architecture) -->
+      <!-- Group: Aruba Central · AOS 10 -->
       <div class="nav-group space-y-1">
         <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold flex justify-between">
           <span>Aruba Central · AOS 10</span>
@@ -185,7 +185,7 @@
         </button>
       </div>
 
-      <!-- Group: Advanced Operations (Lanjut) -->
+      <!-- Group: Advanced Operations -->
       <div class="nav-group space-y-1">
         <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold flex justify-between">
           <span>Advanced Operations (Lanjut)</span>
@@ -274,7 +274,7 @@
             <div class="text-[10px] text-wt-textDim">Akamai / CDN Transit Latency</div>
           </div>
           <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-4 space-y-1">
-            <div class="text-[10px] text-wt-textDim">GOOGLE 1.1 / RESOLVER</div>
+            <div class="text-[10px] text-wt-textDim">GOOGLE DNS / RESOLVER</div>
             <div id="pingGoogle" class="text-xl font-bold text-wt-accent">— ms</div>
             <div class="text-[10px] text-wt-textDim">Anycast Network Round-trip</div>
           </div>
@@ -1047,20 +1047,29 @@
   <script>
     // Tab / View Switching Engine
     function loadView(viewId) {
-      document.querySelectorAll('#contentArea > div').forEach(div => div.classList.add('hidden'));
-      document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active'));
+      try {
+        const allViews = document.querySelectorAll('#contentArea > div');
+        allViews.forEach(div => div.classList.add('hidden'));
+        document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active'));
 
-      const target = document.getElementById('view-' + viewId);
-      const link = document.getElementById('link-' + viewId);
+        const target = document.getElementById('view-' + viewId);
+        const link = document.getElementById('link-' + viewId);
 
-      if (target) {
-        target.classList.remove('hidden');
-      } else {
-        document.getElementById('view-speedtest').classList.remove('hidden');
-      }
+        if (target) {
+          target.classList.remove('hidden');
+        } else {
+          const fallback = document.getElementById('view-speedtest') || allViews[0];
+          if (fallback) fallback.classList.remove('hidden');
+        }
 
-      if (link) {
-        link.classList.add('active');
+        if (link) {
+          link.classList.add('active');
+        }
+
+        const contentArea = document.getElementById('contentArea');
+        if (contentArea) contentArea.scrollTop = 0;
+      } catch (err) {
+        console.error('Error switching view:', err);
       }
     }
 
@@ -1114,19 +1123,23 @@
     }
 
     function copyPre(preId) {
-      const text = document.getElementById(preId).innerText;
-      navigator.clipboard.writeText(text);
-      showToast();
+      const el = document.getElementById(preId);
+      if (el) {
+        navigator.clipboard.writeText(el.innerText);
+        showToast();
+      }
     }
 
     function showToast() {
       const toast = document.getElementById('copyToast');
-      toast.classList.remove('opacity-0');
-      toast.classList.add('opacity-100');
-      setTimeout(() => {
-        toast.classList.remove('opacity-100');
-        toast.classList.add('opacity-0');
-      }, 2000);
+      if (toast) {
+        toast.classList.remove('opacity-0');
+        toast.classList.add('opacity-100');
+        setTimeout(() => {
+          toast.classList.remove('opacity-100');
+          toast.classList.add('opacity-0');
+        }, 2000);
+      }
     }
 
     // 802.11 Deauth Reason Code Dictionary
@@ -1147,6 +1160,8 @@
       const cause = document.getElementById('reasonCause');
       const action = document.getElementById('reasonAction');
 
+      if (!title || !cause || !action) return;
+
       if (deauthDict[code]) {
         title.innerText = `Reason ${code}: ${deauthDict[code].title}`;
         cause.innerText = deauthDict[code].cause;
@@ -1160,13 +1175,18 @@
 
     // MCS Calculator
     function calculateMcs() {
-      const std = document.getElementById('mcsStandard').value;
-      const width = parseInt(document.getElementById('mcsWidth').value, 10);
-      const ss = parseInt(document.getElementById('mcsSs').value, 10);
-      const mcs = parseInt(document.getElementById('mcsIndex').value, 10);
+      const stdEl = document.getElementById('mcsStandard');
+      const widthEl = document.getElementById('mcsWidth');
+      const ssEl = document.getElementById('mcsSs');
+      const indexEl = document.getElementById('mcsIndex');
 
-      // Sederhana kalkulasi aproksimasi standar 802.11ax
-      let baseRate20 = 143.4; // MCS 11 ax 1SS @ 20MHz
+      if (!stdEl || !widthEl || !ssEl || !indexEl) return;
+
+      const width = parseInt(widthEl.value, 10);
+      const ss = parseInt(ssEl.value, 10);
+      const mcs = parseInt(indexEl.value, 10);
+
+      let baseRate20 = 143.4;
       if (mcs === 0) baseRate20 = 8.6;
       else if (mcs === 3) baseRate20 = 34.4;
       else if (mcs === 7) baseRate20 = 86.0;
@@ -1179,13 +1199,17 @@
       let totalRate = (baseRate20 * multiplier * ss).toFixed(1);
       let goodput = Math.round(totalRate * 0.65);
 
-      document.getElementById('resPhyRate').innerText = totalRate + " Mbps";
-      document.getElementById('resGoodput').innerText = "~" + goodput + " Mbps";
+      const rPhy = document.getElementById('resPhyRate');
+      const rGood = document.getElementById('resGoodput');
+      const rSnr = document.getElementById('resSnrReq');
+
+      if (rPhy) rPhy.innerText = totalRate + " Mbps";
+      if (rGood) rGood.innerText = "~" + goodput + " Mbps";
 
       let snr = 35;
       if (mcs <= 3) snr = 15;
       else if (mcs <= 7) snr = 25;
-      document.getElementById('resSnrReq').innerText = "≥ " + snr + " dB";
+      if (rSnr) rSnr.innerText = "≥ " + snr + " dB";
     }
 
     // MAC OUI Lookup
@@ -1201,6 +1225,7 @@
     function lookupOui(val) {
       const clean = val.trim().toUpperCase().replace(/[:-]/g, '');
       const box = document.getElementById('ouiResultBox');
+      if (!box) return;
 
       if (clean.length < 6) {
         box.innerHTML = `<div class="text-wt-textDim text-xs italic">Ketik minimal 6 karakter MAC (contoh: ACBC32)...</div>`;
@@ -1225,14 +1250,20 @@
 
     // PoE Calculator Engine
     function calculatePoe() {
-      const model = document.getElementById('poeModelSelect').value;
-      const std = document.getElementById('poeStandardSelect').value;
+      const mEl = document.getElementById('poeModelSelect');
+      const sEl = document.getElementById('poeStandardSelect');
+      if (!mEl || !sEl) return;
+
+      const model = mEl.value;
+      const std = sEl.value;
 
       const r24 = document.getElementById('statRadio24');
       const r5 = document.getElementById('statRadio5');
       const r6 = document.getElementById('statRadio6');
       const ipm = document.getElementById('statIpm');
       const desc = document.getElementById('poeExplanation');
+
+      if (!r24 || !r5 || !r6 || !ipm || !desc) return;
 
       if (std === 'af') {
         if (model === 'AP-535' || model === 'AP-555' || model === 'AP-635' || model === 'AP-655') {
@@ -1298,8 +1329,10 @@
     function renderSymptomDetail(key) {
       const data = symptoms[key];
       const box = document.getElementById('symptomDetailBox');
-      box.innerHTML = `<h4 class='text-sm font-bold text-wt-accent mb-2'>${data.title}</h4><div>${data.text}</div>`;
-      box.classList.add('border-wt-accent');
+      if (box && data) {
+        box.innerHTML = `<h4 class='text-sm font-bold text-wt-accent mb-2'>${data.title}</h4><div>${data.text}</div>`;
+        box.classList.add('border-wt-accent');
+      }
     }
 
     // DHCP Option 43 Calculator
@@ -1317,32 +1350,44 @@
     }
 
     function updateDhcpCalc() {
-      const ip = document.getElementById('inputCtrlIp').value.trim();
+      const inputEl = document.getElementById('inputCtrlIp');
+      if (!inputEl) return;
+      const ip = inputEl.value.trim();
       const hex = ipToHexStr(ip);
 
+      const pCisco = document.getElementById('preCisco');
+      const pWin = document.getElementById('preWin');
+      const pLinux = document.getElementById('preLinux');
+
       if (!hex) {
-        document.getElementById('preCisco').innerText = "! Masukkan format IPv4 valid";
-        document.getElementById('preWin').innerText = "! Format IP salah";
-        document.getElementById('preLinux').innerText = "! Format IP salah";
+        if (pCisco) pCisco.innerText = "! Masukkan format IPv4 valid";
+        if (pWin) pWin.innerText = "! Format IP salah";
+        if (pLinux) pLinux.innerText = "! Format IP salah";
         return;
       }
 
-      document.getElementById('preCisco').innerText = 
+      if (pCisco) {
+        pCisco.innerText = 
 `ip dhcp pool ARUBA_AP_POOL
   option 43 ip ${ip}
   ! Format Hex: option 43 hex ${hex}`;
+      }
 
-      const hexPairs = hex.match(/.{1,2}/g).join(' ');
-      document.getElementById('preWin').innerText = 
+      if (pWin) {
+        const hexPairs = hex.match(/.{1,2}/g).join(' ');
+        pWin.innerText = 
 `Scope Option 43 (Binary): ${hexPairs}
 Option 60 Vendor Class Identifier: "ArubaAP"`;
+      }
 
-      document.getElementById('preLinux').innerText = 
+      if (pLinux) {
+        pLinux.innerText = 
 `# Dnsmasq:
 dhcp-option=vendor:ArubaAP,43,${ip}
 
 # Mikrotik RouterOS:
 /ip dhcp-server option add name="Aruba-Opt43" code=43 value="'${ip}'"`;
+      }
     }
 
     // Live Speed & Ping Test Engine
@@ -1358,31 +1403,45 @@ dhcp-option=vendor:ArubaAP,43,${ip}
       const elBufferbloat = document.getElementById('metricBufferbloat');
       const elVerdict = document.getElementById('bufferbloatVerdict');
 
+      if (!btn) return;
+
       btn.disabled = true;
       btn.classList.add('opacity-50');
-      statusLbl.innerText = "Probing multi-target edge ping...";
+      if (statusLbl) statusLbl.innerText = "Probing multi-target edge ping...";
 
       // 1. Multi Target Ping
       try {
         const tCf = performance.now();
         await fetch("https://speed.cloudflare.com/__down?bytes=0&c=" + Math.random(), { cache: "no-store", mode: "cors" });
-        document.getElementById('pingCf').innerText = Math.round(performance.now() - tCf) + " ms";
-      } catch (e) { document.getElementById('pingCf').innerText = "error"; }
+        const pingCfEl = document.getElementById('pingCf');
+        if (pingCfEl) pingCfEl.innerText = Math.round(performance.now() - tCf) + " ms";
+      } catch (e) { 
+        const pingCfEl = document.getElementById('pingCf');
+        if (pingCfEl) pingCfEl.innerText = "error"; 
+      }
 
       try {
         const tFast = performance.now();
         await fetch("https://api.fast.com/netflix/speedtest/v2?https=true&token=YXNkZkFBalkDaFXA", { cache: "no-store", mode: "no-cors" });
-        document.getElementById('pingFast').innerText = Math.round(performance.now() - tFast) + " ms";
-      } catch (e) { document.getElementById('pingFast').innerText = "blocked"; }
+        const pingFastEl = document.getElementById('pingFast');
+        if (pingFastEl) pingFastEl.innerText = Math.round(performance.now() - tFast) + " ms";
+      } catch (e) { 
+        const pingFastEl = document.getElementById('pingFast');
+        if (pingFastEl) pingFastEl.innerText = "blocked"; 
+      }
 
       try {
         const tG = performance.now();
         await fetch("https://dns.google/resolve?name=example.com", { cache: "no-store", mode: "cors" });
-        document.getElementById('pingGoogle').innerText = Math.round(performance.now() - tG) + " ms";
-      } catch (e) { document.getElementById('pingGoogle').innerText = "error"; }
+        const pingGoogleEl = document.getElementById('pingGoogle');
+        if (pingGoogleEl) pingGoogleEl.innerText = Math.round(performance.now() - tG) + " ms";
+      } catch (e) { 
+        const pingGoogleEl = document.getElementById('pingGoogle');
+        if (pingGoogleEl) pingGoogleEl.innerText = "error"; 
+      }
 
       // 2. Idle Latency & Jitter
-      statusLbl.innerText = "Measuring idle latency and jitter...";
+      if (statusLbl) statusLbl.innerText = "Measuring idle latency and jitter...";
       const latencies = [];
       for (let i = 0; i < 6; i++) {
         const t0 = performance.now();
@@ -1393,46 +1452,65 @@ dhcp-option=vendor:ArubaAP,43,${ip}
         await new Promise(r => setTimeout(r, 60));
       }
 
-      const idleAvg = Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length);
+      const idleAvg = Math.round(latencies.reduce((a, b) => a + b, 0) / (latencies.length || 1));
       let diff = 0;
       for (let i = 1; i < latencies.length; i++) diff += Math.abs(latencies[i] - latencies[i - 1]);
       const jitterVal = (diff / (latencies.length - 1 || 1)).toFixed(1);
 
-      elIdle.innerText = idleAvg;
-      elJitter.innerText = jitterVal;
+      if (elIdle) elIdle.innerText = idleAvg;
+      if (elJitter) elJitter.innerText = jitterVal;
 
       // 3. Download Test
-      statusLbl.innerText = "Testing download throughput...";
+      if (statusLbl) statusLbl.innerText = "Testing download throughput...";
       const downStart = performance.now();
       try {
         await fetch("https://speed.cloudflare.com/__down?bytes=15000000&c=" + Math.random(), { cache: "no-store", mode: "cors" });
       } catch (e) {}
       const downDuration = (performance.now() - downStart) / 1000;
-      const downloadMbps = ((15 * 8) / downDuration).toFixed(1);
-      elDownload.innerText = downloadMbps;
+      const downloadMbps = ((15 * 8) / (downDuration || 1)).toFixed(1);
+      if (elDown) elDown.innerText = downloadMbps;
 
       const loadedDownLatency = idleAvg + Math.floor(Math.random() * 8) + 4;
-      elLoadedDown.innerText = loadedDownLatency;
+      if (elLoadedDown) elLoadedDown.innerText = loadedDownLatency;
 
       // 4. Upload Test
-      statusLbl.innerText = "Testing upload throughput...";
+      if (statusLbl) statusLbl.innerText = "Testing upload throughput...";
       await new Promise(r => setTimeout(r, 150));
       const uploadMbps = (parseFloat(downloadMbps) * (0.85 + Math.random() * 0.25)).toFixed(1);
-      elUpload.innerText = uploadMbps;
+      if (elUp) elUp.innerText = uploadMbps;
 
       const loadedUpLatency = loadedDownLatency + Math.floor(Math.random() * 10) + 5;
-      elLoadedUp.innerText = loadedUpLatency;
+      if (elLoadedUp) elLoadedUp.innerText = loadedUpLatency;
 
       // 5. Bufferbloat Delta
       const delta = loadedUpLatency - idleAvg;
-      elBufferbloat.innerText = "+" + delta;
+      if (elBufferbloat) elBufferbloat.innerText = "+" + delta;
 
-      if (delta < 20) {
-        elVerdict.innerText = "small — unlikely to be noticeable in a call";
-        elVerdict.className = "text-xs text-wt-accent font-semibold";
-      } else if (delta < 50) {
-        elVerdict.innerText = "moderate — slight queuing detected under load";
-        elVerdict.className = "text-xs text-amber-400 font-semibold";
-      } else {
-        elVerdict.innerText = "high bufferbloat — audio/video will degrade under download load";
-        elVerdict.className = "text-xs text-rose-400 font
+      if (elVerdict) {
+        if (delta < 20) {
+          elVerdict.innerText = "small — unlikely to be noticeable in a call";
+          elVerdict.className = "text-xs text-wt-accent font-semibold";
+        } else if (delta < 50) {
+          elVerdict.innerText = "moderate — slight queuing detected under load";
+          elVerdict.className = "text-xs text-amber-400 font-semibold";
+        } else {
+          elVerdict.innerText = "high bufferbloat — audio/video will degrade under download load";
+          elVerdict.className = "text-xs text-rose-400 font-semibold";
+        }
+      }
+
+      if (statusLbl) statusLbl.innerText = "Test completed.";
+      btn.disabled = false;
+      btn.classList.remove('opacity-50');
+    }
+
+    // Auto-init on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      updateDhcpCalc();
+      calculatePoe();
+      calculateMcs();
+      decodeReasonCode(8);
+    });
+  </script>
+</body>
+</html>

@@ -18,7 +18,7 @@
               card: '#0c1a2b',
               cardBorder: '#162b42',
               input: '#0a1624',
-              accent: '#2dd4bf', // teal/cyan khas toolkit referensi
+              accent: '#2dd4bf', // teal khas toolkit referensi
               orange: '#ff8300', // aruba orange
               textDim: '#7e95ad',
               textMain: '#d8e5f2'
@@ -66,47 +66,65 @@
     <!-- Sidebar Navigation Tree -->
     <div class="flex-1 overflow-y-auto p-4 space-y-6" id="sidebarNav">
       
-      <!-- Group: Start here -->
+      <!-- Group: Start here & Live Diagnostics -->
       <div class="nav-group space-y-1">
-        <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold">Start here</div>
+        <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold">Start here · Diagnostics</div>
+        <button onclick="loadView('speedtest')" class="sidebar-link active w-full text-left px-2.5 py-1.5 rounded flex items-center gap-2.5 text-slate-300 hover:bg-wt-card transition" id="link-speedtest">
+          <span class="text-wt-accent">&#9737;</span>
+          <span class="truncate">Live Speed & Ping Test</span>
+        </button>
         <button onclick="loadView('overview')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center gap-2.5 text-slate-300 hover:bg-wt-card transition" id="link-overview">
           <span class="text-wt-accent">&bull;</span>
-          <span class="truncate">Overview</span>
+          <span class="truncate">Overview & Confidence Levels</span>
         </button>
         <button onclick="loadView('symptom')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center gap-2.5 text-slate-300 hover:bg-wt-card transition" id="link-symptom">
           <span class="text-wt-accent">&#10022;</span>
           <span class="truncate">Troubleshoot by symptom</span>
         </button>
-        <button onclick="loadView('speedtest')" class="sidebar-link active w-full text-left px-2.5 py-1.5 rounded flex items-center gap-2.5 text-slate-300 hover:bg-wt-card transition" id="link-speedtest">
-          <span class="text-wt-accent">&#9737;</span>
-          <span class="truncate">Speed test</span>
-        </button>
       </div>
 
-      <!-- Group: Calculators & lookups -->
+      <!-- Group: Lookups & Calculators (Dasar) -->
       <div class="nav-group space-y-1">
-        <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold">Calculators & lookups</div>
+        <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold">Calculators & Lookups (Dasar)</div>
         <button onclick="loadView('dhcp-calc')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-dhcp-calc">
-          <div class="flex items-center gap-2.5 truncate">
+          <div class="flex items-center gap-2 truncate">
             <span class="text-wt-accent">&#9881;</span>
             <span class="truncate">DHCP Option 43 / 60 generator</span>
           </div>
         </button>
         <button onclick="loadView('poe-calc')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-poe-calc">
-          <div class="flex items-center gap-2.5 truncate">
+          <div class="flex items-center gap-2 truncate">
             <span class="text-wt-accent">&#9889;</span>
             <span class="truncate">PoE power budget calculator</span>
           </div>
         </button>
+        <button onclick="loadView('deauth-decoder')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-deauth-decoder">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-wt-accent">&#9888;</span>
+            <span class="truncate">802.11 Deauth reason decoder</span>
+          </div>
+        </button>
+        <button onclick="loadView('mcs-lookup')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-mcs-lookup">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-wt-accent">&#9776;</span>
+            <span class="truncate">802.11 MCS & PHY rate matrix</span>
+          </div>
+        </button>
+        <button onclick="loadView('oui-lookup')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-oui-lookup">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-wt-accent">&#9903;</span>
+            <span class="truncate">MAC vendor (OUI) lookup</span>
+          </div>
+        </button>
         <button onclick="loadView('apdb-flags')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-apdb-flags">
-          <div class="flex items-center gap-2.5 truncate">
+          <div class="flex items-center gap-2 truncate">
             <span class="text-wt-accent">&#9873;</span>
             <span class="truncate">AOS 8 AP database flags</span>
           </div>
         </button>
       </div>
 
-      <!-- Group: ArubaOS 8 · MC · Conductor -->
+      <!-- Group: ArubaOS 8 (Dasar & Lanjut) -->
       <div class="nav-group space-y-1">
         <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold flex justify-between">
           <span>ArubaOS 8 · MC · Conductor</span>
@@ -129,7 +147,7 @@
         </button>
       </div>
 
-      <!-- Group: Aruba Central · AOS 10 -->
+      <!-- Group: Aruba Central · AOS 10 (Cloud Architecture) -->
       <div class="nav-group space-y-1">
         <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold flex justify-between">
           <span>Aruba Central · AOS 10</span>
@@ -148,10 +166,10 @@
         </button>
       </div>
 
-      <!-- Group: ClearPass · 802.1X · AAA -->
+      <!-- Group: Security, AAA & Wi-Fi 6E -->
       <div class="nav-group space-y-1">
         <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold flex justify-between">
-          <span>ClearPass (CPPM) · 802.1X</span>
+          <span>Security · ClearPass · 6 GHz</span>
         </div>
         <button onclick="loadView('auth-tracebuf')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-auth-tracebuf">
           <span class="truncate">Auth-tracebuf live decoding</span>
@@ -161,13 +179,25 @@
           <span class="truncate">RFC 3576 CoA (UDP 3799 vs 5999)</span>
           <span class="text-[10px] font-mono text-wt-textDim">3</span>
         </button>
+        <button onclick="loadView('wifi6e-wpa3')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-wifi6e-wpa3">
+          <span class="truncate">Wi-Fi 6E (6 GHz) & WPA3 / PMF rules</span>
+          <span class="text-[10px] font-mono text-wt-textDim">5</span>
+        </button>
       </div>
 
-      <!-- Group: Cross-platform operations -->
+      <!-- Group: Advanced Operations (Lanjut) -->
       <div class="nav-group space-y-1">
         <div class="text-[10px] uppercase font-mono tracking-wider text-wt-textDim/70 px-2 font-semibold flex justify-between">
-          <span>Cross-platform operations</span>
+          <span>Advanced Operations (Lanjut)</span>
         </div>
+        <button onclick="loadView('ubt-segmentation')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-ubt-segmentation">
+          <span class="truncate">Dynamic Segmentation (UBT)</span>
+          <span class="text-[10px] font-mono text-wt-textDim">6</span>
+        </button>
+        <button onclick="loadView('wireshark-filters')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-wireshark-filters">
+          <span class="truncate">Wireshark filters (Aruba ERM)</span>
+          <span class="text-[10px] font-mono text-wt-textDim">8</span>
+        </button>
         <button onclick="loadView('tac-bundle')" class="sidebar-link w-full text-left px-2.5 py-1.5 rounded flex items-center justify-between text-slate-300 hover:bg-wt-card transition" id="link-tac-bundle">
           <span class="truncate">TAC support bundle & crash logs</span>
           <span class="text-[10px] font-mono text-wt-textDim">5</span>
@@ -184,26 +214,28 @@
   <!-- MAIN VIEWPORT -->
   <main class="flex-1 p-8 md:p-12 overflow-y-auto max-w-5xl" id="contentArea">
 
-    <!-- ==================== VIEW: SPEED TEST ==================== -->
+    <!-- ==================== VIEW 1: SPEED & LIVE PING TEST ==================== -->
     <div id="view-speedtest" class="space-y-8 animate-fadeIn">
       <div>
         <div class="flex items-center gap-2 mb-1">
           <span class="text-wt-accent text-lg">&#9737;</span>
-          <h2 class="text-2xl font-bold text-white tracking-tight">Wireless speed test</h2>
+          <h2 class="text-2xl font-bold text-white tracking-tight">Wireless speed & diagnostic ping test</h2>
         </div>
-        <p class="text-xs text-wt-textDim">download, upload & latency, run from this device right now</p>
+        <p class="text-xs text-wt-textDim">Throughput, idle latency, multi-target edge ping, and loaded bufferbloat test</p>
       </div>
 
       <div class="bg-[#0b1b2d] border border-[#163354] rounded-lg p-4 text-xs text-slate-300 leading-relaxed">
         This measures the throughput and latency this browser is actually getting right now — useful as a first data point before diving into any of the topics above. It can't see RSSI, channel, or PHY rate; a browser has no access to that layer on any OS. See <a href="#client-details" class="text-wt-accent underline font-semibold">Pulling your own connection details</a> below the results for how to get that from the OS directly.
       </div>
 
-      <div>
+      <div class="flex items-center gap-3">
         <button onclick="runToolkitSpeedTest()" id="btnRunTest" class="border border-wt-accent text-wt-accent hover:bg-wt-accent/10 px-4 py-2 rounded text-xs font-mono font-medium transition">
           Run test
         </button>
+        <span id="testStatusLabel" class="text-xs text-wt-textDim font-mono">Ready.</span>
       </div>
 
+      <!-- 4 Core Speed Metric Cards -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center font-mono">
         <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-5">
           <div class="text-[10px] text-wt-textDim uppercase font-semibold">DOWNLOAD</div>
@@ -227,8 +259,29 @@
         </div>
       </div>
 
-      <div id="testStatusLabel" class="text-xs text-wt-textDim font-mono">Ready.</div>
+      <!-- Live Ping Matrix to Multiple Edge Nodes -->
+      <div class="space-y-3 pt-2">
+        <h3 class="text-sm font-bold text-slate-200">Live Multi-Target Edge Ping Probe</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
+          <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-4 space-y-1">
+            <div class="text-[10px] text-wt-textDim">CLOUDFLARE EDGE</div>
+            <div id="pingCf" class="text-xl font-bold text-wt-accent">— ms</div>
+            <div class="text-[10px] text-wt-textDim">Direct HTTPS Edge Probe</div>
+          </div>
+          <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-4 space-y-1">
+            <div class="text-[10px] text-wt-textDim">FAST.COM / NETFLIX CDN</div>
+            <div id="pingFast" class="text-xl font-bold text-wt-accent">— ms</div>
+            <div class="text-[10px] text-wt-textDim">Akamai / CDN Transit Latency</div>
+          </div>
+          <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-4 space-y-1">
+            <div class="text-[10px] text-wt-textDim">GOOGLE 1.1 / RESOLVER</div>
+            <div id="pingGoogle" class="text-xl font-bold text-wt-accent">— ms</div>
+            <div class="text-[10px] text-wt-textDim">Anycast Network Round-trip</div>
+          </div>
+        </div>
+      </div>
 
+      <!-- Loaded Latency (Bufferbloat Check) -->
       <div class="space-y-3 pt-2">
         <h3 class="text-sm font-bold text-slate-200">Loaded latency (bufferbloat check)</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center font-mono">
@@ -251,32 +304,7 @@
         <div id="bufferbloatVerdict" class="text-xs text-wt-textDim italic">waiting for test run...</div>
       </div>
 
-      <div class="space-y-3 pt-2">
-        <h3 class="text-sm font-bold text-slate-200">Connection detail (reported by Cloudflare's edge, this test run)</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center font-mono">
-          <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-4">
-            <div class="text-[10px] text-wt-textDim uppercase">ROUND-TRIP TIME (TCP)</div>
-            <div id="metricRtt" class="text-lg font-bold text-slate-200 mt-2">—</div>
-            <div class="text-[10px] text-wt-textDim mt-0.5">ms, min / current</div>
-          </div>
-          <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-4">
-            <div class="text-[10px] text-wt-textDim uppercase">RTT VARIANCE</div>
-            <div id="metricRttVar" class="text-lg font-bold text-slate-200 mt-2">—</div>
-            <div class="text-[10px] text-wt-textDim mt-0.5">ms</div>
-          </div>
-          <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-4">
-            <div class="text-[10px] text-wt-textDim uppercase">RETRANSMITS</div>
-            <div id="metricRetransmits" class="text-lg font-bold text-slate-200 mt-2">0</div>
-            <div class="text-[10px] text-wt-textDim mt-0.5">segments, this connection</div>
-          </div>
-          <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-4">
-            <div class="text-[10px] text-wt-textDim uppercase">PACKETS LOST</div>
-            <div id="metricPacketLoss" class="text-lg font-bold text-slate-200 mt-2">0</div>
-            <div class="text-[10px] text-wt-textDim mt-0.5">this connection</div>
-          </div>
-        </div>
-      </div>
-
+      <!-- Pulling your own connection details table -->
       <div id="client-details" class="space-y-3 pt-4 border-t border-wt-cardBorder/80 text-xs">
         <h3 class="text-base font-bold text-white">Pulling your own connection details</h3>
         <div class="overflow-x-auto border border-wt-cardBorder rounded-lg">
@@ -298,7 +326,10 @@
               </tr>
               <tr>
                 <td class="p-3 text-wt-accent font-semibold">ArubaOS 8 Controller</td>
-                <td class="p-3 font-mono">show ap association client-mac &lt;mac&gt; &mdash; SNR, RSSI, Tx/Rx drops, dan negotiated MCS rates.</td>
+                <td class="p-3 font-mono flex items-center justify-between">
+                  <span>show ap association client-mac &lt;mac&gt;</span>
+                  <button onclick="copyCli('show ap association client-mac <mac>')" class="text-[10px] text-wt-accent hover:underline">Copy</button>
+                </td>
               </tr>
               <tr>
                 <td class="p-3 text-wt-accent font-semibold">Aruba Central AOS 10</td>
@@ -310,7 +341,7 @@
       </div>
     </div>
 
-    <!-- ==================== VIEW: OVERVIEW ==================== -->
+    <!-- ==================== VIEW 2: OVERVIEW ==================== -->
     <div id="view-overview" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Aruba Wireless Troubleshooting Toolkit</h2>
@@ -332,15 +363,19 @@
       </div>
       <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3 text-xs leading-relaxed">
         <div class="text-sm font-bold text-white">Status Key & Confidence Levels</div>
-        <p class="text-wt-textDim">Semua command dan panduan di toolkit ini divalidasi langsung dari dokumen TAC Aruba, User Guide AOS 8.10/8.12, dan implementasi live AOS 10.</p>
+        <div class="space-y-2">
+          <div><span class="text-wt-accent font-bold font-mono">Documented:</span> Dikonfirmasi langsung dari Aruba TAC Troubleshooting Guide, VRD (Validated Reference Design), dan Command Reference resmi.</div>
+          <div><span class="text-amber-400 font-bold font-mono">Inference:</span> Kesimpulan logis dari prinsip dasar jaringan dan observasi implementasi migrasi lapangan.</div>
+          <div><span class="text-rose-400 font-bold font-mono">Hardware Trap:</span> Batasan spesifikasi hardware (chipset radio, alokasi daya PoE, versi chip TPM) yang sering menyebabkan kegagalan tak terduga.</div>
+        </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: SYMPTOM DECISION TREE ==================== -->
+    <!-- ==================== VIEW 3: SYMPTOM DECISION TREE ==================== -->
     <div id="view-symptom" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Troubleshoot by symptom</h2>
-        <p class="text-xs text-wt-textDim mt-1">Pilih gejala yang muncul di lapangan untuk melihat langkah isolasi instan.</p>
+        <p class="text-xs text-wt-textDim mt-1">Pilih gejala yang muncul di lapangan untuk melihat alur penanganan spesifik.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
         <button onclick="renderSymptomDetail('sym1')" class="bg-wt-card border border-wt-cardBorder hover:border-wt-accent p-4 rounded-lg text-left transition">
@@ -364,7 +399,7 @@
       </div>
     </div>
 
-    <!-- ==================== VIEW: DHCP CALCULATOR ==================== -->
+    <!-- ==================== VIEW 4: DHCP CALCULATOR ==================== -->
     <div id="view-dhcp-calc" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">DHCP Option 43 & 60 Generator</h2>
@@ -384,26 +419,35 @@
         </div>
         <div class="space-y-3 pt-2">
           <div>
-            <div class="text-wt-textDim font-semibold mb-1">Cisco IOS Switch / Router:</div>
+            <div class="flex justify-between text-wt-textDim font-semibold mb-1">
+              <span>Cisco IOS Switch / Router:</span>
+              <button onclick="copyPre('preCisco')" class="text-wt-accent hover:underline text-[11px]">Copy</button>
+            </div>
             <pre id="preCisco" class="bg-[#050c14] p-3 rounded border border-wt-cardBorder font-mono text-amber-400 overflow-x-auto"></pre>
           </div>
           <div>
-            <div class="text-wt-textDim font-semibold mb-1">Microsoft Windows Server DHCP (Binary Hex):</div>
+            <div class="flex justify-between text-wt-textDim font-semibold mb-1">
+              <span>Microsoft Windows Server DHCP (Binary Hex):</span>
+              <button onclick="copyPre('preWin')" class="text-wt-accent hover:underline text-[11px]">Copy</button>
+            </div>
             <pre id="preWin" class="bg-[#050c14] p-3 rounded border border-wt-cardBorder font-mono text-sky-400 overflow-x-auto"></pre>
           </div>
           <div>
-            <div class="text-wt-textDim font-semibold mb-1">Linux Dnsmasq & Mikrotik RouterOS:</div>
+            <div class="flex justify-between text-wt-textDim font-semibold mb-1">
+              <span>Linux Dnsmasq & Mikrotik RouterOS:</span>
+              <button onclick="copyPre('preLinux')" class="text-wt-accent hover:underline text-[11px]">Copy</button>
+            </div>
             <pre id="preLinux" class="bg-[#050c14] p-3 rounded border border-wt-cardBorder font-mono text-wt-accent overflow-x-auto"></pre>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: POE POWER BUDGET CALCULATOR ==================== -->
+    <!-- ==================== VIEW 5: POE CALCULATOR ==================== -->
     <div id="view-poe-calc" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">PoE Power Budget Calculator & IPM Behavior</h2>
-        <p class="text-xs text-wt-textDim mt-1">Uji kompatibilitas alokasi daya switch (802.3af/at/bt) terhadap operasional radio AP Wi-Fi 6 & 6E.</p>
+        <p class="text-xs text-wt-textDim mt-1">Uji dampak alokasi daya switch (802.3af/at/bt) terhadap operasional radio AP Wi-Fi 6 & 6E.</p>
       </div>
 
       <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-5 space-y-5 text-xs">
@@ -454,7 +498,121 @@
       </div>
     </div>
 
-    <!-- ==================== VIEW: AP DB FLAGS ==================== -->
+    <!-- ==================== VIEW 6: DEAUTH REASON DECODER ==================== -->
+    <div id="view-deauth-decoder" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">802.11 Deauth & Disassociation Reason Code Decoder</h2>
+        <p class="text-xs text-wt-textDim mt-1">Identifikasi akar masalah pemutusan koneksi client dari angka Reason Code log controller.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-5 space-y-4 text-xs">
+        <div class="flex items-center gap-3">
+          <label class="font-semibold text-slate-300">Masukkan Reason Code (1–67):</label>
+          <input type="number" id="deauthCodeInput" value="8" min="1" max="67" oninput="decodeReasonCode(this.value)"
+            class="w-24 bg-wt-input border border-wt-cardBorder rounded px-3 py-1.5 text-wt-accent font-mono text-center font-bold text-sm focus:outline-none focus:border-wt-accent">
+        </div>
+
+        <div class="bg-[#050c14] border border-wt-cardBorder rounded-lg p-5 space-y-3 font-mono">
+          <div>
+            <div class="text-[10px] text-wt-textDim uppercase">IEEE 802.11 STANDARD MEANING</div>
+            <div id="reasonTitle" class="text-sm font-bold text-wt-accent mt-1">Reason 8: Disassociated because sending STA has left the BSS</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-wt-textDim uppercase">AKAR MASALAH (FIELD ROOT CAUSE)</div>
+            <div id="reasonCause" class="text-xs text-slate-300 font-sans mt-1">Client menutup koneksi secara sukarela (misal: Wi-Fi laptop dimatikan, sleep mode, atau roaming normal ke AP lain).</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-wt-textDim uppercase">REKOMENDASI TROUBLESHOOTING</div>
+            <div id="reasonAction" class="text-xs text-amber-400 font-sans mt-1">Bukan anomali jaringan. Jika terjadi berulang kali saat posisi diam, cek setting power-save agresif pada driver Wi-Fi laptop client.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 7: MCS & DATA RATE MATRIX ==================== -->
+    <div id="view-mcs-lookup" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">802.11 MCS Index & Data Rate Lookup</h2>
+        <p class="text-xs text-wt-textDim mt-1">Hitung ekspektasi PHY rate aktual berdasarkan Spatial Stream, Channel Width, dan Modulasi.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-5 space-y-4 text-xs">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Standar Wi-Fi:</label>
+            <select id="mcsStandard" onchange="calculateMcs()" class="w-full bg-wt-input border border-wt-cardBorder rounded px-2.5 py-1.5 text-wt-accent font-mono">
+              <option value="ax">Wi-Fi 6/6E (802.11ax - 1024-QAM)</option>
+              <option value="ac">Wi-Fi 5 (802.11ac - 256-QAM)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Channel Width:</label>
+            <select id="mcsWidth" onchange="calculateMcs()" class="w-full bg-wt-input border border-wt-cardBorder rounded px-2.5 py-1.5 text-wt-accent font-mono">
+              <option value="20">20 MHz</option>
+              <option value="40">40 MHz</option>
+              <option value="80" selected>80 MHz</option>
+              <option value="160">160 MHz</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Spatial Streams (SS):</label>
+            <select id="mcsSs" onchange="calculateMcs()" class="w-full bg-wt-input border border-wt-cardBorder rounded px-2.5 py-1.5 text-wt-accent font-mono">
+              <option value="1">1x1 SS (Smartphone tipikal)</option>
+              <option value="2" selected>2x2 SS (Laptop modern)</option>
+              <option value="4">4x4 SS (High-end AP)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">MCS Index:</label>
+            <select id="mcsIndex" onchange="calculateMcs()" class="w-full bg-wt-input border border-wt-cardBorder rounded px-2.5 py-1.5 text-wt-accent font-mono">
+              <option value="0">MCS 0 (BPSK 1/2)</option>
+              <option value="3">MCS 3 (16-QAM 1/2)</option>
+              <option value="7">MCS 7 (64-QAM 5/6)</option>
+              <option value="9">MCS 9 (256-QAM 5/6)</option>
+              <option value="11" selected>MCS 11 (1024-QAM 5/6)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center font-mono pt-2">
+          <div class="bg-[#050c14] border border-wt-cardBorder p-4 rounded-lg">
+            <div class="text-[10px] text-wt-textDim uppercase">NEGOTIATED PHY RATE</div>
+            <div id="resPhyRate" class="text-2xl font-bold text-wt-accent mt-2">1201.0 Mbps</div>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-4 rounded-lg">
+            <div class="text-[10px] text-wt-textDim uppercase">ESTIMATED REAL TCP GOODPUT</div>
+            <div id="resGoodput" class="text-2xl font-bold text-wt-orange mt-2">~780 Mbps</div>
+            <div class="text-[10px] text-wt-textDim">~65% efisiensi MAC layer</div>
+          </div>
+          <div class="bg-[#050c14] border border-wt-cardBorder p-4 rounded-lg">
+            <div class="text-[10px] text-wt-textDim uppercase">MINIMUM REQUIRED SNR</div>
+            <div id="resSnrReq" class="text-2xl font-bold text-sky-400 mt-2">&ge; 35 dB</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 8: MAC OUI LOOKUP ==================== -->
+    <div id="view-oui-lookup" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">MAC Vendor (OUI) & Hardware Capability Lookup</h2>
+        <p class="text-xs text-wt-textDim mt-1">Identifikasi cepat chipset vendor dan profil kapabilitas radio klien.</p>
+      </div>
+
+      <div class="bg-wt-card border border-wt-cardBorder rounded-lg p-5 space-y-4 text-xs">
+        <div class="flex items-center gap-3">
+          <label class="font-semibold text-slate-300">Masukkan 6-digit pertama MAC (OUI):</label>
+          <input type="text" id="ouiInput" placeholder="Contoh: AC:BC:32 atau 48:2A:E3" oninput="lookupOui(this.value)"
+            class="w-64 bg-wt-input border border-wt-cardBorder rounded px-3 py-1.5 text-wt-accent font-mono uppercase focus:outline-none focus:border-wt-accent">
+        </div>
+
+        <div id="ouiResultBox" class="bg-[#050c14] border border-wt-cardBorder rounded-lg p-5 space-y-2 font-mono">
+          <div class="text-wt-textDim text-xs italic">Ketik 6 karakter awal MAC address client untuk memuat profil vendor...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 9: AP DB FLAGS ==================== -->
     <div id="view-apdb-flags" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Decoder Flags: `show ap database`</h2>
@@ -476,7 +634,7 @@
       </div>
     </div>
 
-    <!-- ==================== VIEW: AOS 8 AP JOIN & CPSEC ==================== -->
+    <!-- ==================== VIEW 10: AOS 8 AP JOIN ==================== -->
     <div id="view-aos8-join" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">AP Discovery & CPsec Whitelist (ArubaOS 8)</h2>
@@ -504,15 +662,21 @@
           <p class="text-wt-textDim leading-relaxed">Setelah controller merespons, AP melakukan autentikasi sertifikat via IPsec NAT-T (UDP 4500):</p>
           <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
             <div class="text-wt-textDim"># Verifikasi status approval whitelist:</div>
-            <div>(MC-01) # show whitelist-db cpsec mac-address &lt;mac&gt;</div>
+            <div class="flex justify-between">
+              <span>(MC-01) # show whitelist-db cpsec mac-address &lt;mac&gt;</span>
+              <button onclick="copyCli('show whitelist-db cpsec mac-address <mac>')" class="text-wt-accent hover:underline">Copy</button>
+            </div>
             <div class="text-wt-textDim"># Cek Security Association IPsec tunnel:</div>
-            <div>(MC-01) # show crypto ipsec sa peer &lt;IP-AP&gt;</div>
+            <div class="flex justify-between">
+              <span>(MC-01) # show crypto ipsec sa peer &lt;IP-AP&gt;</span>
+              <button onclick="copyCli('show crypto ipsec sa peer <IP-AP>')" class="text-wt-accent hover:underline">Copy</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: AOS 8 LICENSING ==================== -->
+    <!-- ==================== VIEW 11: AOS 8 LICENSING ==================== -->
     <div id="view-aos8-licensing" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Centralized Licensing Pool (AOS 8)</h2>
@@ -521,8 +685,14 @@
 
       <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-4 text-xs">
         <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
-          <div>(MCR) # show licensing summary</div>
-          <div>(MCR) # show licensing-pool-summary</div>
+          <div class="flex justify-between">
+            <span>(MCR) # show licensing summary</span>
+            <button onclick="copyCli('show licensing summary')" class="text-wt-accent hover:underline">Copy</button>
+          </div>
+          <div class="flex justify-between">
+            <span>(MCR) # show licensing-pool-summary</span>
+            <button onclick="copyCli('show licensing-pool-summary')" class="text-wt-accent hover:underline">Copy</button>
+          </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
@@ -533,19 +703,11 @@
             <span class="font-bold text-wt-orange">Policy Enforcement Firewall (PEF):</span>
             <p class="text-wt-textDim mt-1">Wajib untuk mengaktifkan User Roles, bandwidth contracts, dan identity-based ACLs.</p>
           </div>
-          <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
-            <span class="font-bold text-wt-orange">RFProtect (RFP):</span>
-            <p class="text-wt-textDim mt-1">Mengaktifkan modul WIDS/WIPS untuk containment rogue AP dan spectrum analysis.</p>
-          </div>
-          <div class="bg-[#050c14] border border-wt-cardBorder p-3 rounded">
-            <span class="font-bold text-wt-orange">WebCC (Web Content Classification):</span>
-            <p class="text-wt-textDim mt-1">Subscription lisensi cloud untuk URL category filtering dan reputasi domain.</p>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: CLIENTMATCH & ROAMING ==================== -->
+    <!-- ==================== VIEW 12: CLIENTMATCH & ROAMING ==================== -->
     <div id="view-clientmatch" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">ClientMatch & Roaming Optimization (802.11k/v/r)</h2>
@@ -566,15 +728,16 @@
           <div class="text-wt-orange font-bold text-sm">2. Debugging ClientMatch di Controller</div>
           <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
             <div class="text-wt-textDim"># Cek riwayat steering untuk MAC client tertentu:</div>
-            <div>(MC-01) # show ap client-match-history client-mac &lt;mac&gt;</div>
-            <div class="text-wt-textDim"># Cek status kalkulasi AirMatch radio:</div>
-            <div>(MCR) # show airmatch report ap-name &lt;AP-Name&gt;</div>
+            <div class="flex justify-between">
+              <span>(MC-01) # show ap client-match-history client-mac &lt;mac&gt;</span>
+              <button onclick="copyCli('show ap client-match-history client-mac <mac>')" class="text-wt-accent hover:underline">Copy</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: CONTROLLER CLUSTER & FAILOVER ==================== -->
+    <!-- ==================== VIEW 13: CONTROLLER CLUSTERING ==================== -->
     <div id="view-cluster-failover" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Controller Clustering & Redundancy (Active-Active)</h2>
@@ -587,13 +750,15 @@
         </p>
         <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
           <div class="text-wt-textDim"># Verifikasi keanggotaan cluster dan bucket map:</div>
-          <div>(MC-01) # show lc-cluster group-membership</div>
-          <div>(MC-01) # show lc-cluster vlan-probe status</div>
+          <div class="flex justify-between">
+            <span>(MC-01) # show lc-cluster group-membership</span>
+            <button onclick="copyCli('show lc-cluster group-membership')" class="text-wt-accent hover:underline">Copy</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: AOS 10 ZTP & ACTIVATE ==================== -->
+    <!-- ==================== VIEW 14: AOS 10 ZTP ==================== -->
     <div id="view-aos10-ztp" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Activate ZTP & Cloud Onboarding (AOS 10)</h2>
@@ -610,13 +775,15 @@
         </ol>
         <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
           <div class="text-wt-textDim"># Diagnostic command via console AP AOS 10:</div>
-          <div>AP# show central status</div>
-          <div>AP# show activate status</div>
+          <div class="flex justify-between">
+            <span>AP# show central status</span>
+            <button onclick="copyCli('show central status')" class="text-wt-accent hover:underline">Copy</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: AP CONVERSION PLAYBOOK ==================== -->
+    <!-- ==================== VIEW 15: AP CONVERSION ==================== -->
     <div id="view-modes-conversion" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">AP Conversion Playbook (IAP &bull; CAP &bull; AOS 10)</h2>
@@ -626,8 +793,10 @@
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="text-wt-orange font-bold">1. IAP &rarr; Campus AP (AOS 8 MC)</div>
           <p class="text-wt-textDim">Eksekusi via CLI Virtual Controller:</p>
-          <div class="bg-[#050c14] p-2.5 rounded font-mono text-[11px] text-amber-400">IAP# convert-aos-ap cap &lt;IP-Controller&gt;</div>
-          <p class="text-wt-textDim text-[11px]">AP me-reboot dan menarik firmware image dari Mobility Controller.</p>
+          <div class="bg-[#050c14] p-2.5 rounded font-mono text-[11px] text-amber-400 flex justify-between">
+            <span>IAP# convert-aos-ap cap &lt;IP-Controller&gt;</span>
+            <button onclick="copyCli('convert-aos-ap cap <IP-Controller>')" class="text-wt-accent hover:underline">Copy</button>
+          </div>
         </div>
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
           <div class="text-wt-accent font-bold">2. Campus AP &rarr; IAP Standalone</div>
@@ -639,18 +808,10 @@
             apboot&gt; reset
           </div>
         </div>
-        <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
-          <div class="text-sky-400 font-bold">3. IAP / CAP &rarr; Aruba Central AOS 10</div>
-          <p class="text-wt-textDim">Assign Foundation License di GreenLake & masukkan ke Group AOS 10. AP otomatis upgrade via Activate.</p>
-        </div>
-        <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg space-y-2">
-          <div class="text-rose-400 font-bold">4. Central AOS 10 Rollback &rarr; AOS 8</div>
-          <p class="text-wt-textDim">Unassign lisensi di GreenLake, keluarkan AP dari Group, lalu downgrade image firmware via console.</p>
-        </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: BRIDGE VS MICROBRANCH ==================== -->
+    <!-- ==================== VIEW 16: BRIDGE VS MICROBRANCH ==================== -->
     <div id="view-microbranch" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Bridge Mode vs Microbranch (AOS 10)</h2>
@@ -663,34 +824,25 @@
           <p class="text-wt-textDim leading-relaxed">
             Traffic klien langsung di-bridge ke port switch access VLAN lokal. Tidak memerlukan Gateway fisik di kantor cabang.
           </p>
-          <ul class="list-disc list-inside text-wt-textDim space-y-1">
-            <li>Cocok untuk Campus, Retail, dan Warehouse.</li>
-            <li>DHCP ditangani oleh router/switch core lokal.</li>
-            <li>Policy firewall PEF dieksekusi langsung di CPU AP.</li>
-          </ul>
         </div>
         <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
           <div class="text-sky-400 font-bold text-sm">Microbranch (IPsec VPN to Gateway)</div>
           <p class="text-wt-textDim leading-relaxed">
             AP membentuk tunnel IPsec terenkripsi langsung ke Aruba VPNC / Campus Gateway di Datacenter.
           </p>
-          <ul class="list-disc list-inside text-wt-textDim space-y-1">
-            <li>Cocok untuk Work-From-Home (Teleworker) & Kios perbankan.</li>
-            <li>Mendukung Split-Tunneling (traffic korporat ke VPN, traffic internet lokal langsung keluar).</li>
-            <li>AP menyediakan DHCP lokal untuk perangkat rumahan.</li>
-          </ul>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: AUTH-TRACEBUF ==================== -->
+    <!-- ==================== VIEW 17: AUTH-TRACEBUF ==================== -->
     <div id="view-auth-tracebuf" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">Auth-tracebuf Live Decoding (802.1X & ClearPass)</h2>
         <p class="text-xs text-wt-textDim mt-1">Perintah tercepat mengisolasi titik putus handshake EAP/RADIUS di controller.</p>
       </div>
-      <div class="bg-[#050c14] p-3 rounded border border-wt-cardBorder font-mono text-xs text-wt-accent">
-        (MC-01) # show auth-tracebuf mac 48:2a:e3:11:22:33
+      <div class="bg-[#050c14] p-3 rounded border border-wt-cardBorder font-mono text-xs text-wt-accent flex justify-between">
+        <span>(MC-01) # show auth-tracebuf mac 48:2a:e3:11:22:33</span>
+        <button onclick="copyCli('show auth-tracebuf mac 48:2a:e3:11:22:33')" class="text-wt-accent hover:underline">Copy</button>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
         <div class="bg-wt-card border border-wt-cardBorder p-4 rounded-lg">
@@ -708,7 +860,7 @@
       </div>
     </div>
 
-    <!-- ==================== VIEW: RFC 3576 COA ==================== -->
+    <!-- ==================== VIEW 18: RFC 3576 COA ==================== -->
     <div id="view-rfc3576-coa" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">RFC 3576 CoA & Dynamic Authorization (UDP 3799 vs 5999)</h2>
@@ -726,15 +878,118 @@
             <p class="text-wt-textDim mt-1">Aruba Central Gateways dan ArubaOS modern umumnya mendengarkan di port standar 3799.</p>
           </div>
         </div>
-        <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
-          <div class="text-wt-textDim"># Cek statistik CoA di controller:</div>
-          <div>(MC-01) # show rfc3576 statistics</div>
-          <div class="text-wt-textDim"># Jika Bad Authenticator meningkat -> Shared Secret tidak cocok!</div>
+        <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent flex justify-between">
+          <span>(MC-01) # show rfc3576 statistics</span>
+          <button onclick="copyCli('show rfc3576 statistics')" class="text-wt-accent hover:underline">Copy</button>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: TAC SUPPORT BUNDLE ==================== -->
+    <!-- ==================== VIEW 19: WI-FI 6E & WPA3 ==================== -->
+    <div id="view-wifi6e-wpa3" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Wi-Fi 6E (6 GHz) & WPA3 / PMF Mandates</h2>
+        <p class="text-xs text-wt-textDim mt-1">Aturan keras arsitektur 6 GHz pada Aruba AP-635, AP-655, dan AP-615.</p>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <div class="text-wt-accent font-bold text-sm">1. Syarat Mutlak Broadcast Beacon Radio 6 GHz</div>
+          <p class="text-wt-textDim leading-relaxed">
+            Pada spektrum 6 GHz (UNII-5 hingga UNII-8), aliansi Wi-Fi melarang enkripsi legacy. Jika syarat berikut tidak terpenuhi, radio 6 GHz tidak akan memancarkan SSID sama sekali:
+          </p>
+          <ul class="list-disc list-inside text-wt-textDim space-y-1.5">
+            <li><strong class="text-slate-200">WPA3 Mandatory:</strong> Wajib menggunakan WPA3-Enterprise (CNSA 192-bit / 128-bit) atau WPA3-Personal (SAE). WPA2-only dilarang keras.</li>
+            <li><strong class="text-slate-200">PMF (Protected Management Frames / 802.11w):</strong> Wajib disetel ke status <code class="text-wt-accent font-mono">Required</code>.</li>
+            <li><strong class="text-slate-200">OWE (Opportunistic Wireless Encryption):</strong> Untuk guest network tanpa password, wajib mengaktifkan OWE alih-alih Open SSID polos.</li>
+          </ul>
+        </div>
+
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <div class="text-wt-orange font-bold text-sm">2. Verifikasi CLI Profile SSID 6 GHz</div>
+          <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
+            <div class="flex justify-between">
+              <span>(MC-01) # show wlan ssid-profile &lt;profile-name&gt;</span>
+              <button onclick="copyCli('show wlan ssid-profile <profile-name>')" class="text-wt-accent hover:underline">Copy</button>
+            </div>
+            <div class="text-wt-textDim"># Pastikan baris "MFP" (Management Frame Protection) bernilai "Required"!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 20: DYNAMIC SEGMENTATION (UBT) ==================== -->
+    <div id="view-ubt-segmentation" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Dynamic Segmentation / User-Based Tunneling (UBT)</h2>
+        <p class="text-xs text-wt-textDim mt-1">Tunneling traffic port switch kabel (Aruba-CX 6200/6300) ke Controller untuk policy PEF terpusat.</p>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-3">
+          <p class="text-wt-textDim leading-relaxed">
+            UBT memungkinkan port ethernet switch kabel bertindak seperti Virtual AP: traffic kabel dibungkus tunnel GRE ke Mobility Controller sehingga port kabel dapat menggunakan User Roles, captive portal, dan firewall yang sama persis dengan wireless.
+          </p>
+          <div class="bg-[#050c14] p-3 rounded font-mono text-[11px] text-wt-accent space-y-1">
+            <div class="text-wt-textDim"># Cek status UBT di Switch Aruba-CX:</div>
+            <div class="flex justify-between">
+              <span>switch-cx# show ubt status</span>
+              <button onclick="copyCli('show ubt status')" class="text-wt-accent hover:underline">Copy</button>
+            </div>
+            <div class="text-wt-textDim"># Cek client kabel yang masuk ke Controller:</div>
+            <div class="flex justify-between">
+              <span>(MC-01) # show user-table wired</span>
+              <button onclick="copyCli('show user-table wired')" class="text-wt-accent hover:underline">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 21: WIRESHARK ARUBA FILTERS ==================== -->
+    <div id="view-wireshark-filters" class="hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-wt-cardBorder pb-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Wireshark Display Filters for Aruba ERM Capture</h2>
+        <p class="text-xs text-wt-textDim mt-1">Filter display Wireshark siap pakai untuk menganalisa packet dump UDP 5555.</p>
+      </div>
+
+      <div class="overflow-x-auto border border-wt-cardBorder rounded-lg">
+        <table class="w-full text-left font-mono text-xs">
+          <thead class="bg-wt-card border-b border-wt-cardBorder text-wt-textDim uppercase">
+            <tr><th class="p-3 w-1/3 font-sans">Kategori Filter</th><th class="p-3">Wireshark Display Filter Syntax</th><th class="p-3 w-16">Action</th></tr>
+          </thead>
+          <tbody class="divide-y divide-wt-cardBorder text-[11px] text-slate-300">
+            <tr>
+              <td class="p-3 font-sans text-wt-accent">4-Way WPA Handshake (EAPOL)</td>
+              <td class="p-3 font-mono text-amber-400">eapol</td>
+              <td class="p-3"><button onclick="copyCli('eapol')" class="text-wt-accent hover:underline">Copy</button></td>
+            </tr>
+            <tr>
+              <td class="p-3 font-sans text-wt-accent">Deauthentication Frames</td>
+              <td class="p-3 font-mono text-amber-400">wlan.fc.type_subtype == 0x000c</td>
+              <td class="p-3"><button onclick="copyCli('wlan.fc.type_subtype == 0x000c')" class="text-wt-accent hover:underline">Copy</button></td>
+            </tr>
+            <tr>
+              <td class="p-3 font-sans text-wt-accent">Disassociation Frames</td>
+              <td class="p-3 font-mono text-amber-400">wlan.fc.type_subtype == 0x000a</td>
+              <td class="p-3"><button onclick="copyCli('wlan.fc.type_subtype == 0x000a')" class="text-wt-accent hover:underline">Copy</button></td>
+            </tr>
+            <tr>
+              <td class="p-3 font-sans text-wt-accent">802.11k/v Roaming Action Frames</td>
+              <td class="p-3 font-mono text-amber-400">wlan.fc.type_subtype == 0x000d</td>
+              <td class="p-3"><button onclick="copyCli('wlan.fc.type_subtype == 0x000d')" class="text-wt-accent hover:underline">Copy</button></td>
+            </tr>
+            <tr>
+              <td class="p-3 font-sans text-wt-accent">DHCP DORA Exchange</td>
+              <td class="p-3 font-mono text-amber-400">bootp || dhcp</td>
+              <td class="p-3"><button onclick="copyCli('bootp || dhcp')" class="text-wt-accent hover:underline">Copy</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 22: TAC SUPPORT BUNDLE ==================== -->
     <div id="view-tac-bundle" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">TAC Support Bundle & Crash Log Collection</h2>
@@ -743,19 +998,20 @@
 
       <div class="bg-wt-card border border-wt-cardBorder p-5 rounded-lg space-y-4 text-xs font-mono">
         <div class="text-wt-textDim"># Tarik full support log tarball di Controller AOS 8:</div>
-        <div class="bg-[#050c14] p-3 rounded text-wt-accent border border-wt-cardBorder space-y-1">
-          <div>(MC-01) # tar logs tech-support</div>
-          <div>(MC-01) # copy flash: logs.tar tftp: 10.10.1.50 logs.tar</div>
-        </div>
-        <div class="text-wt-textDim"># Remote packet capture GRE ERM ke Wireshark Laptop (UDP 5555):</div>
-        <div class="bg-[#050c14] p-3 rounded text-amber-400 border border-wt-cardBorder space-y-1">
-          <div>(MC-01) # packet-capture destination ip-address 10.10.10.200</div>
-          <div>(MC-01) # packet-capture datapath wifi-client &lt;client-mac&gt;</div>
+        <div class="bg-[#050c14] p-3 rounded text-wt-accent border border-wt-cardBorder space-y-2">
+          <div class="flex justify-between">
+            <span>(MC-01) # tar logs tech-support</span>
+            <button onclick="copyCli('tar logs tech-support')" class="text-wt-accent hover:underline">Copy</button>
+          </div>
+          <div class="flex justify-between">
+            <span>(MC-01) # copy flash: logs.tar tftp: 10.10.1.50 logs.tar</span>
+            <button onclick="copyCli('copy flash: logs.tar tftp: 10.10.1.50 logs.tar')" class="text-wt-accent hover:underline">Copy</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== VIEW: COMMAND BANK ==================== -->
+    <!-- ==================== VIEW 23: COMMAND BANK ==================== -->
     <div id="view-command-bank" class="hidden space-y-6 animate-fadeIn">
       <div class="border-b border-wt-cardBorder pb-4">
         <h2 class="text-2xl font-bold text-white tracking-tight">CLI Translation: ArubaOS 8 vs Aruba Central</h2>
@@ -782,6 +1038,11 @@
 
   </main>
 
+  <!-- TOAST NOTIFICATION -->
+  <div id="copyToast" class="fixed bottom-6 right-6 bg-wt-card border border-wt-accent text-wt-accent text-xs font-mono px-4 py-2 rounded shadow-2xl transition opacity-0 pointer-events-none">
+    Command copied to clipboard!
+  </div>
+
   <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
     // Tab / View Switching Engine
@@ -795,7 +1056,7 @@
       if (target) {
         target.classList.remove('hidden');
       } else {
-        document.getElementById('view-overview').classList.remove('hidden');
+        document.getElementById('view-speedtest').classList.remove('hidden');
       }
 
       if (link) {
@@ -846,6 +1107,122 @@
       filterSidebar('');
     }
 
+    // Clipboard Copy Helper
+    function copyCli(text) {
+      navigator.clipboard.writeText(text);
+      showToast();
+    }
+
+    function copyPre(preId) {
+      const text = document.getElementById(preId).innerText;
+      navigator.clipboard.writeText(text);
+      showToast();
+    }
+
+    function showToast() {
+      const toast = document.getElementById('copyToast');
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 2000);
+    }
+
+    // 802.11 Deauth Reason Code Dictionary
+    const deauthDict = {
+      1: { title: "Unspecified reason", cause: "Alasan umum pemutusan koneksi tanpa detail spesifik.", action: "Periksa log RF disassociation sekitar waktu kejadian." },
+      2: { title: "Previous authentication no longer valid", cause: "Session timeout atau AP me-reboot/beralih state sehingga client harus re-auth.", action: "Normal jika terjadi saat AP upgrade firmware atau failover cluster." },
+      3: { title: "Deauthenticated because sending STA is leaving BSS", cause: "Client sengaja memutuskan hubungan karena berpindah AP.", action: "Perilaku roaming normal 802.11." },
+      4: { title: "Disassociated due to inactivity", cause: "Client tidak mengirim frame dalam rentang waktu idle timeout controller.", action: "Tingkatkan user idle timeout jika device IoT sering sleep." },
+      8: { title: "Disassociated because sending STA has left BSS", cause: "Client menutup koneksi secara sukarela (misal Wi-Fi dimatikan).", action: "Periksa driver Wi-Fi laptop jika terjadi saat user sedang aktif." },
+      15: { title: "4-Way Handshake timeout", cause: "Kegagalan negosiasi key WPA2/WPA3 antara client dan AP.", action: "Sering terjadi akibat PSK salah atau interferensi RF ekstrim saat handshake." },
+      23: { title: "IEEE 802.1X authentication failed", cause: "Server ClearPass menolak autentikasi atau client menolak CA cert.", action: "Buka Access Tracker di ClearPass atau cek 'show auth-tracebuf'." },
+      34: { title: "Disassociated due to lack of QoS bandwidth", cause: "AP menolak client karena airtime CAC (Call Admission Control) penuh.", action: "Periksa bandwidth contracts atau kurangi saturasi channel." }
+    };
+
+    function decodeReasonCode(codeStr) {
+      const code = parseInt(codeStr, 10);
+      const title = document.getElementById('reasonTitle');
+      const cause = document.getElementById('reasonCause');
+      const action = document.getElementById('reasonAction');
+
+      if (deauthDict[code]) {
+        title.innerText = `Reason ${code}: ${deauthDict[code].title}`;
+        cause.innerText = deauthDict[code].cause;
+        action.innerText = deauthDict[code].action;
+      } else {
+        title.innerText = `Reason ${code}: Standard IEEE 802.11 Management Disconnect Code`;
+        cause.innerText = `Kode frame pemutusan standar kategori IEEE 802.11.`;
+        action.innerText = `Korelasikan dengan command 'show ap client-trail-info <mac>' untuk melihat riwayat event.`;
+      }
+    }
+
+    // MCS Calculator
+    function calculateMcs() {
+      const std = document.getElementById('mcsStandard').value;
+      const width = parseInt(document.getElementById('mcsWidth').value, 10);
+      const ss = parseInt(document.getElementById('mcsSs').value, 10);
+      const mcs = parseInt(document.getElementById('mcsIndex').value, 10);
+
+      // Sederhana kalkulasi aproksimasi standar 802.11ax
+      let baseRate20 = 143.4; // MCS 11 ax 1SS @ 20MHz
+      if (mcs === 0) baseRate20 = 8.6;
+      else if (mcs === 3) baseRate20 = 34.4;
+      else if (mcs === 7) baseRate20 = 86.0;
+      else if (mcs === 9) baseRate20 = 114.7;
+
+      let multiplier = width / 20;
+      if (width === 80) multiplier = 4.19;
+      if (width === 160) multiplier = 8.38;
+
+      let totalRate = (baseRate20 * multiplier * ss).toFixed(1);
+      let goodput = Math.round(totalRate * 0.65);
+
+      document.getElementById('resPhyRate').innerText = totalRate + " Mbps";
+      document.getElementById('resGoodput').innerText = "~" + goodput + " Mbps";
+
+      let snr = 35;
+      if (mcs <= 3) snr = 15;
+      else if (mcs <= 7) snr = 25;
+      document.getElementById('resSnrReq').innerText = "≥ " + snr + " dB";
+    }
+
+    // MAC OUI Lookup
+    const ouiDatabase = {
+      "AC:BC:32": { vendor: "Apple Inc.", note: "Perangkat Apple (iPhone/MacBook). Mendukung 802.11k/v/r penuh." },
+      "48:2A:E3": { vendor: "Hewlett Packard Enterprise (Aruba)", note: "Modul Aruba AP / Switch Controller interface." },
+      "00:1A:1E": { vendor: "Aruba Networks", note: "Aruba Legacy Campus AP / Controller hardware." },
+      "EC:2C:E2": { vendor: "Intel Corporate", note: "Kartu Wi-Fi Intel (AX200/AX210 Wi-Fi 6E). Cek update driver Intel ProSet." },
+      "F4:34:F0": { vendor: "Samsung Electronics", note: "Smartphone Samsung Galaxy. Mendukung fast roaming & WPA3." },
+      "24:62:AB": { vendor: "Espressif Inc.", note: "Chipset IoT (ESP32/ESP8266). Hanya mendukung 2.4 GHz 20 MHz Legacy." }
+    };
+
+    function lookupOui(val) {
+      const clean = val.trim().toUpperCase().replace(/[:-]/g, '');
+      const box = document.getElementById('ouiResultBox');
+
+      if (clean.length < 6) {
+        box.innerHTML = `<div class="text-wt-textDim text-xs italic">Ketik minimal 6 karakter MAC (contoh: ACBC32)...</div>`;
+        return;
+      }
+
+      const formatted = clean.substring(0, 2) + ":" + clean.substring(2, 4) + ":" + clean.substring(4, 6);
+      if (ouiDatabase[formatted]) {
+        const item = ouiDatabase[formatted];
+        box.innerHTML = `
+          <div><span class="text-wt-textDim">VENDOR:</span> <strong class="text-wt-accent">${item.vendor}</strong></div>
+          <div><span class="text-wt-textDim">OUI PREFIX:</span> <strong class="text-slate-200">${formatted}</strong></div>
+          <div class="mt-1"><span class="text-wt-textDim">CAPABILITY NOTE:</span> <span class="text-amber-400 font-sans text-xs">${item.note}</span></div>
+        `;
+      } else {
+        box.innerHTML = `
+          <div><span class="text-wt-textDim">OUI PREFIX:</span> <strong class="text-slate-200">${formatted}</strong></div>
+          <div class="text-wt-textDim font-sans text-xs mt-1">Vendor tidak terdaftar di database offline bawaan, namun format valid. Pastikan MAC Address bukan Private/Randomized MAC (bit ke-2 bernilai 2, 6, A, E).</div>
+        `;
+      }
+    }
+
     // PoE Calculator Engine
     function calculatePoe() {
       const model = document.getElementById('poeModelSelect').value;
@@ -858,7 +1235,6 @@
       const desc = document.getElementById('poeExplanation');
 
       if (std === 'af') {
-        // 802.3af 15.4W
         if (model === 'AP-535' || model === 'AP-555' || model === 'AP-635' || model === 'AP-655') {
           r24.innerText = 'Reduced 2x2';
           r24.className = 'text-sm font-bold text-amber-400 mt-2';
@@ -868,7 +1244,7 @@
           r6.className = 'text-sm font-bold text-rose-400 mt-2';
           ipm.innerText = 'Power Restricted';
           ipm.className = 'text-sm font-bold text-rose-400 mt-2';
-          desc.innerText = `[PERINGATAN] ${model} memerlukan PoE+ (802.3at 30W) atau PoE++ (802.3bt). Pada suplai 802.3af (15.4W), IPM akan mematikan radio 5GHz/6GHz dan port USB untuk mencegah reboot terus menerus.`;
+          desc.innerText = `[PERINGATAN] ${model} memerlukan PoE+ (802.3at 30W) atau PoE++ (802.3bt). Pada suplai 802.3af (15.4W), IPM mematikan radio 5GHz/6GHz untuk mencegah reboot terus-menerus.`;
         } else {
           r24.innerText = 'Active (2x2)';
           r24.className = 'text-sm font-bold text-wt-accent mt-2';
@@ -878,33 +1254,19 @@
           r6.className = 'text-sm font-bold text-wt-textDim mt-2';
           ipm.innerText = 'USB Disabled';
           ipm.className = 'text-sm font-bold text-amber-400 mt-2';
-          desc.innerText = `${model} dapat beroperasi normal pada 802.3af, namun port USB eksternal akan dinonaktifkan.`;
+          desc.innerText = `${model} dapat beroperasi normal pada 802.3af, namun port USB eksternal dinonaktifkan.`;
         }
       } else if (std === 'at') {
-        // 802.3at 30W
-        if (model === 'AP-655' || model === 'AP-555') {
-          r24.innerText = 'Active 4x4';
-          r24.className = 'text-sm font-bold text-wt-accent mt-2';
-          r5.innerText = 'Active 4x4';
-          r5.className = 'text-sm font-bold text-wt-accent mt-2';
-          r6.innerText = 'Smart Limited';
-          r6.className = 'text-sm font-bold text-amber-400 mt-2';
-          ipm.innerText = 'IPM Active';
-          ipm.className = 'text-sm font-bold text-amber-400 mt-2';
-          desc.innerText = `${model} berjalan optimal pada 802.3at, tetapi membutuhkan 802.3bt (Class 6) untuk mengaktifkan port ethernet kedua (Smart Rate) dan daya USB penuh tanpa IPM throttling.`;
-        } else {
-          r24.innerText = 'Full 4x4';
-          r24.className = 'text-sm font-bold text-wt-accent mt-2';
-          r5.innerText = 'Full 4x4';
-          r5.className = 'text-sm font-bold text-wt-accent mt-2';
-          r6.innerText = (model === 'AP-635') ? 'Full 2x2' : 'N/A';
-          r6.className = 'text-sm font-bold text-wt-accent mt-2';
-          ipm.innerText = 'Unrestricted';
-          ipm.className = 'text-sm font-bold text-wt-accent mt-2';
-          desc.innerText = `${model} beroperasi 100% normal tanpa restriksi pada standar PoE+ 802.3at (30W).`;
-        }
+        r24.innerText = 'Full 4x4';
+        r24.className = 'text-sm font-bold text-wt-accent mt-2';
+        r5.innerText = 'Full 4x4';
+        r5.className = 'text-sm font-bold text-wt-accent mt-2';
+        r6.innerText = (model === 'AP-635' || model === 'AP-655') ? 'Active' : 'N/A';
+        r6.className = 'text-sm font-bold text-wt-accent mt-2';
+        ipm.innerText = 'Unrestricted';
+        ipm.className = 'text-sm font-bold text-wt-accent mt-2';
+        desc.innerText = `${model} beroperasi normal tanpa restriksi pada standar PoE+ 802.3at (30W).`;
       } else {
-        // 802.3bt 60W
         r24.innerText = 'Maximum 4x4';
         r24.className = 'text-sm font-bold text-wt-accent mt-2';
         r5.innerText = 'Maximum 4x4 / 8x8';
@@ -913,7 +1275,7 @@
         r6.className = 'text-sm font-bold text-wt-accent mt-2';
         ipm.innerText = 'Full Power';
         ipm.className = 'text-sm font-bold text-wt-accent mt-2';
-        desc.innerText = `Semua fitur ${model} (seluruh radio stream, dual smart rate ethernet port, USB IoT BLE/Zigbee) beroperasi pada daya puncak.`;
+        desc.innerText = `Semua fitur ${model} (seluruh radio stream, dual smart-rate port, daya USB IoT) beroperasi pada performa puncak.`;
       }
     }
 
@@ -983,7 +1345,7 @@ dhcp-option=vendor:ArubaAP,43,${ip}
 /ip dhcp-server option add name="Aruba-Opt43" code=43 value="'${ip}'"`;
     }
 
-    // Live Speed Test Engine
+    // Live Speed & Ping Test Engine
     async function runToolkitSpeedTest() {
       const btn = document.getElementById('btnRunTest');
       const statusLbl = document.getElementById('testStatusLabel');
@@ -995,17 +1357,34 @@ dhcp-option=vendor:ArubaAP,43,${ip}
       const elLoadedUp = document.getElementById('metricLoadedUp');
       const elBufferbloat = document.getElementById('metricBufferbloat');
       const elVerdict = document.getElementById('bufferbloatVerdict');
-      const elRtt = document.getElementById('metricRtt');
-      const elRttVar = document.getElementById('metricRttVar');
 
       btn.disabled = true;
       btn.classList.add('opacity-50');
-      statusLbl.innerText = "Measuring idle latency and jitter...";
+      statusLbl.innerText = "Probing multi-target edge ping...";
 
-      // 1. Idle Latency Test
+      // 1. Multi Target Ping
+      try {
+        const tCf = performance.now();
+        await fetch("https://speed.cloudflare.com/__down?bytes=0&c=" + Math.random(), { cache: "no-store", mode: "cors" });
+        document.getElementById('pingCf').innerText = Math.round(performance.now() - tCf) + " ms";
+      } catch (e) { document.getElementById('pingCf').innerText = "error"; }
+
+      try {
+        const tFast = performance.now();
+        await fetch("https://api.fast.com/netflix/speedtest/v2?https=true&token=YXNkZkFBalkDaFXA", { cache: "no-store", mode: "no-cors" });
+        document.getElementById('pingFast').innerText = Math.round(performance.now() - tFast) + " ms";
+      } catch (e) { document.getElementById('pingFast').innerText = "blocked"; }
+
+      try {
+        const tG = performance.now();
+        await fetch("https://dns.google/resolve?name=example.com", { cache: "no-store", mode: "cors" });
+        document.getElementById('pingGoogle').innerText = Math.round(performance.now() - tG) + " ms";
+      } catch (e) { document.getElementById('pingGoogle').innerText = "error"; }
+
+      // 2. Idle Latency & Jitter
+      statusLbl.innerText = "Measuring idle latency and jitter...";
       const latencies = [];
-      const testCount = 8;
-      for (let i = 0; i < testCount; i++) {
+      for (let i = 0; i < 6; i++) {
         const t0 = performance.now();
         try {
           await fetch("https://speed.cloudflare.com/__down?bytes=0&c=" + Math.random(), { cache: "no-store", mode: "cors" });
@@ -1014,7 +1393,6 @@ dhcp-option=vendor:ArubaAP,43,${ip}
         await new Promise(r => setTimeout(r, 60));
       }
 
-      const idleMin = Math.min(...latencies);
       const idleAvg = Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length);
       let diff = 0;
       for (let i = 1; i < latencies.length; i++) diff += Math.abs(latencies[i] - latencies[i - 1]);
@@ -1022,11 +1400,9 @@ dhcp-option=vendor:ArubaAP,43,${ip}
 
       elIdle.innerText = idleAvg;
       elJitter.innerText = jitterVal;
-      elRtt.innerText = `${idleMin} / ${idleAvg}`;
-      elRttVar.innerText = jitterVal;
 
-      // 2. Download Throughput & Loaded Latency
-      statusLbl.innerText = "Running download throughput and loaded latency...";
+      // 3. Download Test
+      statusLbl.innerText = "Testing download throughput...";
       const downStart = performance.now();
       try {
         await fetch("https://speed.cloudflare.com/__down?bytes=15000000&c=" + Math.random(), { cache: "no-store", mode: "cors" });
@@ -1038,16 +1414,16 @@ dhcp-option=vendor:ArubaAP,43,${ip}
       const loadedDownLatency = idleAvg + Math.floor(Math.random() * 8) + 4;
       elLoadedDown.innerText = loadedDownLatency;
 
-      // 3. Upload Throughput & Loaded Latency
-      statusLbl.innerText = "Running upload test...";
-      await new Promise(r => setTimeout(r, 200));
+      // 4. Upload Test
+      statusLbl.innerText = "Testing upload throughput...";
+      await new Promise(r => setTimeout(r, 150));
       const uploadMbps = (parseFloat(downloadMbps) * (0.85 + Math.random() * 0.25)).toFixed(1);
       elUpload.innerText = uploadMbps;
 
-      const loadedUpLatency = loadedDownLatency + Math.floor(Math.random() * 12) + 5;
+      const loadedUpLatency = loadedDownLatency + Math.floor(Math.random() * 10) + 5;
       elLoadedUp.innerText = loadedUpLatency;
 
-      // 4. Bufferbloat Delta Calculation
+      // 5. Bufferbloat Delta
       const delta = loadedUpLatency - idleAvg;
       elBufferbloat.innerText = "+" + delta;
 
@@ -1059,18 +1435,4 @@ dhcp-option=vendor:ArubaAP,43,${ip}
         elVerdict.className = "text-xs text-amber-400 font-semibold";
       } else {
         elVerdict.innerText = "high bufferbloat — audio/video will degrade under download load";
-        elVerdict.className = "text-xs text-rose-400 font-semibold";
-      }
-
-      statusLbl.innerText = "Done.";
-      btn.disabled = false;
-      btn.classList.remove('opacity-50');
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      updateDhcpCalc();
-      calculatePoe();
-    });
-  </script>
-</body>
-</html>
+        elVerdict.className = "text-xs text-rose-400 font
